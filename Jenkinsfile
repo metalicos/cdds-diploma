@@ -11,7 +11,6 @@ pipeline {
     VERSION = readMavenPom().getVersion().toLowerCase()
   }
   options {
-    buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     skipDefaultCheckout(true)
     skipStagesAfterUnstable()
     timestamps()
