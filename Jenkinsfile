@@ -20,8 +20,10 @@ pipeline {
     stage('Prepare') {
       steps {
         checkout scm
-        IMAGE = readMavenPom().getArtifactId().toLowerCase()
-        VERSION = readMavenPom().getVersion().toLowerCase()
+        script {
+          IMAGE = readMavenPom().getArtifactId().toLowerCase()
+          VERSION = readMavenPom().getVersion().toLowerCase()
+        }
         echo IMAGE
         echo VERSION
       }
