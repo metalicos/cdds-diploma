@@ -40,6 +40,9 @@ import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants
 @RequiredArgsConstructor
 @RequestMapping("/update")
 public class HydroponicUpdateController {
+    private static final String LEFT_DIRECTION = "0";
+    private static final String STOP_DIRECTION = "2";
+    private static final String RIGHT_DIRECTION = "1";
     private final HydroponicOneOperationService operationService;
 
     @PostMapping("/time")
@@ -76,9 +79,9 @@ public class HydroponicUpdateController {
             @RequestParam String value) {
         log.info("Pump Ph Up; direction={} uuid={}", value, uuid);
         switch (value) {
-            case "0" -> operationService.phUpPump(uuid, LEFT, DIRECTION);
-            case "2" -> operationService.phUpPump(uuid, STOP, DIRECTION);
-            case "1" -> operationService.phUpPump(uuid, RIGHT, DIRECTION);
+            case LEFT_DIRECTION -> operationService.phUpPump(uuid, LEFT, DIRECTION);
+            case STOP_DIRECTION -> operationService.phUpPump(uuid, STOP, DIRECTION);
+            case RIGHT_DIRECTION -> operationService.phUpPump(uuid, RIGHT, DIRECTION);
         }
         return ResponseEntity.ok("OK");
     }
@@ -91,9 +94,9 @@ public class HydroponicUpdateController {
             @RequestParam String value) {
         log.info("Pump Ph Down; direction={} uuid={}", value, uuid);
         switch (value) {
-            case "0" -> operationService.phDownPump(uuid, LEFT, DIRECTION);
-            case "2" -> operationService.phDownPump(uuid, STOP, DIRECTION);
-            case "1" -> operationService.phDownPump(uuid, RIGHT, DIRECTION);
+            case LEFT_DIRECTION -> operationService.phDownPump(uuid, LEFT, DIRECTION);
+            case STOP_DIRECTION -> operationService.phDownPump(uuid, STOP, DIRECTION);
+            case RIGHT_DIRECTION -> operationService.phDownPump(uuid, RIGHT, DIRECTION);
         }
         return ResponseEntity.ok("OK");
     }
@@ -106,9 +109,9 @@ public class HydroponicUpdateController {
             @RequestParam String value) {
         log.info("Pump Tds; direction={} uuid={}", value, uuid);
         switch (value) {
-            case "0" -> operationService.tdsPump(uuid, LEFT, DIRECTION);
-            case "2" -> operationService.tdsPump(uuid, STOP, DIRECTION);
-            case "1" -> operationService.tdsPump(uuid, RIGHT, DIRECTION);
+            case LEFT_DIRECTION -> operationService.tdsPump(uuid, LEFT, DIRECTION);
+            case STOP_DIRECTION -> operationService.tdsPump(uuid, STOP, DIRECTION);
+            case RIGHT_DIRECTION -> operationService.tdsPump(uuid, RIGHT, DIRECTION);
         }
         return ResponseEntity.ok("OK");
     }
