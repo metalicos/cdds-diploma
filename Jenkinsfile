@@ -51,7 +51,17 @@ pipeline {
           } catch (Exception e) {
             echo "None ${IMAGE} running containers found, continue."
           }
-          bat "docker run -d -t -i -e DB_PASSWORD=${DB_PASSWORD} -e DB_USERNAME=${DB_USERNAME} -e DB_URL=${DB_URL} -e JWT_SECRET=${JWT_SECRET} -p 80:5051 --name=${IMAGE}-${VERSION} ${IMAGE}-${BUILD_NUMBER}"
+          bat("""docker run -d -t -i \
+          -e CDDS_DB_PASSWORD="${CDDS_DB_PASSWORD}" \
+          -e CDDS_DB_USERNAME="${CDDS_DB_USERNAME}" \
+          -e CDDS_DB_URL="${CDDS_DB_URL}" \
+          -e JWT_SECRET="${JWT_SECRET}" \
+          -e CDDS_MESSAGE_ENCRYPTIN_SECRET="${CDDS_MESSAGE_ENCRYPTIN_SECRET}" \
+          -e CDDS_MQTT_USERNAME="${CDDS_MQTT_USERNAME}" \
+          -e CDDS_MQTT_PASSWORD="${CDDS_MQTT_PASSWORD}" \
+          -e CDDS_MQTT_SERVER_URL="${CDDS_MQTT_SERVER_URL}" \
+          -p 7080:5555 \
+          --name=${IMAGE}-${VERSION} ${IMAGE}-${BUILD_NUMBER}""")
           echo "=============================== DEPLOY SUCCESSFUL =================================="
         }
       }

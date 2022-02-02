@@ -34,6 +34,6 @@ mqtt:
   auto-reconnect: true
   max-in-flight-messages: 100
   client:
-    name: CyberDoneDeviceMicroservice
+    name: CDDS
     url: ${CDDS_MQTT_SERVER_URL}
     quality-of-service: 2
