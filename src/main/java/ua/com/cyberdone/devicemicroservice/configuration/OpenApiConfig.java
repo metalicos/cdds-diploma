@@ -19,16 +19,16 @@ public class OpenApiConfig {
     OpenAPI cyberDoneOpenApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Cyberdone Account Microservice API")
+                        .title("Cyberdone Device Microservice API")
                         .version(applicationVersion)
-                        .description("CyberDone Account Microservice Interaction API"))
+                        .description("CyberDone Device Microservice Interaction API"))
                 .servers(List.of(openApiServer()));
     }
 
     @Bean
     Server openApiServer() {
         var server = new Server();
-        server.setUrl("http://localhost:5051");
+        server.setUrl("http://localhost:5555");
         return server;
     }
 }
