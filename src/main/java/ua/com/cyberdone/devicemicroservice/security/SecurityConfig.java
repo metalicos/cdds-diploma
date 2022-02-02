@@ -73,6 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(corsFilter(), CorsFilter.class)
                 .authorizeRequests()
+                .mvcMatchers("/swagger-ui/**",
+                        "/account-microservice/api",
+                        "/v3/api-docs/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
     }
