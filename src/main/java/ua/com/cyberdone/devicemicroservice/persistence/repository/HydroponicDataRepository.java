@@ -3,6 +3,7 @@ package ua.com.cyberdone.devicemicroservice.persistence.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,9 @@ import java.util.List;
 public interface HydroponicDataRepository extends JpaRepository<HydroponicData, Long> {
 
     @Query("select d from HydroponicData d where d.uuid = :uuid order by d.createdTimestamp desc ")
-    List<HydroponicData> findLastData(@Param("uuid") String uuid,
-                                      Pageable pageable);
+    List<HydroponicData> findLastData(@Param("uuid") String uuid, Pageable pageable);
+
+    @Modifying
+    @Query("delete from HydroponicData data where data.uuid = :uuid")
+    void deleteAllDataForUuid(@Param("uuid") String uuid);
 }

@@ -28,7 +28,7 @@ public class RegularScheduleService {
 
     @Transactional
     public RegularScheduleDto updateSchedule(RegularScheduleUpdateDto scheduleRequest) {
-        RegularSchedule schedule = regularScheduleRepository.findById(scheduleRequest.getId())
+        var schedule = regularScheduleRepository.findById(scheduleRequest.getId())
                 .orElseThrow(() -> new IllegalStateException("Schedule not found"));
         schedule.setName(scheduleRequest.getName());
         schedule.setDescription(scheduleRequest.getDescription());

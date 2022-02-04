@@ -29,8 +29,8 @@ public class HydroponicDataService {
     }
 
     @Transactional
-    public void deleteDataById(Long id) {
-        hydroponicDataRepository.deleteById(id);
+    public void deleteDataByUuid(String uuid) {
+        hydroponicDataRepository.deleteAllDataForUuid(uuid);
     }
 
     public List<HydroponicDataDto> getLastDataByUuid(String uuid, int page, int limit) {

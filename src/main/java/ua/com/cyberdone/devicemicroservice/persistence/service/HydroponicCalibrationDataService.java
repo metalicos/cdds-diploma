@@ -29,8 +29,8 @@ public class HydroponicCalibrationDataService {
     }
 
     @Transactional
-    public void deleteCalibrationById(Long id) {
-        calibrationDataRepository.deleteById(id);
+    public void deleteCalibrationByUuid(String uuid) {
+        calibrationDataRepository.deleteAllDataForUuid(uuid);
     }
 
     public List<HydroponicCalibrationDataDto> getLastCalibrationByUuid(String uuid, int page, int limit) {

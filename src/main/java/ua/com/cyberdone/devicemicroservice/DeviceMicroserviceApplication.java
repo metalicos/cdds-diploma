@@ -7,11 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.service.MqttService;
 
-@Slf4j
-@Service
+@Component
 @EnableScheduling
 @EnableEurekaClient
 @SpringBootApplication

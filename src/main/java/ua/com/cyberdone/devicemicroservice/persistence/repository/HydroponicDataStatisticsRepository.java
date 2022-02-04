@@ -30,7 +30,6 @@ public interface HydroponicDataStatisticsRepository extends JpaRepository<Hydrop
                         @Param("fromT") LocalDateTime from,
                         @Param("toT") LocalDateTime to);
 
-
     @Query("SELECT MIN(p.phValue) FROM HydroponicData p WHERE p.uuid = :uuid " +
             "AND p.microcontrollerTime > :fromT AND p.microcontrollerTime < :toT")
     Double minPhByUuid(@Param("uuid") String uuid,

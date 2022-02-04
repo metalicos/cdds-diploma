@@ -3,11 +3,15 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicControlApi;
 import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicTimeDto;
 import ua.com.cyberdone.devicemicroservice.service.HydroponicOneOperationService;
 
@@ -15,6 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType.DIRECTION;
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType.NUMBER;
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType.SWITCH;
@@ -38,41 +43,49 @@ import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/update")
-public class HydroponicUpdateController {
+@RequestMapping("/hydroponic/control")
+public class HydroponicControlController implements HydroponicControlApi {
     private static final String LEFT_DIRECTION = "0";
     private static final String STOP_DIRECTION = "2";
     private static final String RIGHT_DIRECTION = "1";
     private final HydroponicOneOperationService operationService;
 
-    @PostMapping("/time")
-    public ResponseEntity<String> updateTime(@Valid @RequestBody HydroponicTimeDto dto) {
+    @PutMapping("/update/time")
+    public ResponseEntity<String> updateTime(@RequestHeader(AUTHORIZATION) String token,
+                                             @Valid @RequestBody HydroponicTimeDto dto) {
+        log.info("Updating time to={} in timezone={} for uuid={}", dto.getMicrocontrollerTime(),
+                dto.getMicrocontrollerTimeZone(), dto.getUuid());
         operationService.updateTime(dto.getUuid(), dto.getMicrocontrollerTime());
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/zone")
+    @PutMapping("/update/zone")
     public ResponseEntity<String> updateZone(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG)
             @RequestParam String value) {
+        log.info("Change timezone setting to {} for uuid={}", value, uuid);
         operationService.changeTimeZoneSetting(uuid, value, TEXT);
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/autotime")
-    public ResponseEntity<String> updateTime(
+    @PutMapping("/update/autotime")
+    public ResponseEntity<String> updateAutoTime(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
             @RequestParam String value) {
+        log.info("Change autotime setting to {} for uuid={}", value, uuid);
         operationService.changeAutoTimeSetting(uuid, value, NUMBER);
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/pumps/phUp")
+    @PutMapping("/update/pumps/phUp")
     public ResponseEntity<String> updatePhUpPumpStatus(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
@@ -86,8 +99,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/pumps/phDown")
+    @PutMapping("/update/pumps/phDown")
     public ResponseEntity<String> updatePhDownPumpStatus(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
@@ -101,8 +115,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/pumps/tds")
+    @PutMapping("/update/pumps/tds")
     public ResponseEntity<String> updateTdsPumpStatus(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
@@ -116,8 +131,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/restart")
+    @PutMapping("/update/restart")
     public ResponseEntity<String> restart(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid) {
         log.info("Restart uuid={}", uuid);
@@ -125,8 +141,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/save")
+    @PutMapping("/save/settings")
     public ResponseEntity<String> saveAllSettings(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid) {
         log.info("Save Settings uuid={}", uuid);
@@ -134,8 +151,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/read")
+    @PutMapping("/read/settings")
     public ResponseEntity<String> readAllSettings(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid) {
         log.info("Read Settings uuid={}", uuid);
@@ -143,8 +161,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/calibrate/tds")
+    @PutMapping("/calibrate/tds")
     public ResponseEntity<String> calibrateTdsSensor(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -154,8 +173,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/calibrate/tds/clear")
+    @PutMapping("/calibrate/tds/clear")
     public ResponseEntity<String> clrCalibrationTdsSensor(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid) {
         log.info("Calibrate TDS Clear uuid={}", uuid);
@@ -163,8 +183,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/calibrate/ph/low")
+    @PutMapping("/calibrate/ph/low")
     public ResponseEntity<String> calibratePhLow(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -174,8 +195,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/calibrate/ph/high")
+    @PutMapping("/calibrate/ph/high")
     public ResponseEntity<String> calibratePhHigh(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -185,8 +207,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/calibrate/ph/clear")
+    @PutMapping("/calibrate/ph/clear")
     public ResponseEntity<String> clrCalibrationPhSensor(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid) {
         log.info("Calibrate Ph Clear uuid={}", uuid);
@@ -194,8 +217,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/setup/ph")
+    @PutMapping("/setup/ph")
     public ResponseEntity<String> updateSetupPhValue(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -205,8 +229,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/setup/tds")
+    @PutMapping("/setup/tds")
     public ResponseEntity<String> updateSetupTdsValue(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -216,8 +241,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/dispensers/recheck-time")
+    @PutMapping("/update/dispensers/recheck-time")
     public ResponseEntity<String> updateRecheckDispensersAfterTime(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -227,8 +253,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/dose/ph/up")
+    @PutMapping("/update/dose/ph/up")
     public ResponseEntity<String> updatePhUpDose(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -238,8 +265,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/dose/ph/down")
+    @PutMapping("/update/dose/ph/down")
     public ResponseEntity<String> updatePhDownDose(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -249,8 +277,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/dose/tds")
+    @PutMapping("/update/dose/tds")
     public ResponseEntity<String> updateFertilizerDose(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -260,8 +289,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/regulator/error/ph")
+    @PutMapping("/update/regulator/error/ph")
     public ResponseEntity<String> updateRegulatePhError(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -271,8 +301,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/regulator/error/tds")
+    @PutMapping("/update/regulator/error/tds")
     public ResponseEntity<String> updateRegulateTdsError(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -282,8 +313,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/pump/speed")
+    @PutMapping("/update/pump/speed")
     public ResponseEntity<String> updatePumpSpeed(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = NUMBER_PATTERN, message = NUMBER_FAILED_MSG)
@@ -293,8 +325,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/wifi/ssid")
+    @PutMapping("/update/wifi/ssid")
     public ResponseEntity<String> updateWifiSsid(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = TEXT_PATTERN, message = TEXT_FAILED_MSG)
@@ -304,8 +337,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/wifi/pass")
+    @PutMapping("/update/wifi/pass")
     public ResponseEntity<String> updateWifiPassword(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = TEXT_PATTERN, message = TEXT_FAILED_MSG)
@@ -315,8 +349,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/enable/sensors")
+    @PutMapping("/update/enable/sensors")
     public ResponseEntity<String> updateSensorsEnable(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = SWITCH_PATTERN, message = SWITCH_FAILED_MSG)
@@ -326,8 +361,9 @@ public class HydroponicUpdateController {
         return ResponseEntity.ok("OK");
     }
 
-    @PostMapping("/enable/dispensers")
+    @PutMapping("/update/enable/dispensers")
     public ResponseEntity<String> updateDispensersEnable(
+            @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
             @RequestParam String uuid,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = SWITCH_PATTERN, message = SWITCH_FAILED_MSG)
