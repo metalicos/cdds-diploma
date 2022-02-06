@@ -36,7 +36,7 @@ import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/metadata")
+@RequestMapping("/device/metadata")
 public class MetadataController implements DeviceMetadataApi {
     private final DeviceMetadataService metadataService;
 
