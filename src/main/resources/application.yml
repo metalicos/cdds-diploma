@@ -30,7 +30,7 @@ security:
   jwt-secret: ${JWT_SECRET}
   callback:
     show-decrypted-message:
-      hydroponic-v1-settings: true
+      hydroponic-v1-settings: false
       autotime: false
 mqtt:
   username: ${CDDS_MQTT_USERNAME}

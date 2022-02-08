@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/schedules")
+@RequestMapping("/device/regular/schedules")
 public class ScheduleController implements DeviceSchedulingApi {
     private final RegularScheduleService regularScheduleService;
 
@@ -56,10 +57,10 @@ public class ScheduleController implements DeviceSchedulingApi {
         return ResponseEntity.ok(regularScheduleService.saveSchedule(schedule));
     }
 
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<String> updateScheduleMetaInfo(@RequestHeader(AUTHORIZATION) String token,
                                                          @Valid @RequestBody RegularScheduleUpdateDto schedule) {
-        log.info("PATCH {}", schedule);
+        log.info("PUT {}", schedule);
         regularScheduleService.updateSchedule(schedule);
         return ResponseEntity.ok("OK");
     }

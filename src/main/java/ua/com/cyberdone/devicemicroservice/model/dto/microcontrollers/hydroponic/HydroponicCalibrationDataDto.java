@@ -26,6 +26,7 @@ public class HydroponicCalibrationDataDto {
     public Integer phOversampling;
     private Long id;
     private String uuid;
-    private LocalDateTime receiveTime;
     private LocalDateTime microcontrollerTime;
+    private LocalDateTime createdTimestamp;
+    private LocalDateTime updatedTimestamp;
 }

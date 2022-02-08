@@ -58,16 +58,24 @@ public class DeviceMetadataService {
     }
 
     @Transactional
-    public void unlinkMetadataFromUser(String uuid) {
-        if (deviceMetadataRepository.existsByUuid(uuid)) {
-            deviceMetadataRepository.unlinkDeviceMetadataFromUser(uuid);
+    public void unlinkMetadataFromUser(String uuid) throws NotFoundException, AlreadyExistException {
+        if (!deviceMetadataRepository.existsByUuid(uuid)) {
+            throw new NotFoundException("Sorry, but device with UUID='" + uuid + "' is not found. Make sure you made no mistakes.");
         }
+        if (!deviceMetadataRepository.isMetadataLinkedToAccount(uuid)) {
+            throw new AlreadyExistException("This device is already removed from account.");
+        }
+        deviceMetadataRepository.unlinkDeviceMetadataFromUser(uuid);
     }
 
     @Transactional
-    public void linkMetadataToUser(String uuid, long userId) {
-        if (deviceMetadataRepository.existsByUuid(uuid)) {
-            deviceMetadataRepository.linkDeviceMetadataToUser(uuid, userId);
+    public void linkMetadataToUser(String uuid, long userId) throws NotFoundException, AlreadyExistException {
+        if (!deviceMetadataRepository.existsByUuid(uuid)) {
+            throw new NotFoundException("Sorry, but device with UUID='" + uuid + "' is not found. Make sure you made no mistakes.");
         }
+        if (deviceMetadataRepository.isMetadataLinkedToAccount(uuid)) {
+            throw new AlreadyExistException("This device is already added to account.");
+        }
+        deviceMetadataRepository.linkDeviceMetadataToUser(uuid, userId);
     }
 }

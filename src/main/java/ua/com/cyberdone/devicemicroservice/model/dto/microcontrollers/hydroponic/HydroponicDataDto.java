@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class HydroponicDataDto {
     private String uuid;
-    private LocalDateTime receiveTime;
     private Double phValue;
     private Double temperatureValue;
-    private Double ecValue;
     private Integer tdsValue;
     private LocalDateTime microcontrollerTime;
+    private LocalDateTime createdTimestamp;
+    private LocalDateTime updatedTimestamp;
 }
