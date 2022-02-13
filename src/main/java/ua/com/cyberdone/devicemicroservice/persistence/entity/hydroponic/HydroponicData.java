@@ -38,6 +38,7 @@ public class HydroponicData extends BasicEntity {
     private Boolean isDispenserPhDownOpen;
     @Column(name = "is_dispenser_tds_open")
     private Boolean isDispenserTdsOpen;
+    @Column(name = "microcontroller_time")
     private LocalDateTime microcontrollerTime;
 
     @Override

@@ -20,17 +20,14 @@ public class HydroponicSettingsDto {
     private Long recheckDispensersAfterMs;
     private Double setupPhValue;
     private Long setupTdsValue;
-    private Double setupTemperatureValue;
-    private Boolean deviceEnable;
     private Boolean dispensersEnable;
     private Boolean sensorsEnable;
     private Long restartCounter;
     private String wifiSSID;
     private String wifiPASS;
-    private Boolean isDispenserPhUpOpen;
-    private Boolean isDispenserPhDownOpen;
-    private Boolean isDispenserTdsOpen;
     private Boolean autotime;
     private String timeZone;
     private LocalDateTime microcontrollerTime;
+    private LocalDateTime createdTimestamp;
+    private LocalDateTime updatedTimestamp;
 }

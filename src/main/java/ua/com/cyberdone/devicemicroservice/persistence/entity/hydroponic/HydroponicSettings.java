@@ -32,12 +32,6 @@ public class HydroponicSettings extends BasicEntity {
     private Double temperatureValue;
     @Column(name = "tds_value")
     private Double tdsValue;
-    @Column(name = "is_dispenser_ph_up_open")
-    private Boolean isDispenserPhUpOpen;
-    @Column(name = "is_dispenser_ph_down_open")
-    private Boolean isDispenserPhDownOpen;
-    @Column(name = "is_dispenser_tds_open")
-    private Boolean isDispenserTdsOpen;
     @Column(name = "setup_ph_value")
     private Double setupPhValue;
     @Column(name = "setup_tds_value")
@@ -47,7 +41,7 @@ public class HydroponicSettings extends BasicEntity {
     @Column(name = "regulate_error_fertilizer")
     private Double regulateErrorFertilizer;
     @Column(name = "ml_per_millisecond")
-    private Double mlPerMilisecond;
+    private Double mlPerMillisecond;
     @Column(name = "ph_up_dose_ml")
     private Double phUpDoseMl;
     @Column(name = "ph_down_dose_ml")

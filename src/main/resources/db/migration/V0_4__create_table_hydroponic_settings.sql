@@ -7,11 +7,6 @@ CREATE TABLE `hydroponic_settings`
     `ph_value`                    DOUBLE       NULL DEFAULT NULL,
     `temperature_value`           DOUBLE       NULL DEFAULT NULL,
     `tds_value`                   DOUBLE       NULL DEFAULT NULL,
-
-    `is_dispenser_ph_up_open`     BIT(1)       NULL DEFAULT NULL,
-    `is_dispenser_ph_down_open`   BIT(1)       NULL DEFAULT NULL,
-    `is_dispenser_tds_open`       BIT(1)       NULL DEFAULT NULL,
-
     `setup_ph_value`              DOUBLE       NULL DEFAULT NULL,
     `setup_tds_value`             BIGINT       NULL DEFAULT NULL,
 

@@ -43,16 +43,20 @@ public class HydroponicV1SettingsCallback implements Callback {
     @SneakyThrows
     @Transactional
     public void execute(MqttClient client, MqttMessage message) {
-        var decryptedData = encDecService.decrypt(new String(message.getPayload()));
-        if (showDecryptedMessage) {
-            log.info("{}", decryptedData);
-        }
         try {
+            var decryptedData = encDecService.decrypt(new String(message.getPayload()));
             var allData = mapper.readValue(decryptedData, HydroponicAllDataDto.class);
-            hydroponicDataService.saveData(modelMapper.map(allData, HydroponicData.class));
-            hydroponicSettingsService.saveSetting(modelMapper.map(allData, HydroponicSettings.class));
-            calibrationDataService.saveCalibrationData(modelMapper.map(allData, HydroponicCalibrationData.class));
-            informationService.saveSpecialInformation(modelMapper.map(allData, DeviceSpecialInformation.class));
+            var hydroData = modelMapper.map(allData, HydroponicData.class);
+            var hydroSettings = modelMapper.map(allData, HydroponicSettings.class);
+            var hydroCalibrationData = modelMapper.map(allData, HydroponicCalibrationData.class);
+            var hydroSpecialInfo = modelMapper.map(allData, DeviceSpecialInformation.class);
+            if (showDecryptedMessage) {
+                log.info("{}\n{}\n{}\n{}\n{}\n{}", decryptedData, allData, hydroData, hydroSettings, hydroCalibrationData, hydroSpecialInfo);
+            }
+            hydroponicDataService.saveData(hydroData);
+            hydroponicSettingsService.saveSetting(hydroSettings);
+            calibrationDataService.saveCalibrationData(hydroCalibrationData);
+            informationService.saveSpecialInformation(hydroSpecialInfo);
         } catch (JsonProcessingException e) {
             log.error("Json Read fault ", e);
             throw new UncheckedIOException(e);

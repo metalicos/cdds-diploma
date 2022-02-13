@@ -5,7 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.model.dto.RegularScheduleDto;
+import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
+import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
+import ua.com.cyberdone.devicemicroservice.persistence.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.persistence.service.RegularScheduleService;
+import ua.com.cyberdone.devicemicroservice.service.HydroponicOneOperationService;
 import ua.com.cyberdone.devicemicroservice.service.WebRelayOperationService;
 
 import java.time.LocalDateTime;
@@ -27,6 +31,8 @@ import static java.time.DayOfWeek.WEDNESDAY;
 @RequiredArgsConstructor
 public class ScheduledControl {
     private final WebRelayOperationService webRelayOperationService;
+    private final HydroponicOneOperationService hydroponicOneOperationService;
+    private final DeviceMetadataService deviceMetadataService;
     private final RegularScheduleService regularScheduleService;
     private List<RegularScheduleDto> schedules = new ArrayList<>();
 
@@ -49,9 +55,17 @@ public class ScheduledControl {
                     return time.isAfter(lowRange) && time.isBefore(highRange);
                 })
                 .forEach(s -> {
-                    log.info("Sending value:id={} uuid={} topic={} value={}", s.getId(), s.getUuid(), s.getTopic(),
-                            s.getValue());
-                    webRelayOperationService.sendEncodedData(s.getUuid(), s.getTopic(), s.getValue(), s.getValueType());
+                    var metadata = deviceMetadataService.getMetadataByUuid(s.getUuid());
+                    log.info("Sending data='{}' to Device=[name='{}',uuid='{}',type='{}'] topic={} scheduleId={}",
+                            s.getValue(), metadata.getName(), s.getUuid(), metadata.getDeviceType(), s.getTopic(), s.getId());
+                    sendOperation(metadata.getDeviceType(), s.getUuid(), s.getTopic(), s.getValue(), s.getValueType());
                 });
+    }
+
+    private void sendOperation(DeviceType type, String uuid, String topic, String data, ValueType valueType) {
+        switch (type) {
+            case HYDROPONIC_V1 -> hydroponicOneOperationService.sendEncodedData(uuid, topic, data, valueType);
+            case RELAY_N4 -> webRelayOperationService.sendEncodedData(uuid, topic, data, valueType);
+        }
     }
 }
