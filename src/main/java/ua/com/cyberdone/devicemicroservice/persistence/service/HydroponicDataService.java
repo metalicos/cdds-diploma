@@ -34,6 +34,7 @@ public class HydroponicDataService {
     }
 
     public List<HydroponicDataDto> getLastDataByUuid(String uuid, int page, int limit) {
+        System.gc();
         return hydroponicDataRepository.findLastData(uuid, PageRequest.of(page, limit)).stream()
                 .map(d -> modelMapper.map(d, HydroponicDataDto.class))
                 .sorted(Comparator.comparingLong(v -> v.getMicrocontrollerTime().getLong(SECOND_OF_DAY)))

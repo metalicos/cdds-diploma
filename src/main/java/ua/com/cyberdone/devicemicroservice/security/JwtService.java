@@ -47,6 +47,10 @@ public class JwtService {
         return mapper.readValue(extractAllClaims(token).get("roles", String.class), Role[].class);
     }
 
+    public long getUserId(String token) {
+        return extractAllClaims(token).get("userId", Long.class);
+    }
+
     public String parseToken(String token) {
         return StringUtils.hasText(token) && token.startsWith(BEARER) ? token.substring(BEARER.length()) : token;
     }

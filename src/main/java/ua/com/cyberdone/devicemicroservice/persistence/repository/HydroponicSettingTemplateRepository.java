@@ -5,23 +5,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicSettings;
+import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicSettingTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface HydroponicSettingsRepository extends JpaRepository<HydroponicSettings, Long> {
+public interface HydroponicSettingTemplateRepository extends JpaRepository<HydroponicSettingTemplate, Long> {
 
-    @Query("select s from HydroponicSettings s where s.uuid = :uuid order by s.createdTimestamp desc ")
-    List<HydroponicSettings> findLastSettings(@Param("uuid") String uuid, Pageable pageable);
+    List<HydroponicSettingTemplate> findAllByUserId(Long userId, Pageable pageable);
 
-    Optional<HydroponicSettings> getByUuid(String uuid);
+    Optional<HydroponicSettingTemplate> findById(Long userId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE hydroponic_settings s SET ph_value = :phValue, temperature_value = :temperatureValue, " +
+    @Query(value = "UPDATE hydroponic_setting_template t SET name = :name, description = :description, " +
+            "ph_value = :phValue, temperature_value = :temperatureValue, " +
             "tds_value = :tdsValue, setup_ph_value = :setupPhValue, setup_tds_value = :setupTdsValue, " +
             "regulate_error_ph = :regulateErrorPh, regulate_error_fertilizer = :regulateErrorFertilizer, " +
             "ml_per_millisecond = :mlPerMillisecond, ph_up_dose_ml = :phUpDoseMl, ph_down_dose_ml = :phDownDoseMl, " +
@@ -29,9 +29,10 @@ public interface HydroponicSettingsRepository extends JpaRepository<HydroponicSe
             "restart_counter = :restartCounter, dispensers_enable = :dispensersEnable, sensors_enable = :sensorsEnable, " +
             "autotime = :autotime, time_zone = :timeZone, wifi_ssid = :wifiSsid, wifi_pass = :wifiPass, " +
             "microcontroller_time = :microcontrollerTime, updated_timestamp = :updatedTimestamp " +
-            "WHERE uuid = :uuid;", nativeQuery = true)
+            "WHERE user_id = :userId;", nativeQuery = true)
     void updateHydroponicSettings(
-            @Param("uuid") String uuid,
+            @Param("userId") Long userId,
+            @Param("name") String name, @Param("description") String description,
             @Param("setupPhValue") Double setupPhValue, @Param("setupTdsValue") Long setupTdsValue,
             @Param("regulateErrorPh") Double regulateErrorPh,
             @Param("regulateErrorFertilizer") Double regulateErrorFertilizer,

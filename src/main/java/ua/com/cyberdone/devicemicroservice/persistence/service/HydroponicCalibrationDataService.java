@@ -34,6 +34,7 @@ public class HydroponicCalibrationDataService {
     }
 
     public List<HydroponicCalibrationDataDto> getLastCalibrationByUuid(String uuid, int page, int limit) {
+        System.gc();
         return calibrationDataRepository.findLastData(uuid, PageRequest.of(page, limit)).stream()
                 .map(d -> modelMapper.map(d, HydroponicCalibrationDataDto.class))
                 .sorted(Comparator.comparingLong(v -> v.getMicrocontrollerTime().getLong(SECOND_OF_DAY)))

@@ -16,10 +16,10 @@ import java.util.Base64;
 @Slf4j
 @Service
 public class EncDecService {
-    @Value("${security.aes-key}")
-    private byte[] securityKey;
     private static final String CIPHER = "AES/ECB/NoPadding";
     private static final Charset CHARSET = StandardCharsets.ISO_8859_1;
+    @Value("${security.aes-key}")
+    private byte[] securityKey;
 
     private SecretKeySpec generateKey() throws UnsupportedEncodingException {
         return new SecretKeySpec(securityKey, "AES");

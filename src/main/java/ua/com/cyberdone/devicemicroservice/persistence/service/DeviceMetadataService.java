@@ -42,11 +42,12 @@ public class DeviceMetadataService {
     }
 
     public DeviceMetadataDto getMetadataByUuid(String uuid) {
-        return modelMapper.map(
-                deviceMetadataRepository.findByUuid(uuid).orElse(new DeviceMetadata()), DeviceMetadataDto.class);
+        return modelMapper.map(deviceMetadataRepository.findByUuid(uuid)
+                .orElse(new DeviceMetadata()), DeviceMetadataDto.class);
     }
 
     public List<DeviceMetadataDto> getMetadataByUser(Long userId) {
+        System.gc();
         return deviceMetadataRepository.findAllByUserId(userId).stream()
                 .map(metadata -> modelMapper.map(metadata, DeviceMetadataDto.class))
                 .collect(Collectors.toList());

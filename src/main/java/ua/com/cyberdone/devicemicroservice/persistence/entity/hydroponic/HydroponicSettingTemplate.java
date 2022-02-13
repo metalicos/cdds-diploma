@@ -22,10 +22,14 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "hydroponic_settings")
-public class HydroponicSettings extends BasicEntity {
-    @Column(name = "uuid", length = 500)
-    private String uuid;
+@Table(name = "hydroponic_setting_template")
+public class HydroponicSettingTemplate extends BasicEntity {
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "user_id")
+    private Long userId;
     @Column(name = "setup_ph_value")
     private Double setupPhValue;
     @Column(name = "setup_tds_value")
@@ -69,7 +73,7 @@ public class HydroponicSettings extends BasicEntity {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        HydroponicSettings that = (HydroponicSettings) o;
+        HydroponicSettingTemplate that = (HydroponicSettingTemplate) o;
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 

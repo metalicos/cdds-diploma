@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicCalibrationDataDto;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicDataDto;
 
 import java.util.List;
 

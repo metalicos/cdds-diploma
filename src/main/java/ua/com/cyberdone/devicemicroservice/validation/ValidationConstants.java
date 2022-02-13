@@ -4,8 +4,6 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ValidationConstants {
-    public static final String TIMEZONE_PATTERN = "(^[^a-zA-Z].*$)|(^[0-9`~!@#$%^&*()-<>?/.,:;\"'|{}\\]\\[_+]+$)";
-
     public static final String UUID_PATTERN = "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$";
     public static final String UUID_FAILED_MSG = "UUID is not valid. Cause: not a UUID";
 
@@ -25,6 +23,5 @@ public class ValidationConstants {
     public static final String VALUE_IS_BLANK_MSG = "Value is not valid. Cause: blank";
     public static final String VALUE_IS_NULL_MSG = "Value is not valid. Cause: null";
     public static final String VALUE_NOT_NUMBER_MSG = "Value is not valid. Cause: not number";
-    public static final String VALUE_NOT_TIMEZONE_MSG = "Value is not valid. Cause: not a timezone";
     public static final String NOT_POSITIVE_MSG = "Value is not valid. Cause: not positive";
 }

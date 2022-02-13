@@ -43,6 +43,7 @@ public class RegularScheduleService {
     public List<RegularScheduleDto> getAllSchedulesWithDays(boolean monday, boolean tuesday, boolean wednesday,
                                                             boolean thursday, boolean friday, boolean saturday,
                                                             boolean sunday) {
+        System.gc();
         return regularScheduleRepository.findByDays(monday, tuesday, wednesday, thursday, friday, saturday, sunday)
                 .stream()
                 .map(s -> modelMapper.map(s, RegularScheduleDto.class))
@@ -50,6 +51,7 @@ public class RegularScheduleService {
     }
 
     public List<RegularScheduleDto> getScheduleByUuidAndMetadata(String uuid, String key) {
+        System.gc();
         return regularScheduleRepository.findAllByUuidAndKey(uuid, key)
                 .stream()
                 .map(e -> modelMapper.map(e, RegularScheduleDto.class))
