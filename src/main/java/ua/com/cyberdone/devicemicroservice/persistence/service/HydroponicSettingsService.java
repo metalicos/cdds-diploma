@@ -10,7 +10,6 @@ import ua.com.cyberdone.devicemicroservice.persistence.repository.HydroponicSett
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,16 +25,7 @@ public class HydroponicSettingsService {
 
     @Transactional
     public void saveSetting(@NotNull(message = VALUE_IS_NULL_MSG) HydroponicSettings message) {
-        hydroponicSettingsRepository.getByUuid(message.getUuid())
-                .ifPresentOrElse(settings -> hydroponicSettingsRepository.updateHydroponicSettings(
-                                message.getUuid(), message.getSetupPhValue(), message.getSetupTdsValue(),
-                                message.getRegulateErrorPh(), message.getRegulateErrorFertilizer(),
-                                message.getMlPerMillisecond(), message.getPhUpDoseMl(), message.getPhDownDoseMl(),
-                                message.getFertilizerDoseMl(), message.getRecheckDispensersAfterMs(), message.getRestartCounter(),
-                                message.getDispensersEnable(), message.getSensorsEnable(), message.getAutotime(),
-                                message.getTimeZone(), message.getWifiSsid(), message.getWifiPass(),
-                                message.getMicrocontrollerTime(), LocalDateTime.now())
-                        , () -> hydroponicSettingsRepository.save(message));
+        hydroponicSettingsRepository.save(message);
     }
 
     public List<HydroponicSettingsDto> getLastSettingsByUuid(String uuid, int page, int limit) {
