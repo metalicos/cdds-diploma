@@ -27,17 +27,17 @@ public interface HydroponicSettingTemplateApi {
     @ApiResponse(responseCode = "200", description = "Create hydroponic setting template for user.",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = HydroponicSettingTemplateDto.class)))
-    ResponseEntity<HydroponicSettingTemplateDto> createHydroponicSettingTemplate(HydroponicSettingTemplateDto dto);
+    ResponseEntity<HydroponicSettingTemplateDto> createHydroponicSettingTemplate(String token, HydroponicSettingTemplateDto dto);
 
     @Operation(summary = "Update hydroponic setting template", description = "Update hydroponic setting template for user.")
     @ApiResponse(responseCode = "200", description = "Update hydroponic setting template for user.",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateHydroponicSettingTemplate(HydroponicSettingTemplateDto dto);
+    ResponseEntity<String> updateHydroponicSettingTemplate(String token, HydroponicSettingTemplateDto dto);
 
     @Operation(summary = "Delete hydroponic setting template", description = "Delete hydroponic setting template by its id")
     @ApiResponse(responseCode = "200", description = "Delete hydroponic setting template by its id",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> deleteHydroponicSettingTemplate(Long templateId);
+    ResponseEntity<String> deleteHydroponicSettingTemplate(String token, Long templateId);
 }

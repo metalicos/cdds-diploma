@@ -3,6 +3,7 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ public class HydroponicSettingsController implements HydroponicSettingsApi {
     private final HydroponicSettingsService hydroponicSettingsService;
 
     @GetMapping("/last")
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_hydroponic_setting')")
     public ResponseEntity<List<HydroponicSettingsDto>> getLastSettingsInDeviceWithUuid(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)

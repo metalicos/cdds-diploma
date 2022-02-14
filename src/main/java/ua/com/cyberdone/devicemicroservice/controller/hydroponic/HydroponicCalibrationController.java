@@ -2,6 +2,7 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,6 +33,7 @@ public class HydroponicCalibrationController implements HydroponicCalibrationApi
     private final HydroponicCalibrationDataService calibrationDataService;
 
     @GetMapping("/last")
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_hydroponic_calibration_data')")
     public ResponseEntity<List<HydroponicCalibrationDataDto>> getLastCalibrationDataInDeviceWithUuid(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -44,6 +46,7 @@ public class HydroponicCalibrationController implements HydroponicCalibrationApi
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('d_all','d_hydroponic_calibration_data')")
     public ResponseEntity<Void> deleteCalibrationDataByUuid(
             @RequestHeader(AUTHORIZATION) String token,
             @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)

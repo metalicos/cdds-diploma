@@ -41,6 +41,7 @@ public class MetadataController implements DeviceMetadataApi {
     private final DeviceMetadataService metadataService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('r_all','r_device_metadata')")
     public ResponseEntity<DeviceMetadataDto> getMetadataByUuid(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -49,6 +50,7 @@ public class MetadataController implements DeviceMetadataApi {
     }
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_user_device_metadata')")
     public ResponseEntity<List<DeviceMetadataDto>> getMetadataByUser(
             @RequestHeader(AUTHORIZATION) String token,
             @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)
@@ -57,6 +59,7 @@ public class MetadataController implements DeviceMetadataApi {
     }
 
     @PatchMapping
+    @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata')")
     public ResponseEntity<String> updateMetadata(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -80,6 +83,7 @@ public class MetadataController implements DeviceMetadataApi {
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('d_all','d_device_metadata')")
     public ResponseEntity<String> deleteMetadata(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -89,11 +93,13 @@ public class MetadataController implements DeviceMetadataApi {
     }
 
     @GetMapping("/device-types")
+    @PreAuthorize("hasAnyAuthority('r_all','r_device_types')")
     public ResponseEntity<DeviceType[]> getDeviceTypesList(@RequestHeader(AUTHORIZATION) String token) {
         return ResponseEntity.ok(DeviceType.values());
     }
 
     @PutMapping("/unlink")
+    @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata_unlink')")
     public ResponseEntity<String> unlinkMetadataFromUser(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -103,6 +109,7 @@ public class MetadataController implements DeviceMetadataApi {
     }
 
     @PutMapping("/link")
+    @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata_link')")
     public ResponseEntity<String> linkMetadataToUser(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)

@@ -2,6 +2,7 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,6 +33,7 @@ public class HydroponicDataController implements HydroponicDataApi {
     private final HydroponicDataService hydroponicDataService;
 
     @GetMapping("/last")
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_hydroponic_data')")
     public ResponseEntity<List<HydroponicDataDto>> getLastDataInDeviceWithUuid(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -43,6 +45,7 @@ public class HydroponicDataController implements HydroponicDataApi {
         return ResponseEntity.ok(hydroponicDataService.getLastDataByUuid(uuid, page, limit));
     }
 
+    @PreAuthorize("hasAnyAuthority('d_all','d_all_hydroponic_data')")
     @DeleteMapping
     public ResponseEntity<Void> deleteAllDataInDeviceWithUuid(
             @RequestHeader(AUTHORIZATION) String token,

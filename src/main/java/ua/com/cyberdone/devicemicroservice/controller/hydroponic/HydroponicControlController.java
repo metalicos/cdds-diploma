@@ -3,6 +3,7 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -49,6 +50,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     private final HydroponicOneOperationService operationService;
 
     @PutMapping("/update/time")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_time')")
     public ResponseEntity<String> updateTime(@RequestHeader(AUTHORIZATION) String token,
                                              @Valid @RequestBody HydroponicTimeDto dto) {
         log.info("Updating time to={} in timezone={} for uuid={}", dto.getMicrocontrollerTime(),
@@ -58,6 +60,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/zone")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_time_zone')")
     public ResponseEntity<String> updateZone(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -70,6 +73,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/autotime")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_autotime')")
     public ResponseEntity<String> updateAutoTime(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -82,6 +86,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/pumps/phUp")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_ph_up')")
     public ResponseEntity<String> updatePhUpPumpStatus(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -98,6 +103,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/pumps/phDown")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_ph_down')")
     public ResponseEntity<String> updatePhDownPumpStatus(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -114,6 +120,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/pumps/tds")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_tds')")
     public ResponseEntity<String> updateTdsPumpStatus(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -130,6 +137,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/restart")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_restart')")
     public ResponseEntity<String> restart(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -140,6 +148,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/save/settings")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_save_settings')")
     public ResponseEntity<String> saveAllSettings(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -150,6 +159,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/read/settings")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_read_settings')")
     public ResponseEntity<String> readAllSettings(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -160,6 +170,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/calibrate/tds")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_calibrate_tds')")
     public ResponseEntity<String> calibrateTdsSensor(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -172,6 +183,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/calibrate/tds/clear")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_calibrate_tds_clear')")
     public ResponseEntity<String> clrCalibrationTdsSensor(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -182,6 +194,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/calibrate/ph/low")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_calibrate_ph_low')")
     public ResponseEntity<String> calibratePhLow(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -194,6 +207,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/calibrate/ph/high")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_calibrate_ph_high')")
     public ResponseEntity<String> calibratePhHigh(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -206,6 +220,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/calibrate/ph/clear")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_calibrate_ph_clear')")
     public ResponseEntity<String> clrCalibrationPhSensor(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -216,6 +231,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/setup/ph")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_setup_ph')")
     public ResponseEntity<String> updateSetupPhValue(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -228,6 +244,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/setup/tds")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_setup_tds')")
     public ResponseEntity<String> updateSetupTdsValue(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -240,6 +257,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/dispensers/recheck-time")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_dispensers_recheck_time')")
     public ResponseEntity<String> updateRecheckDispensersAfterTime(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -252,6 +270,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/dose/ph/up")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_dose_ph_up')")
     public ResponseEntity<String> updatePhUpDose(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -264,6 +283,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/dose/ph/down")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_dose_ph_down')")
     public ResponseEntity<String> updatePhDownDose(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -276,6 +296,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/dose/tds")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_dose_tds')")
     public ResponseEntity<String> updateFertilizerDose(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -288,6 +309,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/regulator/error/ph")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_regulator_error_ph')")
     public ResponseEntity<String> updateRegulatePhError(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -300,6 +322,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/regulator/error/tds")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_regulator_error_tds')")
     public ResponseEntity<String> updateRegulateTdsError(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -312,6 +335,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/pump/speed")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_pump_speed')")
     public ResponseEntity<String> updatePumpSpeed(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -324,6 +348,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/wifi/ssid")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_wifi_ssid')")
     public ResponseEntity<String> updateWifiSsid(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -336,6 +361,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/wifi/pass")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_wifi_pass')")
     public ResponseEntity<String> updateWifiPassword(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -348,6 +374,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/enable/sensors")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_enable_sensors')")
     public ResponseEntity<String> updateSensorsEnable(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -360,6 +387,7 @@ public class HydroponicControlController implements HydroponicControlApi {
     }
 
     @PutMapping("/update/enable/dispensers")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_enable_dispensers')")
     public ResponseEntity<String> updateDispensersEnable(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)

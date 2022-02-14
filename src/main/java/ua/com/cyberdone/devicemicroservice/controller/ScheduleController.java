@@ -3,6 +3,7 @@ package ua.com.cyberdone.devicemicroservice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ public class ScheduleController implements DeviceSchedulingApi {
     private final RegularScheduleService regularScheduleService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_device_regular_schedules')")
     public ResponseEntity<List<RegularScheduleDto>> getSchedulesByKey(
             @RequestHeader(AUTHORIZATION) String token,
             @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -50,6 +52,7 @@ public class ScheduleController implements DeviceSchedulingApi {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('w_all','w_device_regular_schedule')")
     public ResponseEntity<RegularScheduleDto> createSchedule(@RequestHeader(AUTHORIZATION) String token,
                                                              @Valid @RequestBody RegularScheduleDto schedule) {
         log.info("POST {}", schedule);
@@ -57,6 +60,7 @@ public class ScheduleController implements DeviceSchedulingApi {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyAuthority('u_all','u_device_regular_schedule')")
     public ResponseEntity<String> updateScheduleMetaInfo(@RequestHeader(AUTHORIZATION) String token,
                                                          @Valid @RequestBody RegularScheduleUpdateDto schedule) {
         log.info("PUT {}", schedule);
@@ -65,6 +69,7 @@ public class ScheduleController implements DeviceSchedulingApi {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('d_all','d_device_regular_schedule')")
     public ResponseEntity<String> deleteScheduleById(
             @RequestHeader(AUTHORIZATION) String token,
             @NotNull(message = VALUE_IS_NULL_MSG)

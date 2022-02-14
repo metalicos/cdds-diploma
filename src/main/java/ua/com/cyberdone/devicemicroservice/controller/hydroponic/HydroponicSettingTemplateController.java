@@ -3,6 +3,7 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class HydroponicSettingTemplateController implements HydroponicSettingTem
     private final JwtService jwtService;
 
     @GetMapping("/last")
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_hydroponic_setting_templates')")
     public ResponseEntity<List<HydroponicSettingsDto>> getLastSettingTemplate(
             @RequestHeader(AUTHORIZATION) String token,
             @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)
@@ -48,19 +50,25 @@ public class HydroponicSettingTemplateController implements HydroponicSettingTem
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('w_all','w_hydroponic_setting_template')")
     public ResponseEntity<HydroponicSettingTemplateDto> createHydroponicSettingTemplate(
+            @RequestHeader(AUTHORIZATION) String token,
             @Valid HydroponicSettingTemplateDto dto) {
         return ResponseEntity.ok(hydroponicSettingTemplateService.saveHydroponicSettingTemplate(dto));
     }
 
     @PutMapping
-    public ResponseEntity<String> updateHydroponicSettingTemplate(@Valid HydroponicSettingTemplateDto dto) {
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_setting_template')")
+    public ResponseEntity<String> updateHydroponicSettingTemplate(
+            @RequestHeader(AUTHORIZATION) String token, @Valid HydroponicSettingTemplateDto dto) {
         hydroponicSettingTemplateService.updateHydroponicSettingTemplate(dto);
         return ResponseEntity.ok(ControllerConstantUtils.OK);
     }
 
     @DeleteMapping("/{templateId}")
-    public ResponseEntity<String> deleteHydroponicSettingTemplate(@PathVariable Long templateId) {
+    @PreAuthorize("hasAnyAuthority('d_all','d_hydroponic_setting_template')")
+    public ResponseEntity<String> deleteHydroponicSettingTemplate(
+            @RequestHeader(AUTHORIZATION) String token, @PathVariable Long templateId) {
         hydroponicSettingTemplateService.deleteHydroponicSettingTemplate(templateId);
         return ResponseEntity.ok(ControllerConstantUtils.OK);
     }
