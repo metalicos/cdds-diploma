@@ -1,18 +1,18 @@
-package ua.com.cyberdone.devicemicroservice.model.control;
+package ua.com.cyberdone.devicemicroservice.service.control;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
-import ua.com.cyberdone.devicemicroservice.service.HydroponicOneOperationService;
+import ua.com.cyberdone.devicemicroservice.service.ScheduleControllable;
 import ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum;
 
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.DirectionEnum.direction;
 
 @Slf4j
-@Service("hydroponic")
+@Service
 @RequiredArgsConstructor
-public class HydroponicScheduleControl implements ScheduleControllable {
+public class HydroponicScheduleControlService implements ScheduleControllable {
     private final HydroponicOneOperationService operationService;
 
     @Override

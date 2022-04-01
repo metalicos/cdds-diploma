@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -26,6 +27,9 @@ import java.util.Objects;
 public class DeviceMetadata extends BasicEntity {
     @Column(name = "uuid", length = 500, unique = true)
     private String uuid;
+    @Lob
+    @Column(name = "device-image")
+    private byte[] deviceImage;;
     @Column(name = "name", length = 500, nullable = false)
     private String name;
     @Column(name = "description", length = 500, nullable = false)

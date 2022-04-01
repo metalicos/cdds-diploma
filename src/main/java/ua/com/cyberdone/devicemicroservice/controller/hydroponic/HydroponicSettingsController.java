@@ -13,18 +13,9 @@ import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicSettingsApi
 import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicSettingsDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.HydroponicSettingsService;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.NOT_POSITIVE_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_BLANK_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_NULL_MSG;
 
 @Slf4j
 @RestController
@@ -35,14 +26,10 @@ public class HydroponicSettingsController implements HydroponicSettingsApi {
 
     @GetMapping("/last")
     @PreAuthorize("hasAnyAuthority('r_all','r_all_hydroponic_setting')")
-    public ResponseEntity<List<HydroponicSettingsDto>> getLastSettingsInDeviceWithUuid(
-            @RequestHeader(AUTHORIZATION) String token,
-            @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-            @RequestParam String uuid,
-            @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)
-            @RequestParam(defaultValue = "0") Integer page,
-            @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)
-            @RequestParam(defaultValue = "15") Integer limit) {
+    public ResponseEntity<List<HydroponicSettingsDto>> getLastSettingsInDeviceWithUuid(@RequestHeader(AUTHORIZATION) String token,
+                                                                                       @RequestParam String uuid,
+                                                                                       @RequestParam(defaultValue = "0") Integer page,
+                                                                                       @RequestParam(defaultValue = "15") Integer limit) {
         return ResponseEntity.ok(hydroponicSettingsService.getLastSettingsByUuid(uuid, page, limit));
     }
 }

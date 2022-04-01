@@ -6,6 +6,7 @@ CREATE TABLE `device_metadata`
     `uuid`              VARCHAR(500) NOT NULL UNIQUE,
     `name`              VARCHAR(500) NOT NULL,
     `description`       VARCHAR(500) NOT NULL,
+    `device-image`      LONGBLOB     NULL DEFAULT NULL,
     `device_type`       VARCHAR(300) NOT NULL,
     `access_enabled`    BIT(1)       NULL DEFAULT 0,
     `user_id`           BIGINT       NULL DEFAULT 0,

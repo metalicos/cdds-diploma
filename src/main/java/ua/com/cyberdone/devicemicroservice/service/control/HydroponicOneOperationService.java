@@ -1,10 +1,12 @@
-package ua.com.cyberdone.devicemicroservice.service;
+package ua.com.cyberdone.devicemicroservice.service.control;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.DirectionEnum;
+import ua.com.cyberdone.devicemicroservice.service.MqttService;
+import ua.com.cyberdone.devicemicroservice.service.control.AbstractOperationService;
 
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType.NONE;
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.CALIBRATE_PH_CLEAR;

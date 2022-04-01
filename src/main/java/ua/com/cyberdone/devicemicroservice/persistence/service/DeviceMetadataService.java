@@ -1,15 +1,20 @@
 package ua.com.cyberdone.devicemicroservice.persistence.service;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.model.dto.DeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.model.dto.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.DeviceMetadataRepository;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,26 +24,28 @@ public class DeviceMetadataService {
     private final ModelMapper modelMapper;
     private final DeviceMetadataRepository deviceMetadataRepository;
 
+    private static final Converter<byte[], String> IMAGE_TO_BASE64 = context ->
+            context.getSource() == null ? null : Base64.getEncoder().encodeToString(context.getSource());
+
     @Transactional
-    public DeviceMetadataDto saveMetadata(DeviceMetadataDto dto) {
+    public DeviceMetadataDto saveMetadata(SaveDeviceMetadataDto dto) {
         if (!deviceMetadataRepository.existsByUuid(dto.getUuid())) {
             var saved = deviceMetadataRepository.save(modelMapper.map(dto, DeviceMetadata.class));
+            modelMapper.addConverter(IMAGE_TO_BASE64);
             return modelMapper.map(deviceMetadataRepository.save(saved), DeviceMetadataDto.class);
         }
         throw new AlreadyExistException("Device already exists. chose another UUID.");
     }
 
     @Transactional
-    public DeviceMetadataDto updateMetadata(String uuid, String name, String description) {
+    public DeviceMetadataDto updateMetadata(String uuid, String name, String description, MultipartFile image) throws IOException {
         var meta = deviceMetadataRepository.findByUuid(uuid).orElseThrow(
                 () -> new NotFoundException("Device Metadata Not Found for uuid=" + uuid));
         meta.setName(name);
         meta.setDescription(description);
+        meta.setDeviceImage(image.getBytes());
+        modelMapper.addConverter(IMAGE_TO_BASE64);
         return modelMapper.map(deviceMetadataRepository.save(meta), DeviceMetadataDto.class);
-    }
-
-    public boolean isEnabled(String uuid) {
-        return deviceMetadataRepository.isEnabled(uuid);
     }
 
     public DeviceMetadataDto getMetadataByUuid(String uuid) {

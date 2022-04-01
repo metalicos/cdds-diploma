@@ -9,8 +9,8 @@ import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
 import ua.com.cyberdone.devicemicroservice.persistence.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.persistence.service.RegularScheduleService;
-import ua.com.cyberdone.devicemicroservice.service.HydroponicOneOperationService;
-import ua.com.cyberdone.devicemicroservice.service.WebRelayOperationService;
+import ua.com.cyberdone.devicemicroservice.service.control.HydroponicOneOperationService;
+import ua.com.cyberdone.devicemicroservice.service.control.WebRelayOperationService;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

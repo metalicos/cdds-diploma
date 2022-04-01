@@ -1,6 +1,5 @@
 package ua.com.cyberdone.devicemicroservice.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Base64;
 
-
-@Slf4j
 @Service
 public class EncDecService {
     private static final String CIPHER = "AES/ECB/NoPadding";

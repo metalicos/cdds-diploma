@@ -1,8 +1,8 @@
-package ua.com.cyberdone.devicemicroservice.model.control;
+package ua.com.cyberdone.devicemicroservice.service;
 
 import org.slf4j.Logger;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
-import ua.com.cyberdone.devicemicroservice.service.AbstractOperationService;
+import ua.com.cyberdone.devicemicroservice.service.control.AbstractOperationService;
 import ua.com.cyberdone.devicemicroservice.topic.CommonTopicEnum;
 
 public interface ScheduleControllable {

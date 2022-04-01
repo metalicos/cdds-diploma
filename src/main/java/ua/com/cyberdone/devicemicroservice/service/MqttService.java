@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.callback.Callback;
+import ua.com.cyberdone.devicemicroservice.configuration.MqttConfig;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -21,7 +23,8 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class MqttService implements MqttCallback {
     private final Map<String, Callback> callbacks;
-    private final MqttSetupService setupService;
+    private final MqttConfig mqttConfig;
+    private final MqttConnectOptions connectOptions;
     private MqttClient client = null;
 
     @Override
@@ -41,9 +44,9 @@ public class MqttService implements MqttCallback {
 
     public void start() {
         try {
-            client = setupService.createMqttClient();
+            client = mqttConfig.createMqttClient();
             client.setCallback(this);
-            client.connect(setupService.createConnectionOptions());
+            client.connect(connectOptions);
             for (String topic : callbacks.keySet()) {
                 client.subscribe(topic, 2);
             }

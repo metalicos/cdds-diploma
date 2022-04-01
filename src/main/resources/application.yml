@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:5555}
+  port: ${PORT:5544}
 eureka:
   client:
     registerWithEureka: true
@@ -39,7 +39,5 @@ mqtt:
   connection-timeout: 10
   auto-reconnect: true
   max-in-flight-messages: 100
-  client:
-    name: CDDS
-    url: ${CDDS_MQTT_SERVER_URL}
-    quality-of-service: 2
+  client-name: CDDS
+  client-url: ${CDDS_MQTT_SERVER_URL}

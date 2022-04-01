@@ -1,8 +1,9 @@
-package ua.com.cyberdone.devicemicroservice.service;
+package ua.com.cyberdone.devicemicroservice.service.control;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
+import ua.com.cyberdone.devicemicroservice.service.MqttService;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;

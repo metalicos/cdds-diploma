@@ -16,11 +16,11 @@ import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceMetadataDto {
+public class SaveDeviceMetadataDto {
     @NotNull(message = VALUE_IS_NULL_MSG)
     @Digits(message = VALUE_NOT_NUMBER_MSG, integer = Integer.MAX_VALUE, fraction = 10)
     private Long id;
-    private String deviceImage;
+    private byte[] deviceImage;
     @NotBlank(message = VALUE_IS_BLANK_MSG)
     private String uuid;
     @NotBlank(message = VALUE_IS_BLANK_MSG)
