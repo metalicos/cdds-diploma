@@ -20,7 +20,7 @@ public enum CommonTopicEnum {
     WIFI_PASS("wifiPASS"),
     UNKNOWN("");
 
-    private String val;
+    private final String val;
 
     public static CommonTopicEnum topic(String val) {
         return Arrays.stream(CommonTopicEnum.values()).filter(t -> t.val.equals(val)).findFirst().orElse(UNKNOWN);

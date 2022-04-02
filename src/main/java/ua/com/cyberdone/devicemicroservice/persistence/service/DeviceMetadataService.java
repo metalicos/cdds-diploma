@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
-import ua.com.cyberdone.devicemicroservice.model.dto.DeviceMetadataDto;
-import ua.com.cyberdone.devicemicroservice.model.dto.SaveDeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.model.DeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.DeviceMetadataRepository;
 

@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.model.dto;
+package ua.com.cyberdone.devicemicroservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +9,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_BLANK_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_NULL_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_NOT_NUMBER_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_NOT_NUMBER_MSG;
 
 @Data
 @NoArgsConstructor

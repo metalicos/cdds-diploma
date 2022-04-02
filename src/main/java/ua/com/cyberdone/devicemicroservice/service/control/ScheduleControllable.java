@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.service;
+package ua.com.cyberdone.devicemicroservice.service.control;
 
 import org.slf4j.Logger;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;

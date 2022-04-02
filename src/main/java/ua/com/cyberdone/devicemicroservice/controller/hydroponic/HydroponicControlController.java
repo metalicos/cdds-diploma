@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicControlApi;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicTimeDto;
-import ua.com.cyberdone.devicemicroservice.service.control.HydroponicOneOperationService;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicTimeDto;
+import ua.com.cyberdone.devicemicroservice.service.control.hydroponic.HydroponicOneOperationService;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType.DIRECTION;

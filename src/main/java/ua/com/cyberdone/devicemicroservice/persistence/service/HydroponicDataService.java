@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicDataDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicDataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicData;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.HydroponicDataRepository;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoField.SECOND_OF_DAY;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
 
 @Service
 @RequiredArgsConstructor

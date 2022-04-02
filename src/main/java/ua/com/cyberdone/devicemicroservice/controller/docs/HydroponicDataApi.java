@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicDataDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicDataDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -19,11 +19,11 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.NOT_POSITIVE_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_BLANK_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.NOT_POSITIVE_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
 
 @Validated
 @Tag(name = "Hydroponic Data", description = "Endpoints for managing hydroponic device data")

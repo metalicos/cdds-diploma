@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicSettingTemplateDto;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicSettingsDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingTemplateDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingsDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicSettingTemplate;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.HydroponicSettingTemplateRepository;
 

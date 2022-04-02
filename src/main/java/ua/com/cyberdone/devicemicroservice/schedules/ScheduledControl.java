@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ua.com.cyberdone.devicemicroservice.model.dto.RegularScheduleDto;
+import ua.com.cyberdone.devicemicroservice.model.RegularScheduleDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
 import ua.com.cyberdone.devicemicroservice.persistence.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.persistence.service.RegularScheduleService;
-import ua.com.cyberdone.devicemicroservice.service.control.HydroponicOneOperationService;
-import ua.com.cyberdone.devicemicroservice.service.control.WebRelayOperationService;
+import ua.com.cyberdone.devicemicroservice.service.control.hydroponic.HydroponicOneOperationService;
+import ua.com.cyberdone.devicemicroservice.service.control.relay.WebRelayOperationService;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -62,8 +62,8 @@ public class ScheduledControl {
                 });
     }
 
-    private void sendOperation(DeviceType type, String uuid, String topic, String data, ValueType valueType) {
-        switch (type) {
+    private void sendOperation(DeviceType deviceType, String uuid, String topic, String data, ValueType valueType) {
+        switch (deviceType) {
             case HYDROPONIC_V1 -> hydroponicOneOperationService.sendEncodedData(uuid, topic, data, valueType);
             case RELAY_N4 -> webRelayOperationService.sendEncodedData(uuid, topic, data, valueType);
         }

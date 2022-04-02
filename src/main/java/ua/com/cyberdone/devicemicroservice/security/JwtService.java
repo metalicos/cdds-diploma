@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ua.com.cyberdone.devicemicroservice.model.dto.security.Role;
+import ua.com.cyberdone.devicemicroservice.model.security.Role;
 
 import java.util.function.Function;
 

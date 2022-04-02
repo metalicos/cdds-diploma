@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.model.dto.security;
+package ua.com.cyberdone.devicemicroservice.model.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

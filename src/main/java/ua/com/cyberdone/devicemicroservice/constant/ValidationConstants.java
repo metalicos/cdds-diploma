@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.validation;
+package ua.com.cyberdone.devicemicroservice.constant;
 
 import lombok.experimental.UtilityClass;
 

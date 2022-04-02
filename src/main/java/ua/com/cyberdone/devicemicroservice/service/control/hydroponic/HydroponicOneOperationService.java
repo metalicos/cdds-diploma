@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.service.control;
+package ua.com.cyberdone.devicemicroservice.service.control.hydroponic;
 
 
 import lombok.extern.slf4j.Slf4j;

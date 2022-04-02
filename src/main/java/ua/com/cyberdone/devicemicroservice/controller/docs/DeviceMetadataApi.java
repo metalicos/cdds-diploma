@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
-import ua.com.cyberdone.devicemicroservice.model.dto.DeviceMetadataDto;
-import ua.com.cyberdone.devicemicroservice.model.dto.SaveDeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.model.DeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
 
 import javax.validation.Valid;
@@ -23,11 +23,11 @@ import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.util.List;
 
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.NOT_POSITIVE_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_BLANK_MSG;
-import static ua.com.cyberdone.devicemicroservice.validation.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.NOT_POSITIVE_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
 
 @Validated
 @Tag(name = "Device Metadata", description = "Endpoints for managing device metadata")

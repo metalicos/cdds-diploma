@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
 import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicSettingTemplateApi;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicSettingTemplateDto;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicSettingsDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingTemplateDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingsDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.HydroponicSettingTemplateService;
 import ua.com.cyberdone.devicemicroservice.security.JwtService;
 

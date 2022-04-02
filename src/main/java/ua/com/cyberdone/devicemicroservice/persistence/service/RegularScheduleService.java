@@ -3,8 +3,8 @@ package ua.com.cyberdone.devicemicroservice.persistence.service;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import ua.com.cyberdone.devicemicroservice.model.dto.RegularScheduleDto;
-import ua.com.cyberdone.devicemicroservice.model.dto.RegularScheduleUpdateDto;
+import ua.com.cyberdone.devicemicroservice.model.RegularScheduleDto;
+import ua.com.cyberdone.devicemicroservice.model.RegularScheduleUpdateDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.RegularSchedule;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.RegularScheduleRepository;
 

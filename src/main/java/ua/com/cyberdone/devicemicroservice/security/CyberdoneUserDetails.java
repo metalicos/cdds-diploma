@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.com.cyberdone.devicemicroservice.model.dto.security.Permission;
-import ua.com.cyberdone.devicemicroservice.model.dto.security.Role;
+import ua.com.cyberdone.devicemicroservice.model.security.Permission;
+import ua.com.cyberdone.devicemicroservice.model.security.Role;
 
 import java.util.Collection;
 import java.util.HashSet;

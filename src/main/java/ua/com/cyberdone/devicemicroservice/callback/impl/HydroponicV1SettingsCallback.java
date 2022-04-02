@@ -11,7 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.callback.Callback;
-import ua.com.cyberdone.devicemicroservice.model.dto.microcontrollers.hydroponic.HydroponicAllDataDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicAllDataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceSpecialInformation;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicCalibrationData;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicData;

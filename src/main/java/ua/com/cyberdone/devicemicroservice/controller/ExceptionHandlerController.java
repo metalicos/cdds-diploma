@@ -22,7 +22,7 @@ import ua.com.cyberdone.devicemicroservice.exception.AccessDeniedException;
 import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.exception.AuthenticationException;
 import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
-import ua.com.cyberdone.devicemicroservice.model.dto.RestError;
+import ua.com.cyberdone.devicemicroservice.model.RestError;
 
 import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;

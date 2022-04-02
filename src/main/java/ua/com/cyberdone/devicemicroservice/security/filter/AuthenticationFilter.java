@@ -2,9 +2,10 @@ package ua.com.cyberdone.devicemicroservice.security.filter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ua.com.cyberdone.devicemicroservice.model.dto.security.Role;
+import ua.com.cyberdone.devicemicroservice.model.security.Role;
 import ua.com.cyberdone.devicemicroservice.security.JwtService;
 
 import javax.servlet.FilterChain;
@@ -17,8 +18,6 @@ import java.util.Set;
 @Slf4j
 @RequiredArgsConstructor
 public abstract class AuthenticationFilter extends OncePerRequestFilter {
-
-    public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
     protected final JwtService jwtService;
     protected Set<Role> roles;
@@ -41,7 +40,7 @@ public abstract class AuthenticationFilter extends OncePerRequestFilter {
     public abstract void authenticate(HttpServletRequest request, String username);
 
     private String parseJwt(HttpServletRequest request) {
-        var headerAuth = request.getHeader(AUTHORIZATION);
+        var headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
         return StringUtils.hasText(headerAuth) && headerAuth.startsWith(BEARER) ?
                 headerAuth.substring(BEARER.length()) : null;
     }

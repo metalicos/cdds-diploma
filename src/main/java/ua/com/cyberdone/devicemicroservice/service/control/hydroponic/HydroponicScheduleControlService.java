@@ -1,10 +1,10 @@
-package ua.com.cyberdone.devicemicroservice.service.control;
+package ua.com.cyberdone.devicemicroservice.service.control.hydroponic;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
-import ua.com.cyberdone.devicemicroservice.service.ScheduleControllable;
+import ua.com.cyberdone.devicemicroservice.service.control.ScheduleControllable;
 import ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum;
 
 import static ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.DirectionEnum.direction;
