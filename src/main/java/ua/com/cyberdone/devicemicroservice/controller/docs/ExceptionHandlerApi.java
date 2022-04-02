@@ -210,11 +210,4 @@ public interface ExceptionHandlerApi {
                     "}")))
     @ResponseStatus(CONFLICT)
     ResponseEntity<RestError> noHandlerFoundException(AlreadyExistException exception);
-
-    default ResponseEntity<RestError> buildResponse(HttpStatus httpStatus, String msg, String details) {
-        return new ResponseEntity<>(
-                RestError.builder().error(httpStatus.getReasonPhrase()).title(msg).detail(details).build(),
-                httpStatus
-        );
-    }
 }
