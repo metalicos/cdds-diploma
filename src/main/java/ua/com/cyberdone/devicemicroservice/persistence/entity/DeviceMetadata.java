@@ -28,8 +28,8 @@ public class DeviceMetadata extends BasicEntity {
     @Column(name = "uuid", length = 500, unique = true)
     private String uuid;
     @Lob
-    @Column(name = "device-image")
-    private byte[] deviceImage;;
+    @Column(name = "device_image")
+    private byte[] deviceImage;
     @Column(name = "name", length = 500, nullable = false)
     private String name;
     @Column(name = "description", length = 500, nullable = false)
