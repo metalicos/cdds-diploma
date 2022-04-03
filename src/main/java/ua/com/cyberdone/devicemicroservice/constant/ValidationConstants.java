@@ -24,4 +24,5 @@ public class ValidationConstants {
     public static final String VALUE_IS_NULL_MSG = "Value is not valid. Cause: null";
     public static final String VALUE_NOT_NUMBER_MSG = "Value is not valid. Cause: not number";
     public static final String NOT_POSITIVE_MSG = "Value is not valid. Cause: not positive";
+    public static final String NOT_POSITIVE_OR_ZERO_MSG = "Value is not valid. Cause: not zero or not positive number";
 }

@@ -16,9 +16,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.NOT_POSITIVE_MSG;
+import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.NOT_POSITIVE_OR_ZERO_MSG;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
@@ -36,7 +38,7 @@ public interface HydroponicCalibrationApi {
             String token,
             @Valid @NotBlank(message = VALUE_IS_BLANK_MSG) @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
                     String uuid,
-            @Valid @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)
+            @Valid @NotNull(message = VALUE_IS_NULL_MSG) @PositiveOrZero(message = NOT_POSITIVE_OR_ZERO_MSG)
                     Integer page,
             @Valid @NotNull(message = VALUE_IS_NULL_MSG) @Positive(message = NOT_POSITIVE_MSG)
                     Integer limit);
