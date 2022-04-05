@@ -8,19 +8,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicTimeDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.DatabasePhCalibrationDto;
+import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.DatabaseTdsCalibrationDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.DIRECTION_FAILED_MSG;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.DIRECTION_PATTERN;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.SWITCH_FAILED_MSG;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.SWITCH_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.TEXT_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.TEXT_PATTERN;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
 import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
@@ -28,38 +30,6 @@ import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.V
 @Validated
 @Tag(name = "Hydroponic Control", description = "Endpoints for control hydroponic microcontrollers")
 public interface HydroponicControlApi {
-
-    @Operation(summary = "Update hydroponic time", description = "Send update time command to hydroponic")
-    @ApiResponse(responseCode = "200", description = "Send update time command to hydroponic",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateTime(String token, @Valid HydroponicTimeDto dto);
-
-    @Operation(summary = "Update hydroponic time zone", description = "Send update time zone command to hydroponic")
-    @ApiResponse(responseCode = "200", description = "Send update time zone command to hydroponic",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateZone(String token,
-                                      @Valid
-                                      @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                      @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                              String uuid,
-                                      @Valid
-                                      @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                              String value);
-
-    @Operation(summary = "Update hydroponic auto time mode", description = "Send update auto time mode command to hydroponic")
-    @ApiResponse(responseCode = "200", description = "Send update auto time mode command to hydroponic",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateAutoTime(String token,
-                                          @Valid
-                                          @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                          @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                                  String uuid,
-                                          @Valid
-                                          @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                                  String value);
 
     @Operation(summary = "Update hydroponic ph-up pump mode", description = "Send update ph-up pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic")
     @ApiResponse(responseCode = "200", description = "Send update ph-up pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic",
@@ -101,36 +71,6 @@ public interface HydroponicControlApi {
                                                @NotBlank(message = VALUE_IS_BLANK_MSG)
                                                @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
                                                        String value);
-
-    @Operation(summary = "Restart hydroponic microcontroller", description = "Restart hydroponic microcontroller")
-    @ApiResponse(responseCode = "200", description = "Restart hydroponic microcontroller",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> restart(String token,
-                                   @Valid
-                                   @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                   @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                           String uuid);
-
-    @Operation(summary = "Save all settings in hydroponic microcontroller memory", description = "Save all settings in hydroponic microcontroller EEPROM memory")
-    @ApiResponse(responseCode = "200", description = "Save settings in hydroponic microcontroller EEPROM memory",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> saveAllSettings(String token,
-                                           @Valid
-                                           @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                           @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                                   String uuid);
-
-    @Operation(summary = "Read all settings from memory to hydroponic microcontroller", description = "Read all settings from memory to hydroponic microcontroller")
-    @ApiResponse(responseCode = "200", description = "Read all settings from memory to hydroponic microcontroller",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> readAllSettings(String token,
-                                           @Valid
-                                           @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                           @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                                   String uuid);
 
     @Operation(summary = "Calibrate tds sensor", description = "Calibrate tds sensor of hydroponic microcontroller")
     @ApiResponse(responseCode = "200", description = "Calibrate tds sensor of hydroponic microcontroller",
@@ -308,34 +248,6 @@ public interface HydroponicControlApi {
                                            @NotBlank(message = VALUE_IS_BLANK_MSG)
                                                    String value);
 
-    @Operation(summary = "Change wifi SSID", description = "Change SSID of wifi access point setting in hydroponic controller")
-    @ApiResponse(responseCode = "200", description = "Change SSID of wifi access point setting in hydroponic controller",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateWifiSsid(String token,
-                                          @Valid
-                                          @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                          @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                                  String uuid,
-                                          @Valid
-                                          @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                          @Pattern(regexp = TEXT_PATTERN, message = TEXT_FAILED_MSG)
-                                                  String value);
-
-    @Operation(summary = "Change wifi PASS", description = "Change password of your wifi access point setting in hydroponic controller")
-    @ApiResponse(responseCode = "200", description = "Change password of your wifi access point setting in hydroponic controller",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateWifiPassword(String token,
-                                              @Valid
-                                              @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                              @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                                                      String uuid,
-                                              @Valid
-                                              @NotBlank(message = VALUE_IS_BLANK_MSG)
-                                              @Pattern(regexp = TEXT_PATTERN, message = TEXT_FAILED_MSG)
-                                                      String value);
-
     @Operation(summary = "Update hydroponic sensors availability", description = "Update hydroponic sensors availability (ENABLED=1 | DISABLED=0)")
     @ApiResponse(responseCode = "200", description = "Update hydroponic sensors availability (ENABLED=1 | DISABLED=0)",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
@@ -363,4 +275,18 @@ public interface HydroponicControlApi {
                                                   @NotBlank(message = VALUE_IS_BLANK_MSG)
                                                   @Pattern(regexp = SWITCH_PATTERN, message = SWITCH_FAILED_MSG)
                                                           String value);
+
+    @Operation(summary = "Update PH calibration using data earlier saved in the DB", description = "Update PH calibration using data earlier saved in the DB")
+    @ApiResponse(responseCode = "200", description = "Update PH calibration using data earlier saved in the DB",
+            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
+                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
+    ResponseEntity<String> updatePhFromDatabaseData(@RequestHeader(AUTHORIZATION) String token,
+                                                    @RequestBody @Valid DatabasePhCalibrationDto dto);
+
+    @Operation(summary = "Update TDS calibration using data earlier saved in the DB", description = "Update TDS calibration using data earlier saved in the DB")
+    @ApiResponse(responseCode = "200", description = "Update TDS calibration using data earlier saved in the DB",
+            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
+                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
+    ResponseEntity<String> updateTdsFromDatabaseData(@RequestHeader(AUTHORIZATION) String token,
+                                                    @RequestBody @Valid DatabaseTdsCalibrationDto dto);
 }

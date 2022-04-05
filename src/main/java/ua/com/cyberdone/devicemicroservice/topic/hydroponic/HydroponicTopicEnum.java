@@ -40,7 +40,7 @@ public enum HydroponicTopicEnum {
     TDS_OVERSAMPLING("tdsOversampling"),
     UNKNOWN("");
 
-    private String val;
+    private final String val;
 
     public static HydroponicTopicEnum topic(String val) {
         return Arrays.stream(HydroponicTopicEnum.values()).filter(t -> t.val.equals(val)).findFirst().orElse(UNKNOWN);

@@ -2,13 +2,12 @@ package ua.com.cyberdone.devicemicroservice.service.control;
 
 import org.slf4j.Logger;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
-import ua.com.cyberdone.devicemicroservice.service.control.AbstractOperationService;
 import ua.com.cyberdone.devicemicroservice.topic.CommonTopicEnum;
 
 public interface ScheduleControllable {
     void control(ValueType type, String data, String topic, String uuid);
 
-    default void controlCommonTopics(AbstractOperationService operationService, ValueType type,
+    default void controlCommonTopics(BaseOperationService operationService, ValueType type,
                                      String data, String topic, String uuid, Logger log) {
         switch (CommonTopicEnum.topic(topic)) {
             case UPDATE_TIME -> operationService.updateTime(uuid, data);
