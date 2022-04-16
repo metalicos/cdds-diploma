@@ -25,7 +25,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Table(name = "device_metadata")
 public class DeviceMetadata extends BasicEntity {
-    @Column(name = "uuid", length = 500, unique = true)
+    @Column(name = "uuid", length = 36, unique = true)
     private String uuid;
     @Lob
     @Column(name = "device_image")

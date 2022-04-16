@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.com.cyberdone.devicemicroservice.model.security.Permission;
-import ua.com.cyberdone.devicemicroservice.model.security.Role;
+import ua.com.cyberdone.devicemicroservice.persistence.model.security.PermissionDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.security.RoleDto;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CyberdoneUserDetails implements UserDetails {
 
-    private final Set<Role> roles;
+    private final Set<RoleDto> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        var permissions = new HashSet<Permission>();
-        for (Role role : roles) {
+        var permissions = new HashSet<PermissionDto>();
+        for (RoleDto role : roles) {
             permissions.addAll(role.getPermissions());
         }
         return toSetAuthorities(permissions);
     }
 
-    private Set<SimpleGrantedAuthority> toSetAuthorities(Set<Permission> permissions) {
+    private Set<SimpleGrantedAuthority> toSetAuthorities(Set<PermissionDto> permissions) {
         return permissions.stream().map(p -> new SimpleGrantedAuthority(p.getValue())).collect(Collectors.toSet());
     }
 

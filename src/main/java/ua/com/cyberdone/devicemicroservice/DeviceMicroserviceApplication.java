@@ -15,7 +15,7 @@ import ua.com.cyberdone.devicemicroservice.service.MqttService;
 @SpringBootApplication
 @RequiredArgsConstructor
 public class DeviceMicroserviceApplication implements CommandLineRunner {
-    public final MqttService mqttService;
+    private final MqttService mqttService;
 
     public static void main(String[] args) {
         SpringApplication.run(DeviceMicroserviceApplication.class, args);

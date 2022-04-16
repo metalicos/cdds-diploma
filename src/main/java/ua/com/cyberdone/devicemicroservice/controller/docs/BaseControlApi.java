@@ -8,18 +8,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicTimeDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicTimeDto;
+import ua.com.cyberdone.devicemicroservice.util.ControllerConstantUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.TEXT_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.TEXT_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.TEXT_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.TEXT_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_BLANK_MSG;
 
 @Validated
 @Tag(name = "Base Control", description = "Endpoints base for device control")

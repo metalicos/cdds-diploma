@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.model.security;
+package ua.com.cyberdone.devicemicroservice.persistence.model.security;
 
 
 import lombok.AllArgsConstructor;
@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -13,9 +15,12 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class RoleDto implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 37225553L;
+
     private Long id;
     private LocalDateTime createdTimestamp;
     private String role;
-    private Set<Permission> permissions;
+    private Set<PermissionDto> permissions;
 }

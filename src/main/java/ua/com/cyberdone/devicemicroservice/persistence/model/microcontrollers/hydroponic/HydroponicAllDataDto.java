@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic;
+package ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,7 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HydroponicAllDataDto {
+public class HydroponicAllDataDto implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 756734223L;
+
     private Double phValue;
     private Double temperatureValue;
     private Double tdsValue;

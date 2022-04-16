@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface HydroponicCalibrationDataRepository extends JpaRepository<HydroponicCalibrationData, Long> {
 
-    @Query("select d from HydroponicCalibrationData d where d.uuid = :uuid order by d.createdTimestamp desc ")
+    @Query("select d from HydroponicCalibrationData d where d.deviceMetadata.uuid = :uuid order by d.createdTimestamp desc ")
     List<HydroponicCalibrationData> findLastData(@Param("uuid") String uuid, Pageable pageable);
 
     @Modifying
-    @Query("delete from HydroponicCalibrationData data where data.uuid = :uuid")
+    @Query("delete from HydroponicCalibrationData data where data.deviceMetadata.uuid = :uuid")
     void deleteAllDataForUuid(@Param("uuid") String uuid);
 }

@@ -8,9 +8,16 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.BasicEntity;
+import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -24,8 +31,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Table(name = "hydroponic_data")
 public class HydroponicData extends BasicEntity {
-    @Column(name = "uuid", length = 500)
-    private String uuid;
     @Column(name = "ph_value")
     private Double phValue;
     @Column(name = "temperature_value")
@@ -40,6 +45,12 @@ public class HydroponicData extends BasicEntity {
     private Boolean isDispenserTdsOpen;
     @Column(name = "microcontroller_time")
     private LocalDateTime microcontrollerTime;
+
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "uuid", nullable = false, referencedColumnName = "uuid", foreignKey = @ForeignKey(
+            name = "FK_HYDROPONIC_DATA_uuid_DEVICE_METADATA_uuid",
+            value = ConstraintMode.CONSTRAINT))
+    private DeviceMetadata deviceMetadata;
 
     @Override
     public boolean equals(Object o) {

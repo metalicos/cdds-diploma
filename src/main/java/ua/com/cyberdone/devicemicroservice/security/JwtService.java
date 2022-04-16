@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import ua.com.cyberdone.devicemicroservice.model.security.Role;
+import ua.com.cyberdone.devicemicroservice.persistence.model.security.RoleDto;
 
 import java.util.function.Function;
 
@@ -43,8 +43,8 @@ public class JwtService {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(parseToken(token)).getBody();
     }
 
-    public Role[] getRoles(String token) throws JsonProcessingException {
-        return mapper.readValue(extractAllClaims(token).get("roles", String.class), Role[].class);
+    public RoleDto[] getRoles(String token) throws JsonProcessingException {
+        return mapper.readValue(extractAllClaims(token).get("roles", String.class), RoleDto[].class);
     }
 
     public long getUserId(String token) {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicCalibrationApi;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicCalibrationDataDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicCalibrationDataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.HydroponicCalibrationDataService;
 
 import java.util.List;

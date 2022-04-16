@@ -2,7 +2,7 @@ USE `cdds`;
 CREATE TABLE `regular_schedules`
 (
     `id`                BIGINT       NOT NULL AUTO_INCREMENT,
-    `uuid`              VARCHAR(500) NOT NULL,
+    `uuid`              VARCHAR(36) NOT NULL,
     `name`              VARCHAR(100) NULL DEFAULT NULL,
     `description`       VARCHAR(500) NULL DEFAULT NULL,
     `key_value`         VARCHAR(500) NULL DEFAULT NULL,
@@ -19,7 +19,8 @@ CREATE TABLE `regular_schedules`
     `value_type`        VARCHAR(200) NULL DEFAULT NULL,
     `created_timestamp` DATETIME(6)       DEFAULT CURRENT_TIMESTAMP(6),
     `updated_timestamp` DATETIME(6)       DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_REGULAR_SCHEDULES_uuid_DEVICE_METADATA_uuid` FOREIGN KEY (`uuid`) REFERENCES `cdds`.`device_metadata` (`uuid`)
 ) ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;

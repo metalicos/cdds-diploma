@@ -3,7 +3,7 @@ USE `cdds`;
 CREATE TABLE `device_metadata`
 (
     `id`                BIGINT       NOT NULL AUTO_INCREMENT,
-    `uuid`              VARCHAR(500) NOT NULL UNIQUE,
+    `uuid`              VARCHAR(36)  NOT NULL UNIQUE,
     `name`              VARCHAR(500) NOT NULL,
     `description`       VARCHAR(500) NOT NULL,
     `device_image`      LONGBLOB     NULL DEFAULT NULL,

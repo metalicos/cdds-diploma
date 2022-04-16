@@ -8,8 +8,14 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -38,8 +44,12 @@ public class DeviceSpecialInformation extends BasicEntity {
     private String wifiSSID;
     @Column(name = "wifi_pass", length = 30)
     private String wifiPASS;
-    @Column(name = "uuid", length = 500)
-    private String uuid;
+
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "uuid", nullable = false, referencedColumnName = "uuid", foreignKey = @ForeignKey(
+            name = "FK_DEVICE_SPECIAL_INFORMATION_uuid_DEVICE_METADATA_uuid",
+            value = ConstraintMode.CONSTRAINT))
+    private DeviceMetadata deviceMetadata;
 
     @Override
     public boolean equals(Object o) {

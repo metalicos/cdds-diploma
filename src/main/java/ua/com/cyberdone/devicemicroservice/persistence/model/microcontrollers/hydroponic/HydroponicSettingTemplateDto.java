@@ -1,16 +1,21 @@
-package ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic;
+package ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HydroponicSettingTemplateDto {
+public class HydroponicSettingTemplateDto implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 370000323L;
+
     private Long id;
     private String name;
     private String description;

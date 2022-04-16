@@ -1,11 +1,12 @@
 package ua.com.cyberdone.devicemicroservice.persistence.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingsDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicSettings;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicSettingsDto;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.HydroponicSettingsRepository;
 
 import javax.transaction.Transactional;
@@ -15,8 +16,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoField.SECOND_OF_DAY;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_NULL_MSG;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HydroponicSettingsService {
@@ -24,8 +26,13 @@ public class HydroponicSettingsService {
     private final HydroponicSettingsRepository hydroponicSettingsRepository;
 
     @Transactional
-    public void saveSetting(@NotNull(message = VALUE_IS_NULL_MSG) HydroponicSettings message) {
-        hydroponicSettingsRepository.save(message);
+    public HydroponicSettings saveSetting(@NotNull(message = VALUE_IS_NULL_MSG) HydroponicSettings message) {
+        try {
+            return hydroponicSettingsRepository.save(message);
+        } catch (Exception ex) {
+            log.error("Cannot save hydroponic settings. Reason: ", ex);
+            return null;
+        }
     }
 
     public List<HydroponicSettingsDto> getLastSettingsByUuid(String uuid, int page, int limit) {

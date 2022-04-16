@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.cyberdone.devicemicroservice.controller.docs.BaseControlApi;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicTimeDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicTimeDto;
 import ua.com.cyberdone.devicemicroservice.service.control.hydroponic.HydroponicOneOperationService;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.cyberdone.devicemicroservice.controller.docs.DeviceSchedulingApi;
-import ua.com.cyberdone.devicemicroservice.model.RegularScheduleDto;
-import ua.com.cyberdone.devicemicroservice.model.RegularScheduleUpdateDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.RegularScheduleDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.RegularScheduleUpdateDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.RegularScheduleService;
 
 import java.util.List;

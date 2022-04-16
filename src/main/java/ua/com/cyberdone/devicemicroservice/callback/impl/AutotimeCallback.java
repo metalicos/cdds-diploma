@@ -11,7 +11,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.callback.Callback;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicTimeDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicTimeDto;
 import ua.com.cyberdone.devicemicroservice.service.EncDecService;
 
 import java.nio.charset.StandardCharsets;
@@ -35,7 +35,7 @@ public class AutotimeCallback implements Callback {
     @Override
     @SneakyThrows
     public void execute(MqttClient client, MqttMessage message) {
-        var decryptedData = encDecService.decrypt(new String(message.getPayload()));
+        var decryptedData = encDecService.decrypt(new String(message.getPayload(), EncDecService.CHARSET));
         if (showDecryptedMessage) {
             log.info("{}", decryptedData);
         }

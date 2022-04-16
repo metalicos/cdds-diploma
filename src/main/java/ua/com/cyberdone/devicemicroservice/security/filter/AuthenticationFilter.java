@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ua.com.cyberdone.devicemicroservice.model.security.Role;
+import ua.com.cyberdone.devicemicroservice.persistence.model.security.RoleDto;
 import ua.com.cyberdone.devicemicroservice.security.JwtService;
 
 import javax.servlet.FilterChain;
@@ -20,7 +20,7 @@ import java.util.Set;
 public abstract class AuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER = "Bearer ";
     protected final JwtService jwtService;
-    protected Set<Role> roles;
+    protected Set<RoleDto> roles;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

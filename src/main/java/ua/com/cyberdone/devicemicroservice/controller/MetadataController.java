@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.controller.docs.DeviceMetadataApi;
-import ua.com.cyberdone.devicemicroservice.model.DeviceMetadataDto;
-import ua.com.cyberdone.devicemicroservice.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
+import ua.com.cyberdone.devicemicroservice.persistence.model.DeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.DeviceMetadataService;
 
 import java.io.IOException;

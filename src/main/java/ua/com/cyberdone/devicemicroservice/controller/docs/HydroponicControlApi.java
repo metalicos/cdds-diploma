@@ -10,22 +10,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.DatabasePhCalibrationDto;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.DatabaseTdsCalibrationDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.DatabasePhCalibrationDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.DatabaseTdsCalibrationDto;
+import ua.com.cyberdone.devicemicroservice.util.ControllerConstantUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.DIRECTION_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.DIRECTION_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.SWITCH_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.SWITCH_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.DIRECTION_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.DIRECTION_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.SWITCH_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.SWITCH_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_BLANK_MSG;
 
 @Validated
 @Tag(name = "Hydroponic Control", description = "Endpoints for control hydroponic microcontrollers")
@@ -288,5 +288,5 @@ public interface HydroponicControlApi {
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
     ResponseEntity<String> updateTdsFromDatabaseData(@RequestHeader(AUTHORIZATION) String token,
-                                                    @RequestBody @Valid DatabaseTdsCalibrationDto dto);
+                                                     @RequestBody @Valid DatabaseTdsCalibrationDto dto);
 }

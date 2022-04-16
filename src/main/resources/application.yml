@@ -40,13 +40,14 @@ mqtt:
   auto-reconnect: true
   max-in-flight-messages: 100
   client-name: CDDS
-  client-url: ${CDDS_MQTT_SERVER_URL}
+  # ${CDDS_MQTT_SERVER_URL}
+  client-url: ${MQTT_SERVER_URL}
 
 device:
   control:
     send-command:
-      message-quality-of-service: 2
-      message-retained: true
+      message-quality-of-service: 1
+      message-retained: false
       retry-amount: 2
       start-delay-ms: 0
       period-ms: 1000

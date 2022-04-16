@@ -14,15 +14,16 @@ import java.util.Optional;
 
 public interface HydroponicSettingsRepository extends JpaRepository<HydroponicSettings, Long> {
 
-    @Query("select s from HydroponicSettings s where s.uuid = :uuid order by s.createdTimestamp desc ")
+    @Query("select s from HydroponicSettings s where s.deviceMetadata.uuid = :uuid order by s.createdTimestamp desc ")
     List<HydroponicSettings> findLastSettings(@Param("uuid") String uuid, Pageable pageable);
 
-    Optional<HydroponicSettings> getByUuid(String uuid);
+    @Query("select s from HydroponicSettings s where s.deviceMetadata.uuid = :uuid")
+    Optional<HydroponicSettings> getByUuid(@Param("uuid") String uuid);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE hydroponic_settings s SET ph_value = :phValue, temperature_value = :temperatureValue, " +
-            "tds_value = :tdsValue, setup_ph_value = :setupPhValue, setup_tds_value = :setupTdsValue, " +
+    @Query(value = "UPDATE hydroponic_settings s SET " +
+            "setup_ph_value = :setupPhValue, setup_tds_value = :setupTdsValue, " +
             "regulate_error_ph = :regulateErrorPh, regulate_error_fertilizer = :regulateErrorFertilizer, " +
             "ml_per_millisecond = :mlPerMillisecond, ph_up_dose_ml = :phUpDoseMl, ph_down_dose_ml = :phDownDoseMl, " +
             "fertilizer_dose_ml = :fertilizerDoseMl, recheck_dispensers_after_ms = :recheckDispensersAfterMs, " +

@@ -29,8 +29,8 @@ import static ua.com.cyberdone.devicemicroservice.util.MqttVariableEncoderDecode
 @Slf4j
 @RequiredArgsConstructor
 public abstract class BaseOperationService {
-    private static final String CYBERDONE_START_PATH = "cyberdone";
     protected static final String SLASH = "/";
+    private static final String CYBERDONE_START_PATH = "cyberdone";
     private final MqttService mqttService;
     private final SendOperationConfig sendOperationConfig;
 
@@ -53,6 +53,7 @@ public abstract class BaseOperationService {
                             sendOperationConfig.getMessageQualityOfService(),
                             sendOperationConfig.getMessageRetained()
                     );
+                    log.info("Sent data='{}' to topic='{}'", data, CYBERDONE_START_PATH + SLASH + uuid + SLASH + topic);
                     timer.cancel();
                 } catch (MqttException ex) {
                     log.error("Fail to send data to device uuid={} topic={} data={}. ", uuid, topic, data, ex);

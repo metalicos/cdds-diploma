@@ -16,5 +16,6 @@ public interface RegularScheduleRepository extends JpaRepository<RegularSchedule
                                      @Param("fri") Boolean fri, @Param("sat") Boolean sat,
                                      @Param("sun") Boolean sun);
 
-    List<RegularSchedule> findAllByUuidAndKey(String uuid, String key);
+    @Query("from RegularSchedule s where s.deviceMetadata.uuid = :uuid and s.key = :key")
+    List<RegularSchedule> findAllByUuidAndKey(@Param("uuid") String uuid, @Param("key") String key);
 }

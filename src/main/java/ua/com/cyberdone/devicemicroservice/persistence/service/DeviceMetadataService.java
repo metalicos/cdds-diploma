@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
-import ua.com.cyberdone.devicemicroservice.model.DeviceMetadataDto;
-import ua.com.cyberdone.devicemicroservice.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.persistence.model.DeviceMetadataDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.DeviceMetadataRepository;
 
 import javax.transaction.Transactional;
@@ -21,11 +21,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DeviceMetadataService {
-    private final ModelMapper modelMapper;
-    private final DeviceMetadataRepository deviceMetadataRepository;
-
     private static final Converter<byte[], String> IMAGE_TO_BASE64 = context ->
             context.getSource() == null ? null : Base64.getEncoder().encodeToString(context.getSource());
+    private final ModelMapper modelMapper;
+    private final DeviceMetadataRepository deviceMetadataRepository;
 
     @Transactional
     public DeviceMetadataDto saveMetadata(SaveDeviceMetadataDto dto) {

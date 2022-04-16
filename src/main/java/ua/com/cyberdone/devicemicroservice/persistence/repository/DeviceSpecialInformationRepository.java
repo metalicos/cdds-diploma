@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface DeviceSpecialInformationRepository extends JpaRepository<DeviceSpecialInformation, Long> {
 
-    @Query("select s from DeviceSpecialInformation s where s.uuid = :uuid order by s.createdTimestamp desc ")
+    @Query("select s from DeviceSpecialInformation s where s.deviceMetadata.uuid = :uuid order by s.createdTimestamp desc ")
     List<HydroponicData> findLastInformation(@Param("uuid") String uuid,
                                              Pageable pageable);
 }

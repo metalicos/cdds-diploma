@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.cyberdone.devicemicroservice.controller.BaseControlController;
 import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicControlApi;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.DatabasePhCalibrationDto;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.DatabaseTdsCalibrationDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.DatabasePhCalibrationDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.DatabaseTdsCalibrationDto;
 import ua.com.cyberdone.devicemicroservice.service.control.hydroponic.HydroponicOneOperationService;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;

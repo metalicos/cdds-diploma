@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
-import ua.com.cyberdone.devicemicroservice.model.RegularScheduleDto;
-import ua.com.cyberdone.devicemicroservice.model.RegularScheduleUpdateDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.RegularScheduleDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.RegularScheduleUpdateDto;
+import ua.com.cyberdone.devicemicroservice.util.ControllerConstantUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
@@ -20,11 +20,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_NOT_NUMBER_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_NOT_NUMBER_MSG;
 
 @Validated
 @Tag(name = "Device Scheduling", description = "Endpoints for managing process of scheduling device operations")

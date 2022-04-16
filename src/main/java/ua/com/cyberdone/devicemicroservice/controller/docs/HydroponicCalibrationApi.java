@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicCalibrationDataDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicCalibrationDataDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -19,12 +19,12 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.NOT_POSITIVE_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.NOT_POSITIVE_OR_ZERO_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_FAILED_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.UUID_PATTERN;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_BLANK_MSG;
-import static ua.com.cyberdone.devicemicroservice.constant.ValidationConstants.VALUE_IS_NULL_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.NOT_POSITIVE_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.NOT_POSITIVE_OR_ZERO_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_FAILED_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.UUID_PATTERN;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_BLANK_MSG;
+import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_NULL_MSG;
 
 @Validated
 @Tag(name = "Hydroponic Calibration", description = "Endpoints for hydroponic calibration purpose")

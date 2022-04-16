@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.cyberdone.devicemicroservice.constant.ControllerConstantUtils;
 import ua.com.cyberdone.devicemicroservice.controller.docs.HydroponicSettingTemplateApi;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingTemplateDto;
-import ua.com.cyberdone.devicemicroservice.model.microcontrollers.hydroponic.HydroponicSettingsDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicSettingTemplateDto;
+import ua.com.cyberdone.devicemicroservice.persistence.model.microcontrollers.hydroponic.HydroponicSettingsDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.HydroponicSettingTemplateService;
 import ua.com.cyberdone.devicemicroservice.security.JwtService;
+import ua.com.cyberdone.devicemicroservice.util.ControllerConstantUtils;
 
 import java.util.List;
 

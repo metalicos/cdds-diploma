@@ -8,10 +8,16 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -25,8 +31,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Table(name = "regular_schedules")
 public class RegularSchedule extends BasicEntity {
-    @Column(name = "uuid")
-    private String uuid;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -55,6 +59,12 @@ public class RegularSchedule extends BasicEntity {
     private String value;
     @Enumerated(EnumType.STRING)
     private ValueType valueType;
+
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "uuid", nullable = false, referencedColumnName = "uuid", foreignKey = @ForeignKey(
+            name = "FK_REGULAR_SCHEDULES_uuid_DEVICE_METADATA_uuid",
+            value = ConstraintMode.CONSTRAINT))
+    private DeviceMetadata deviceMetadata;
 
     @Override
     public boolean equals(Object o) {

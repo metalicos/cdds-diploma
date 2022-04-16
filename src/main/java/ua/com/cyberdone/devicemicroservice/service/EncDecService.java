@@ -13,8 +13,8 @@ import java.util.Base64;
 
 @Service
 public class EncDecService {
+    public static final Charset CHARSET = StandardCharsets.ISO_8859_1;
     private static final String CIPHER = "AES/ECB/NoPadding";
-    private static final Charset CHARSET = StandardCharsets.ISO_8859_1;
     @Value("${security.aes-key}")
     private byte[] securityKey;
 
