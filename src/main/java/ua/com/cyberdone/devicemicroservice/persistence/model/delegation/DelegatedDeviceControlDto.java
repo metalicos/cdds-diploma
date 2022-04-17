@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DelegationStatus;
-import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.persistence.model.DeviceMetadataDto;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class DelegatedDeviceControlDto implements Serializable {
     private Long delegatedUserId;
     private String delegatedUserUsername;
     private String comment;
-    private DeviceMetadata deviceMetadata;
+    private DeviceMetadataDto deviceMetadata;
     private DelegationStatus delegationStatus;
     private LocalDateTime createdTimestamp;
     private LocalDateTime updatedTimestamp;
