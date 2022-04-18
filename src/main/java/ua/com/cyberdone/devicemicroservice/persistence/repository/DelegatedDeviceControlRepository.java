@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DelegatedDeviceControl;
+import ua.com.cyberdone.devicemicroservice.persistence.entity.DelegationStatus;
 
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public interface DelegatedDeviceControlRepository extends PagingAndSortingReposi
     Page<DelegatedDeviceControl> getDelegatedDeviceControlByOwnerIdAndStatus(Pageable pageable,
                                                                              @Param("ownerId") Long ownerId,
                                                                              @Param("uuid") String deviceUuid,
-                                                                             @Param("status") String status);
+                                                                             @Param("status") DelegationStatus status);
 
     @Query("from DelegatedDeviceControl d where d.delegatedUserUsername = :username")
     Page<DelegatedDeviceControl> getDelegatedDeviceControlByUsername(Pageable pageable,
@@ -41,4 +42,9 @@ public interface DelegatedDeviceControlRepository extends PagingAndSortingReposi
     @Query("from DelegatedDeviceControl d where d.deviceMetadata.uuid = :uuid")
     Page<DelegatedDeviceControl> getDelegatedDeviceControlByDeviceUuid(Pageable pageable,
                                                                        @Param("uuid") String deviceUuid);
+
+    @Query("select case when count(d.id) > 0 then true else false end " +
+            "from DelegatedDeviceControl d where d.deviceMetadata.uuid = :uuid and d.delegatedUserUsername = :username")
+    boolean existsByUsernameAndDeviceUuid(@Param("username") String username,
+                                          @Param("uuid") String deviceUuid);
 }

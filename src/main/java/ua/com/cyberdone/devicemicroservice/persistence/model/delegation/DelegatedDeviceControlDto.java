@@ -18,7 +18,6 @@ public class DelegatedDeviceControlDto implements Serializable {
     private static final long serialVersionUID = 99043271L;
 
     private Long id;
-    private Long delegatedUserId;
     private String delegatedUserUsername;
     private String comment;
     private DeviceMetadataDto deviceMetadata;

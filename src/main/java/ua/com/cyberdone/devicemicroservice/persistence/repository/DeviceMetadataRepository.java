@@ -33,9 +33,5 @@ public interface DeviceMetadataRepository extends JpaRepository<DeviceMetadata, 
             "from DeviceMetadata m where m.uuid = :uuid")
     boolean isMetadataLinkedToAccount(@Param("uuid") String uuid);
 
-    @Query("select case when (m.userId <> 0) then true else false end " +
-            "from DeviceMetadata m where m.uuid = :uuid")
-    boolean isMetadataUnlinkedToAccount(@Param("uuid") String uuid);
-
     boolean existsByUuid(String uuid);
 }

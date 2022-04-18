@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
+import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
 import ua.com.cyberdone.devicemicroservice.persistence.model.DeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.model.SaveDeviceMetadataDto;
@@ -41,7 +43,7 @@ public interface DeviceMetadataApi {
             String token,
             @Valid @NotBlank(message = VALUE_IS_BLANK_MSG)
             @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                    String uuid);
+                    String uuid) throws NotFoundException;
 
     @Operation(summary = "Read list of device metadata by owner user", description = "Return device metadata list. Find metadata by device owner.")
     @ApiResponse(responseCode = "200", description = "Return device metadata list. Find metadata by device owner.",
@@ -56,8 +58,8 @@ public interface DeviceMetadataApi {
     @Operation(summary = "Update device metadata (name && description)", description = "Update description and name of the device. User customization purpose.")
     @ApiResponse(responseCode = "200", description = "Update description and name of the device. User customization purpose.",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
-                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
-    ResponseEntity<String> updateMetadata(
+                    schema = @Schema(implementation = DeviceMetadataDto.class)))
+    ResponseEntity<DeviceMetadataDto> updateMetadata(
             String token,
             @Valid @NotBlank(message = VALUE_IS_BLANK_MSG)
             @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
@@ -65,10 +67,20 @@ public interface DeviceMetadataApi {
             @Valid @NotBlank(message = VALUE_IS_BLANK_MSG)
                     String name,
             @Valid @NotBlank(message = VALUE_IS_BLANK_MSG)
-                    String description,
-            @Valid @NotNull(message = VALUE_IS_NULL_MSG)
-                    MultipartFile deviceImage)
-            throws IOException;
+                    String description)
+            throws IOException, NotFoundException;
+
+    @Operation(summary = "Update device image", description = "Update device image. User customization purpose.")
+    @ApiResponse(responseCode = "200", description = "Update device image. User customization purpose.",
+            content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                    schema = @Schema(implementation = DeviceMetadataDto.class)))
+    ResponseEntity<DeviceMetadataDto> updateDeviceImage(
+            String token,
+            @Valid @NotBlank(message = VALUE_IS_BLANK_MSG)
+            @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
+                    String uuid,
+            MultipartFile deviceImage)
+            throws IOException, NotFoundException;
 
     @Operation(summary = "Create device metadata", description = "Creates metadata for device.")
     @ApiResponse(responseCode = "200", description = "Create device metadata, also creates a device, because metadata is the main concept.",
@@ -76,7 +88,7 @@ public interface DeviceMetadataApi {
                     schema = @Schema(implementation = DeviceMetadataDto.class)))
     ResponseEntity<DeviceMetadataDto> createMetadata(
             String token,
-            @Valid SaveDeviceMetadataDto metadataDto);
+            @Valid SaveDeviceMetadataDto metadataDto) throws AlreadyExistException;
 
     @Operation(summary = "Delete device metadata", description = "Permanent delete device metadata.")
     @ApiResponse(responseCode = "200", description = "Permanent delete device metadata.",
@@ -102,7 +114,7 @@ public interface DeviceMetadataApi {
             String token,
             @Valid @NotBlank(message = VALUE_IS_BLANK_MSG)
             @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
-                    String uuid);
+                    String uuid) throws AlreadyExistException, NotFoundException;
 
     @Operation(summary = "Link device to user", description = "Link device with UUID to user with ID")
     @ApiResponse(responseCode = "200", description = "Link device with UUID to user with ID",
@@ -115,5 +127,5 @@ public interface DeviceMetadataApi {
                     String uuid,
             @Valid @NotNull(message = VALUE_IS_NULL_MSG)
             @Positive(message = NOT_POSITIVE_MSG)
-                    Long userId);
+                    Long userId) throws AlreadyExistException, NotFoundException;
 }

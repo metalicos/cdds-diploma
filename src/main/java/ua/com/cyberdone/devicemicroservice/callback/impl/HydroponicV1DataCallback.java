@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.callback.Callback;
+import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceSpecialInformation;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.hydroponic.HydroponicCalibrationData;
@@ -72,6 +73,8 @@ public class HydroponicV1DataCallback implements Callback {
             log.error("Json Read fault ", e);
         } catch (GeneralSecurityException e) {
             log.error("Decrypt message err. ", e);
+        } catch (NotFoundException e) {
+            log.error("Not Found message err. ", e);
         }
     }
 }

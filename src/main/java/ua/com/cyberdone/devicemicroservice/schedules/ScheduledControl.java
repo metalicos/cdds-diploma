@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceType;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.ValueType;
+import ua.com.cyberdone.devicemicroservice.persistence.model.DeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.model.RegularScheduleDto;
 import ua.com.cyberdone.devicemicroservice.persistence.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.persistence.service.RegularScheduleService;
@@ -55,7 +57,12 @@ public class ScheduledControl {
                     return time.isAfter(lowRange) && time.isBefore(highRange);
                 })
                 .forEach(s -> {
-                    var metadata = deviceMetadataService.getMetadataByUuid(s.getUuid());
+                    DeviceMetadataDto metadata = null;
+                    try {
+                        metadata = deviceMetadataService.getMetadataByUuid(s.getUuid());
+                    } catch (NotFoundException e) {
+                        log.error("Not found device with metadata uuid.", e);
+                    }
                     log.info("Sending data='{}' to Device=[name='{}',uuid='{}',type='{}'] topic={} scheduleId={}",
                             s.getValue(), metadata.getName(), s.getUuid(), metadata.getDeviceType(), s.getTopic(), s.getId());
                     sendOperation(metadata.getDeviceType(), s.getUuid(), s.getTopic(), s.getValue(), s.getValueType());

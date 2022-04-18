@@ -1,6 +1,6 @@
 package ua.com.cyberdone.devicemicroservice.exception;
 
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends Exception {
     public NotFoundException() {
     }
 

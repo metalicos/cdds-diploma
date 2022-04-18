@@ -1,7 +1,6 @@
 package ua.com.cyberdone.devicemicroservice.persistence.service;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,41 +20,38 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DeviceMetadataService {
-    private static final Converter<byte[], String> IMAGE_TO_BASE64 = context ->
-            context.getSource() == null ? null : Base64.getEncoder().encodeToString(context.getSource());
     private final ModelMapper modelMapper;
     private final DeviceMetadataRepository deviceMetadataRepository;
 
     @Transactional
-    public DeviceMetadataDto saveMetadata(SaveDeviceMetadataDto dto) {
+    public DeviceMetadataDto saveMetadata(SaveDeviceMetadataDto dto) throws AlreadyExistException {
         if (!deviceMetadataRepository.existsByUuid(dto.getUuid())) {
             var saved = deviceMetadataRepository.save(modelMapper.map(dto, DeviceMetadata.class));
-            modelMapper.addConverter(IMAGE_TO_BASE64);
-            return modelMapper.map(deviceMetadataRepository.save(saved), DeviceMetadataDto.class);
+            var savedDto = modelMapper.map(deviceMetadataRepository.save(saved), DeviceMetadataDto.class);
+            savedDto.setDeviceImage(imageBytesToBase64(saved.getDeviceImage()));
+            return savedDto;
         }
         throw new AlreadyExistException("Device already exists. chose another UUID.");
     }
 
     @Transactional
-    public DeviceMetadataDto updateMetadata(String uuid, String name, String description, MultipartFile image) throws IOException {
+    public DeviceMetadataDto updateMetadata(String uuid, String name, String description) throws IOException, NotFoundException {
         var meta = deviceMetadataRepository.findByUuid(uuid).orElseThrow(
                 () -> new NotFoundException("Device Metadata Not Found for uuid=" + uuid));
         meta.setName(name);
         meta.setDescription(description);
-        meta.setDeviceImage(image.getBytes());
-        modelMapper.addConverter(IMAGE_TO_BASE64);
-        return modelMapper.map(deviceMetadataRepository.save(meta), DeviceMetadataDto.class);
+        return packMetadataWithImage(deviceMetadataRepository.save(meta));
     }
 
-    public DeviceMetadataDto getMetadataByUuid(String uuid) {
-        return modelMapper.map(deviceMetadataRepository.findByUuid(uuid)
-                .orElse(new DeviceMetadata()), DeviceMetadataDto.class);
+    public DeviceMetadataDto getMetadataByUuid(String uuid) throws NotFoundException {
+        return modelMapper.map(deviceMetadataRepository.findByUuid(uuid).orElseThrow(() ->
+                new NotFoundException("Device with UUID='" + uuid + "' is not found.")), DeviceMetadataDto.class);
     }
 
     public List<DeviceMetadataDto> getMetadataByUser(Long userId) {
         System.gc();
         return deviceMetadataRepository.findAllByUserId(userId).stream()
-                .map(metadata -> modelMapper.map(metadata, DeviceMetadataDto.class))
+                .map(this::packMetadataWithImage)
                 .collect(Collectors.toList());
     }
 
@@ -84,5 +80,25 @@ public class DeviceMetadataService {
             throw new AlreadyExistException("This device is already added to account.");
         }
         deviceMetadataRepository.linkDeviceMetadataToUser(uuid, userId);
+    }
+
+    @Transactional
+    public DeviceMetadataDto updateDeviceImage(String uuid, MultipartFile deviceImage) throws NotFoundException, IOException {
+        var meta = deviceMetadataRepository.findByUuid(uuid).orElseThrow(
+                () -> new NotFoundException("Device Metadata Not Found for uuid=" + uuid));
+        meta.setDeviceImage(deviceImage.getBytes());
+        var dto = modelMapper.map(deviceMetadataRepository.save(meta), DeviceMetadataDto.class);
+        dto.setDeviceImage(imageBytesToBase64(deviceImage.getBytes()));
+        return dto;
+    }
+
+    private static String imageBytesToBase64(byte[] image) {
+        return image == null ? null : Base64.getEncoder().encodeToString(image);
+    }
+
+    private DeviceMetadataDto packMetadataWithImage(DeviceMetadata deviceMetadata){
+        var deviceMetadataDto = modelMapper.map(deviceMetadata, DeviceMetadataDto.class);
+        deviceMetadataDto.setDeviceImage(imageBytesToBase64(deviceMetadata.getDeviceImage()));
+        return deviceMetadataDto;
     }
 }

@@ -39,7 +39,7 @@ public class DeviceMetadata extends BasicEntity {
     @Column(name = "access_enabled")
     private Boolean accessEnabled;
     @Column(name = "user_id")
-    private long userId = 0;
+    private Long userId;
 
     @Override
     public boolean equals(Object o) {

@@ -22,6 +22,7 @@ import ua.com.cyberdone.devicemicroservice.controller.docs.ExceptionHandlerApi;
 import ua.com.cyberdone.devicemicroservice.exception.AccessDeniedException;
 import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.exception.AuthenticationException;
+import ua.com.cyberdone.devicemicroservice.exception.IllegalOperationException;
 import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.persistence.model.RestError;
 
@@ -123,6 +124,11 @@ public class ExceptionHandlerController implements ExceptionHandlerApi {
 
     @ExceptionHandler(AlreadyExistException.class)
     public ResponseEntity<RestError> noHandlerFoundException(AlreadyExistException exception) {
+        return buildResponse(CONFLICT, CONFLICT_MSG, exception.getMessage());
+    }
+
+    @ExceptionHandler(IllegalOperationException.class)
+    public ResponseEntity<RestError> noHandlerFoundException(IllegalOperationException exception) {
         return buildResponse(CONFLICT, CONFLICT_MSG, exception.getMessage());
     }
 

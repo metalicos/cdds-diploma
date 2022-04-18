@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import ua.com.cyberdone.devicemicroservice.exception.AccessDeniedException;
 import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.exception.AuthenticationException;
+import ua.com.cyberdone.devicemicroservice.exception.IllegalOperationException;
 import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.persistence.model.RestError;
 
@@ -27,11 +29,11 @@ import javax.validation.ConstraintViolationException;
 import static org.springframework.http.HttpStatus.CONFLICT;
 
 public interface ExceptionHandlerApi {
-    String BAD_REQUEST_MSG = "The request does not follow the correct syntax";
-    String NOT_FOUND_MSG = "Resource not found";
-    String ACCESS_DENIED_MSG = "Access denied";
-    String NO_CONTENT_MSG = "The resource is null or empty";
-    String CONFLICT_MSG = "Resource have a conflict with existing one in the system";
+    String BAD_REQUEST_MSG = "The request does not follow the correct syntax.";
+    String NOT_FOUND_MSG = "Resource not found.";
+    String ACCESS_DENIED_MSG = "Access denied.";
+    String NO_CONTENT_MSG = "The resource is null or empty.";
+    String CONFLICT_MSG = "Conflict with resource.";
     String UNAUTHORIZED_MSG = "You are unauthorized.";
 
 
@@ -206,8 +208,19 @@ public interface ExceptionHandlerApi {
                     "   \"title\": \"" + CONFLICT_MSG + "\",\n" +
                     "   \"error\": \"409\",\n" +
                     "   \"exception\": \"AlreadyExistException\",\n" +
-                    "   \"detail\": \"Account already exists  ...\",\n" +
+                    "   \"detail\": \"Account already exists.\",\n" +
                     "}")))
     @ResponseStatus(CONFLICT)
     ResponseEntity<RestError> noHandlerFoundException(AlreadyExistException exception);
+
+    @ApiResponse(responseCode = "409", content = @Content(schema = @Schema(
+            example = "{\n" +
+                    "   \"timestamp\": \"2022-01-29T10:10:10.324Z\",\n" +
+                    "   \"title\": \"" + CONFLICT_MSG + "\",\n" +
+                    "   \"error\": \"409\",\n" +
+                    "   \"exception\": \"IllegalOperationException\",\n" +
+                    "   \"detail\": \"Cannot create delegation request. You are owner\",\n" +
+                    "}")))
+    @ResponseStatus(CONFLICT)
+    ResponseEntity<RestError> noHandlerFoundException(IllegalOperationException exception);
 }

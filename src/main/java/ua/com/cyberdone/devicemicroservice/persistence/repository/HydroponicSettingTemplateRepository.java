@@ -20,15 +20,15 @@ public interface HydroponicSettingTemplateRepository extends JpaRepository<Hydro
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE hydroponic_setting_template t SET name = :name, description = :description, " +
-            "setup_ph_value = :setupPhValue, setup_tds_value = :setupTdsValue, " +
-            "regulate_error_ph = :regulateErrorPh, regulate_error_fertilizer = :regulateErrorFertilizer, " +
-            "ml_per_millisecond = :mlPerMillisecond, ph_up_dose_ml = :phUpDoseMl, ph_down_dose_ml = :phDownDoseMl, " +
-            "fertilizer_dose_ml = :fertilizerDoseMl, recheck_dispensers_after_ms = :recheckDispensersAfterMs, " +
-            "restart_counter = :restartCounter, dispensers_enable = :dispensersEnable, sensors_enable = :sensorsEnable, " +
-            "autotime = :autotime, time_zone = :timeZone, wifi_ssid = :wifiSsid, wifi_pass = :wifiPass, " +
-            "microcontroller_time = :microcontrollerTime, updated_timestamp = :updatedTimestamp " +
-            "WHERE user_id = :userId;", nativeQuery = true)
+    @Query("UPDATE HydroponicSettingTemplate t SET t.name = :name, t.description = :description, " +
+            "t.setupPhValue = :setupPhValue, t.setupTdsValue = :setupTdsValue, " +
+            "t.regulateErrorPh = :regulateErrorPh, t.regulateErrorFertilizer = :regulateErrorFertilizer, " +
+            "t.mlPerMillisecond = :mlPerMillisecond, t.phUpDoseMl = :phUpDoseMl, t.phDownDoseMl = :phDownDoseMl, " +
+            "t.fertilizerDoseMl = :fertilizerDoseMl, t.recheckDispensersAfterMs = :recheckDispensersAfterMs, " +
+            "t.restartCounter = :restartCounter, t.dispensersEnable = :dispensersEnable, t.sensorsEnable = :sensorsEnable, " +
+            "t.autotime = :autotime, t.timeZone = :timeZone, t.wifiSsid = :wifiSsid, t.wifiPass = :wifiPass, " +
+            "t.microcontrollerTime = :microcontrollerTime, t.updatedTimestamp = :updatedTimestamp " +
+            "WHERE t.userId = :userId")
     void updateHydroponicSettings(
             @Param("userId") Long userId,
             @Param("name") String name,

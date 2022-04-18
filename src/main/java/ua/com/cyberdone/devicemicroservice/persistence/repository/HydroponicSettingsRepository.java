@@ -22,27 +22,31 @@ public interface HydroponicSettingsRepository extends JpaRepository<HydroponicSe
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE hydroponic_settings s SET " +
-            "setup_ph_value = :setupPhValue, setup_tds_value = :setupTdsValue, " +
-            "regulate_error_ph = :regulateErrorPh, regulate_error_fertilizer = :regulateErrorFertilizer, " +
-            "ml_per_millisecond = :mlPerMillisecond, ph_up_dose_ml = :phUpDoseMl, ph_down_dose_ml = :phDownDoseMl, " +
-            "fertilizer_dose_ml = :fertilizerDoseMl, recheck_dispensers_after_ms = :recheckDispensersAfterMs, " +
-            "restart_counter = :restartCounter, dispensers_enable = :dispensersEnable, sensors_enable = :sensorsEnable, " +
-            "autotime = :autotime, time_zone = :timeZone, wifi_ssid = :wifiSsid, wifi_pass = :wifiPass, " +
-            "microcontroller_time = :microcontrollerTime, updated_timestamp = :updatedTimestamp " +
-            "WHERE uuid = :uuid;", nativeQuery = true)
+    @Query("UPDATE HydroponicSettings s SET s.setupPhValue = :setupPhValue, s.setupTdsValue = :setupTdsValue, " +
+            "s.regulateErrorPh = :regulateErrorPh, s.regulateErrorFertilizer = :regulateErrorFertilizer, " +
+            "s.mlPerMillisecond = :mlPerMillisecond, s.phUpDoseMl = :phUpDoseMl, s.phDownDoseMl = :phDownDoseMl, " +
+            "s.fertilizerDoseMl = :fertilizerDoseMl, s.recheckDispensersAfterMs = :recheckDispensersAfterMs, " +
+            "s.restartCounter = :restartCounter, s.dispensersEnable = :dispensersEnable, s.sensorsEnable = :sensorsEnable, " +
+            "s.autotime = :autotime, s.timeZone = :timeZone, s.wifiSsid = :wifiSsid, s.wifiPass = :wifiPass, " +
+            "s.microcontrollerTime = :microcontrollerTime, s.updatedTimestamp = :updatedTimestamp " +
+            "WHERE s.deviceMetadata.uuid = :uuid")
     void updateHydroponicSettings(
             @Param("uuid") String uuid,
             @Param("setupPhValue") Double setupPhValue, @Param("setupTdsValue") Long setupTdsValue,
             @Param("regulateErrorPh") Double regulateErrorPh,
             @Param("regulateErrorFertilizer") Double regulateErrorFertilizer,
-            @Param("mlPerMillisecond") Double mlPerMillisecond, @Param("phUpDoseMl") Double phUpDoseMl,
-            @Param("phDownDoseMl") Double phDownDoseMl, @Param("fertilizerDoseMl") Double fertilizerDoseMl,
+            @Param("mlPerMillisecond") Double mlPerMillisecond,
+            @Param("phUpDoseMl") Double phUpDoseMl,
+            @Param("phDownDoseMl") Double phDownDoseMl,
+            @Param("fertilizerDoseMl") Double fertilizerDoseMl,
             @Param("recheckDispensersAfterMs") Long recheckDispensersAfterMs,
             @Param("restartCounter") Long restartCounter,
-            @Param("dispensersEnable") Boolean dispensersEnable, @Param("sensorsEnable") Boolean sensorsEnable,
-            @Param("autotime") Boolean autotime, @Param("timeZone") String timeZone,
-            @Param("wifiSsid") String wifiSsid, @Param("wifiPass") String wifiPass,
+            @Param("dispensersEnable") Boolean dispensersEnable,
+            @Param("sensorsEnable") Boolean sensorsEnable,
+            @Param("autotime") Boolean autotime,
+            @Param("timeZone") String timeZone,
+            @Param("wifiSsid") String wifiSsid,
+            @Param("wifiPass") String wifiPass,
             @Param("microcontrollerTime") LocalDateTime microcontrollerTime,
             @Param("updatedTimestamp") LocalDateTime updatedTimestamp);
 }

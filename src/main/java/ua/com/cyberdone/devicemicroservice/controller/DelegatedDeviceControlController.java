@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.cyberdone.devicemicroservice.controller.docs.DelegatedDeviceControlApi;
+import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
+import ua.com.cyberdone.devicemicroservice.exception.IllegalOperationException;
+import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.persistence.entity.DelegationStatus;
 import ua.com.cyberdone.devicemicroservice.persistence.model.delegation.DelegatedDeviceControlDto;
 import ua.com.cyberdone.devicemicroservice.persistence.model.delegation.PageableDelegatedDeviceControlDto;
@@ -63,7 +66,7 @@ public class DelegatedDeviceControlController implements DelegatedDeviceControlA
     public ResponseEntity<DelegatedDeviceControlDto> getDelegatedDeviceControlForUser(
             @RequestHeader(AUTHORIZATION) String token,
             @RequestParam(USERNAME_PARAMETER) String username,
-            @RequestParam(DEVICE_UUID_PARAMETER) String deviceUuid) {
+            @RequestParam(DEVICE_UUID_PARAMETER) String deviceUuid) throws NotFoundException {
         return ResponseEntity.ok(delegatedDeviceControlService.getDelegatedDeviceControl(username, deviceUuid));
     }
 
@@ -83,7 +86,7 @@ public class DelegatedDeviceControlController implements DelegatedDeviceControlA
     public ResponseEntity<DelegatedDeviceControlDto> createDelegatedDeviceControl(
             @RequestHeader(AUTHORIZATION) String token,
             @RequestParam(defaultValue = DEFAULT_COMMENT_FOR_DEVICE_CONTROL_DELEGATION, required = false) String comment,
-            @RequestParam(DEVICE_UUID_PARAMETER) String deviceUuid) {
+            @RequestParam(DEVICE_UUID_PARAMETER) String deviceUuid) throws IllegalOperationException, AlreadyExistException, NotFoundException {
         return ResponseEntity.ok(delegatedDeviceControlService.createRequestForDelegation(token, comment, deviceUuid));
     }
 }
