@@ -32,6 +32,16 @@ public class HydroponicDataController implements HydroponicDataApi {
         return ResponseEntity.ok(hydroponicDataService.getLastDataByUuid(uuid, page, limit));
     }
 
+    @GetMapping("/range")
+    @PreAuthorize("hasAnyAuthority('r_all','r_all_hydroponic_data')")
+    public ResponseEntity<List<HydroponicDataDto>> getLastDataInDeviceWithUuid(@RequestHeader(AUTHORIZATION) String token,
+                                                                               @RequestParam String uuid,
+                                                                               @RequestParam String fromDate,
+                                                                               @RequestParam String toDate,
+                                                                               @RequestParam int dataStep) {
+        return ResponseEntity.ok(hydroponicDataService.getDataInRangeWithMinutesStep(uuid, fromDate, toDate, dataStep));
+    }
+
     @DeleteMapping
     @PreAuthorize("hasAnyAuthority('d_all','d_all_hydroponic_data')")
     public ResponseEntity<Void> deleteAllDataInDeviceWithUuid(@RequestHeader(AUTHORIZATION) String token,

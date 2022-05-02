@@ -19,8 +19,6 @@ import ua.com.cyberdone.devicemicroservice.persistence.model.delegation.Pageable
 import ua.com.cyberdone.devicemicroservice.persistence.repository.DelegatedDeviceControlRepository;
 import ua.com.cyberdone.devicemicroservice.security.JwtService;
 
-import java.util.Optional;
-
 import static java.util.Objects.isNull;
 import static ua.com.cyberdone.devicemicroservice.util.ControllerConstantUtils.DEFAULT_SEARCH;
 
@@ -44,7 +42,7 @@ public class DelegatedDeviceControlService {
         if (ownerId == deviceMetadata.getUserId()) {
             throw new IllegalOperationException("Can not create request for delegation. You are owner.");
         }
-        if (delegatedDeviceControlRepository.existsByUsernameAndDeviceUuid(username, deviceUuid)){
+        if (delegatedDeviceControlRepository.existsByUsernameAndDeviceUuid(username, deviceUuid)) {
             throw new AlreadyExistException("Delegation request is already created.");
         }
         var delegationEntity = new DelegatedDeviceControl(username, commentToDelegationRequest, deviceMetadata, DelegationStatus.REQUESTED);
@@ -80,8 +78,6 @@ public class DelegatedDeviceControlService {
                                                                                                    DelegationStatus delegationStatus,
                                                                                                    int page, int limit, String direction, String sortBy) {
         var ownerId = jwtService.getUserId(token);
-
-
         if (DEFAULT_SEARCH.equals(sortBy)) {
             return getPageableDto(delegatedDeviceControlRepository.getDelegatedDeviceControlByOwnerIdAndStatus(PageRequest.of(page, limit),
                     ownerId, deviceUuid, delegationStatus));

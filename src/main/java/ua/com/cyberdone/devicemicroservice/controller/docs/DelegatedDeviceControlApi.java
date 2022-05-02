@@ -30,8 +30,10 @@ import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE
 @Tag(name = "Delegated Device Control", description = "Endpoints base for delegation device control between users")
 public interface DelegatedDeviceControlApi {
 
-    @Operation(summary = "Get Delegated Device Control For User By His Token", description = "Get Delegated Device Control For User By His Token")
-    @ApiResponse(responseCode = "200", description = "Get Delegated Device Control For User By His Token",
+    @Operation(summary = "Get Delegated Device Control Devices (in any status) For User By His Token",
+            description = "Endpoint extracts username from JWT token, then search all delegated control in DB for that user. In response will be present data in all possible statuses.")
+    @ApiResponse(responseCode = "200",
+            description = "Endpoint extracts username from JWT token, then search all delegated control in DB for that user. In response will be present data in all possible statuses.",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = PageableDelegatedDeviceControlDto.class)))
@@ -42,8 +44,9 @@ public interface DelegatedDeviceControlApi {
             String direction,
             String sortBy);
 
-    @Operation(summary = "Get Delegated Device Control For Owner By Device UUID", description = "Get Delegated Device Control For Owner By Device UUID")
-    @ApiResponse(responseCode = "200", description = "Get Delegated Device Control For Owner By Device UUID",
+    @Operation(summary = "Get Delegated Device Control For Owner By Device UUID and concrete request status",
+            description = "Endpoint extracts user-id from JWT token and if user is owner of this particular device, returns delegated control list of particular delegation status.")
+    @ApiResponse(responseCode = "200", description = "Endpoint extracts user-id from JWT token and if user is owner of this particular device, returns delegated control list of particular delegation status.",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = PageableDelegatedDeviceControlDto.class)))

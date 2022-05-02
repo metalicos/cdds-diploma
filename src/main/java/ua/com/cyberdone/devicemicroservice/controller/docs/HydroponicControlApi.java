@@ -31,8 +31,8 @@ import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE
 @Tag(name = "Hydroponic Control", description = "Endpoints for control hydroponic microcontrollers")
 public interface HydroponicControlApi {
 
-    @Operation(summary = "Update hydroponic ph-up pump mode", description = "Send update ph-up pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic")
-    @ApiResponse(responseCode = "200", description = "Send update ph-up pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic",
+    @Operation(summary = "Update hydroponic ph-up pump mode", description = "Send update ph-up pump mode (RUN_LEFT = 0 | STOP = 2 | RUN_RIGHT = 1) command to hydroponic")
+    @ApiResponse(responseCode = "200", description = "Send update ph-up pump mode (RUN_LEFT = 0 | STOP = 2 | RUN_RIGHT = 1) command to hydroponic",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
     ResponseEntity<String> updatePhUpPumpStatus(String token,
@@ -44,8 +44,8 @@ public interface HydroponicControlApi {
                                                 @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
                                                         String value);
 
-    @Operation(summary = "Update hydroponic ph-down pump mode", description = "Send update ph-down pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic")
-    @ApiResponse(responseCode = "200", description = "Send update ph-down pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic",
+    @Operation(summary = "Update hydroponic ph-down pump mode", description = "Send update ph-down pump mode (RUN_LEFT = 0 | STOP = 2 | RUN_RIGHT = 1) command to hydroponic")
+    @ApiResponse(responseCode = "200", description = "Send update ph-down pump mode (RUN_LEFT = 0 | STOP = 2 | RUN_RIGHT = 1) command to hydroponic",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
     ResponseEntity<String> updatePhDownPumpStatus(String token,
@@ -58,8 +58,8 @@ public interface HydroponicControlApi {
                                                   @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
                                                           String value);
 
-    @Operation(summary = "Update hydroponic tds pump mode", description = "Send update tds pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic")
-    @ApiResponse(responseCode = "200", description = "Send update tds pump mode (RUN_LEFT | STOP | RUN_RIGHT) command to hydroponic",
+    @Operation(summary = "Update hydroponic tds pump mode", description = "Send update tds pump mode (RUN_LEFT = 0 | STOP = 2 | RUN_RIGHT = 1) command to hydroponic")
+    @ApiResponse(responseCode = "200", description = "Send update tds pump mode (RUN_LEFT = 0 | STOP = 2 | RUN_RIGHT = 1) command to hydroponic",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
     ResponseEntity<String> updateTdsPumpStatus(String token,
@@ -71,6 +71,17 @@ public interface HydroponicControlApi {
                                                @NotBlank(message = VALUE_IS_BLANK_MSG)
                                                @Pattern(regexp = DIRECTION_PATTERN, message = DIRECTION_FAILED_MSG)
                                                        String value);
+
+    @Operation(summary = "Update polarity of pump", description = "Update pump`s polarity. For example if pump is rotating left, then after the change it will be rotating in right direction.")
+    @ApiResponse(responseCode = "200", description = "Update pump`s polarity. For example if pump is rotating left, then after the change it will be rotating in right direction.",
+            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE,
+                    schema = @Schema(implementation = String.class, example = ControllerConstantUtils.OK)))
+    ResponseEntity<String> updatePumpPolarity(String token,
+                                              @Valid
+                                              @NotBlank(message = VALUE_IS_BLANK_MSG)
+                                              @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
+                                                      String uuid,
+                                              String pumpNumber);
 
     @Operation(summary = "Calibrate tds sensor", description = "Calibrate tds sensor of hydroponic microcontroller")
     @ApiResponse(responseCode = "200", description = "Calibrate tds sensor of hydroponic microcontroller",

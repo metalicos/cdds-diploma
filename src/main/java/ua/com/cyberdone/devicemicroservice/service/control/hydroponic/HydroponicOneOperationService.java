@@ -29,6 +29,7 @@ import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTop
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.PH_OVERSAMPLING;
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.PH_UP_DOSE_ML;
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.PH_UP_PUMP;
+import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.PUMP_POLARITY;
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.RECHECK_DISPENSERS_AFTER_MS;
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.REGULATE_ERROR_PH;
 import static ua.com.cyberdone.devicemicroservice.topic.hydroponic.HydroponicTopicEnum.REGULATE_ERROR_TDS;
@@ -191,5 +192,10 @@ public class HydroponicOneOperationService extends BaseOperationService {
     public void tdsOversampling(String uuid, String tdsOversampling, ValueType type) {
         log.info("Update tds calibration; tdsKValue={} uuid={}", tdsOversampling, uuid);
         sendEncodedData(uuid, TDS_OVERSAMPLING.getVal(), tdsOversampling, type);
+    }
+
+    public void pumpPolarity(String uuid, String pumpNumber) {
+        log.info("Update pump={} polarity uuid={}", pumpNumber, uuid);
+        sendEncodedData(uuid, String.format(PUMP_POLARITY.getVal(), pumpNumber), null, NONE);
     }
 }

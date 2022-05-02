@@ -50,6 +50,20 @@ public interface HydroponicDataApi {
             @Positive(message = NOT_POSITIVE_MSG)
             @RequestParam Integer limit);
 
+    @Operation(summary = "Read last hydroponic data", description = "Return last {amount} of hydroponic data.")
+    @ApiResponse(responseCode = "200", description = "Return last {amount} of hydroponic data.",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    array = @ArraySchema(schema = @Schema(implementation = HydroponicDataDto.class))))
+    ResponseEntity<List<HydroponicDataDto>> getLastDataInDeviceWithUuid(
+            String token,
+            @Valid
+            @NotBlank(message = VALUE_IS_BLANK_MSG)
+            @Pattern(regexp = UUID_PATTERN, message = UUID_FAILED_MSG)
+                    String uuid,
+            String fromDate,
+            String toDate,
+            int dataStep);
+
     @Operation(summary = "Delete all hydroponic data for device", description = "Delete all hydroponic data for device with UUID")
     @ApiResponse(responseCode = "200", description = "Delete all hydroponic data for device with UUID")
     ResponseEntity<Void> deleteAllDataInDeviceWithUuid(

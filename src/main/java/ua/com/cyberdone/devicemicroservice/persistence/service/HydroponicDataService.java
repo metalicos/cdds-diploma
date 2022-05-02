@@ -11,11 +11,9 @@ import ua.com.cyberdone.devicemicroservice.persistence.repository.HydroponicData
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.time.temporal.ChronoField.SECOND_OF_DAY;
 import static ua.com.cyberdone.devicemicroservice.util.ValidationConstants.VALUE_IS_NULL_MSG;
 
 @Slf4j
@@ -44,7 +42,14 @@ public class HydroponicDataService {
         System.gc();
         return hydroponicDataRepository.findLastData(uuid, PageRequest.of(page, limit)).stream()
                 .map(d -> modelMapper.map(d, HydroponicDataDto.class))
-                .sorted(Comparator.comparingLong(v -> v.getMicrocontrollerTime().getLong(SECOND_OF_DAY)))
+                .collect(Collectors.toList());
+    }
+
+    public List<HydroponicDataDto> getDataInRangeWithMinutesStep(String uuid, String fromDate, String toDate, int dataStepImMinutes) {
+        log.info("Executing select device data query; uuid={} fromDate={} toDate={} step={} minutes", uuid, fromDate, toDate, dataStepImMinutes);
+        System.gc();
+        return hydroponicDataRepository.findDataInRageWithStep(uuid, fromDate, toDate, dataStepImMinutes).stream()
+                .map(d -> modelMapper.map(d, HydroponicDataDto.class))
                 .collect(Collectors.toList());
     }
 }

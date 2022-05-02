@@ -24,11 +24,11 @@ public abstract class AbstractMapper<Entity, Dto> {
         return modelMapper.map(account, clazz);
     }
 
-    public List<Dto> toDtoList(List<Entity> accounts, Class<Dto> clazz) {
-        if (isNull(accounts) || accounts.isEmpty()) {
+    public List<Dto> toDtoList(List<Entity> list, Class<Dto> clazz) {
+        if (isNull(list) || list.isEmpty()) {
             return Collections.emptyList();
         }
-        return accounts.stream().map(entity -> toDto(entity, clazz))
+        return list.stream().map(entity -> toDto(entity, clazz))
                 .collect(toList());
     }
 
@@ -39,11 +39,11 @@ public abstract class AbstractMapper<Entity, Dto> {
         return dtos.stream().map(dto -> toEntity(dto, clazz)).collect(toList());
     }
 
-    public Set<Dto> toDtoSet(Set<Entity> accounts, Class<Dto> clazz) {
-        if (isNull(accounts) || accounts.isEmpty()) {
+    public Set<Dto> toDtoSet(Set<Entity> set, Class<Dto> clazz) {
+        if (isNull(set) || set.isEmpty()) {
             return Collections.emptySet();
         }
-        return accounts.stream().map(entity -> toDto(entity, clazz))
+        return set.stream().map(entity -> toDto(entity, clazz))
                 .collect(Collectors.toSet());
     }
 

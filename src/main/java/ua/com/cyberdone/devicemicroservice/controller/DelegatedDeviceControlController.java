@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,7 +70,7 @@ public class DelegatedDeviceControlController implements DelegatedDeviceControlA
         return ResponseEntity.ok(delegatedDeviceControlService.getDelegatedDeviceControl(username, deviceUuid));
     }
 
-    @PatchMapping
+    @PutMapping
     @PreAuthorize("hasAnyAuthority('u_all','u_delegated_device_control')")
     public ResponseEntity<String> updateDelegationStatus(
             @RequestHeader(AUTHORIZATION) String token,

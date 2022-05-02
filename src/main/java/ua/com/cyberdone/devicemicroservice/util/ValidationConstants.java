@@ -10,7 +10,7 @@ public class ValidationConstants {
     public static final String SORT_DIRECTION_PATTERN = "(ASC)|(DESC)";
     public static final String TEXT_PATTERN = "^[^ ]+$";
     public static final String SWITCH_PATTERN = "^[01]$";
-    public static final String DIRECTION_PATTERN = "^-?[01]$";
+    public static final String DIRECTION_PATTERN = "^[012]$";
     public static final String EMAIL_RGX = "^[A-z0-9.-]+[A-z0-9]@[A-z0-9][A-z0-9.-]+\\.[A-z]{2,}$";
     /* Constraints Fail Messages*/
     public static final String UUID_FAILED_MSG = "UUID is not valid. Cause: not a UUID";
@@ -18,7 +18,7 @@ public class ValidationConstants {
     public static final String NUMBER_FAILED_MSG = "Number is not valid. Cause: not a number";
     public static final String TEXT_FAILED_MSG = "Text is not valid. Cause: must not contain whitespaces";
     public static final String SWITCH_FAILED_MSG = "Switch value is not valid. Cause: can be only 0 or 1";
-    public static final String DIRECTION_FAILED_MSG = "Direction value is not valid. Cause: can be only 0, 1 or -1";
+    public static final String DIRECTION_FAILED_MSG = "Direction value is not valid. Cause: can be only 0, 1 or 2";
     public static final String VALUE_IS_BLANK_MSG = "Value is not valid. Cause: blank";
     public static final String VALUE_IS_NULL_MSG = "Value is not valid. Cause: null";
     public static final String VALUE_NOT_NUMBER_MSG = "Value is not valid. Cause: not number";

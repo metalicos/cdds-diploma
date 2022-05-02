@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 public class HydroponicDataDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 111111111145L;
-
-    private String uuid;
     private Double phValue;
     private Double temperatureValue;
     private Integer tdsValue;

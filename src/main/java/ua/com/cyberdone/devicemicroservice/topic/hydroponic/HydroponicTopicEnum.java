@@ -38,6 +38,7 @@ public enum HydroponicTopicEnum {
     PH_OVERSAMPLING("phOversampling"),
     TDS_KVALUE("tdsKValue"),
     TDS_OVERSAMPLING("tdsOversampling"),
+    PUMP_POLARITY("pumps/%s/polarity"),
     UNKNOWN("");
 
     private final String val;

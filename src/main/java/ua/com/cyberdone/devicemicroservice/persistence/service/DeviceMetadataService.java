@@ -10,12 +10,16 @@ import ua.com.cyberdone.devicemicroservice.persistence.entity.DeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.persistence.model.DeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.model.SaveDeviceMetadataDto;
 import ua.com.cyberdone.devicemicroservice.persistence.repository.DeviceMetadataRepository;
+import ua.com.cyberdone.devicemicroservice.util.ImageStandards;
+import ua.com.cyberdone.devicemicroservice.util.ImageUtils;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ua.com.cyberdone.devicemicroservice.util.ImageUtils.DEFAULT_PROFILE_IMAGE_SIZE;
+import static ua.com.cyberdone.devicemicroservice.util.ImageUtils.imageBytesToBase64;
 
 @Service
 @RequiredArgsConstructor
@@ -88,17 +92,17 @@ public class DeviceMetadataService {
                 () -> new NotFoundException("Device Metadata Not Found for uuid=" + uuid));
         meta.setDeviceImage(deviceImage.getBytes());
         var dto = modelMapper.map(deviceMetadataRepository.save(meta), DeviceMetadataDto.class);
-        dto.setDeviceImage(imageBytesToBase64(deviceImage.getBytes()));
+        dto.setDeviceImage(
+                ImageUtils.getScaledBase64OrElseOriginal(deviceImage.getBytes(), ImageStandards.DEVICE_CARD));
         return dto;
     }
 
-    private static String imageBytesToBase64(byte[] image) {
-        return image == null ? null : Base64.getEncoder().encodeToString(image);
-    }
-
-    private DeviceMetadataDto packMetadataWithImage(DeviceMetadata deviceMetadata){
+    private DeviceMetadataDto packMetadataWithImage(DeviceMetadata deviceMetadata) {
         var deviceMetadataDto = modelMapper.map(deviceMetadata, DeviceMetadataDto.class);
-        deviceMetadataDto.setDeviceImage(imageBytesToBase64(deviceMetadata.getDeviceImage()));
+        deviceMetadataDto.setDeviceImage(
+                ImageUtils.getScaledBase64OrElseOriginal(deviceMetadata.getDeviceImage(), ImageStandards.DEVICE_CARD));
         return deviceMetadataDto;
     }
+
+
 }

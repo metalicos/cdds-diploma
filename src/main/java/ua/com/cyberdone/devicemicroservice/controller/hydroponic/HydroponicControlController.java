@@ -2,6 +2,7 @@ package ua.com.cyberdone.devicemicroservice.controller.hydroponic;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -71,6 +72,15 @@ public class HydroponicControlController extends BaseControlController implement
             case STOP_DIRECTION -> operationService.tdsPump(uuid, STOP, DIRECTION);
             case RIGHT_DIRECTION -> operationService.tdsPump(uuid, RIGHT, DIRECTION);
         }
+        return ResponseEntity.ok("OK");
+    }
+
+    @PutMapping("/update/pumps/{pumpNumber}/polarity")
+    @PreAuthorize("hasAnyAuthority('u_all','u_hydroponic_tds')")
+    public ResponseEntity<String> updatePumpPolarity(@RequestHeader(AUTHORIZATION) String token,
+                                                      @RequestParam String uuid,
+                                                      @PathVariable String pumpNumber) {
+        operationService.pumpPolarity(uuid, pumpNumber);
         return ResponseEntity.ok("OK");
     }
 
