@@ -30,7 +30,7 @@ security:
   jwt-secret: ${JWT_SECRET}
   callback:
     show-decrypted-message:
-      hydroponic-v1-settings: false
+      hydroponic-v1-settings: true
       autotime: false
 mqtt:
   username: ${CDDS_MQTT_USERNAME}
@@ -41,7 +41,7 @@ mqtt:
   max-in-flight-messages: 100
   client-name: CDDS
   # ${CDDS_MQTT_SERVER_URL}
-  client-url: ${MQTT_SERVER_URL}
+  client-url: ${CDDS_MQTT_SERVER_URL}
 
 device:
   control:
