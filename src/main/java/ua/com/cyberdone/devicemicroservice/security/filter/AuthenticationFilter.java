@@ -1,16 +1,16 @@
 package ua.com.cyberdone.devicemicroservice.security.filter;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHeaders;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ua.com.cyberdone.devicemicroservice.persistence.model.security.RoleDto;
 import ua.com.cyberdone.devicemicroservice.security.JwtService;
+import ua.com.cyberdone.devicemicroservice.security.model.RoleDto;
 
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

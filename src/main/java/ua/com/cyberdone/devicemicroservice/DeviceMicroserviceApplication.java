@@ -1,28 +1,15 @@
 package ua.com.cyberdone.devicemicroservice;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.stereotype.Component;
-import ua.com.cyberdone.devicemicroservice.service.MqttService;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
-@Component
-@EnableScheduling
-@EnableEurekaClient
 @SpringBootApplication
-@RequiredArgsConstructor
-public class DeviceMicroserviceApplication implements CommandLineRunner {
-    private final MqttService mqttService;
+@EnableJdbcRepositories
+public class DevicemicroserviceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DeviceMicroserviceApplication.class, args);
+        SpringApplication.run(DevicemicroserviceApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) {
-        mqttService.start();
-    }
 }

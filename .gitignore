@@ -15,7 +15,6 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
-.mvn
 *.iws
 *.iml
 *.ipr
@@ -32,6 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-mvnw
-mvnw.cmd
-DeviceMicroservice.iml

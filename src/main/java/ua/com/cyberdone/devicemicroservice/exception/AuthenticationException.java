@@ -1,7 +1,6 @@
 package ua.com.cyberdone.devicemicroservice.exception;
 
 public class AuthenticationException extends RuntimeException {
-
     public AuthenticationException() {
         super();
     }

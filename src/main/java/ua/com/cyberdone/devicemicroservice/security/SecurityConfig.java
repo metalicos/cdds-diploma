@@ -1,5 +1,6 @@
 package ua.com.cyberdone.devicemicroservice.security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import ua.com.cyberdone.devicemicroservice.security.filter.AuthenticationFilter;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Configuration

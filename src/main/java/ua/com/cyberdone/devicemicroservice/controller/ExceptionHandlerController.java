@@ -18,41 +18,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import ua.com.cyberdone.devicemicroservice.controller.docs.ExceptionHandlerApi;
-import ua.com.cyberdone.devicemicroservice.exception.AccessDeniedException;
-import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
-import ua.com.cyberdone.devicemicroservice.exception.AuthenticationException;
-import ua.com.cyberdone.devicemicroservice.exception.IllegalOperationException;
-import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
-import ua.com.cyberdone.devicemicroservice.persistence.model.RestError;
+import ua.com.cyberdone.devicemicroservice.exception.*;
+import ua.com.cyberdone.devicemicroservice.model.RestError;
 
-import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @ControllerAdvice
 @RequestMapping(value = "/error", method = RequestMethod.GET)
-public class ExceptionHandlerController implements ExceptionHandlerApi {
+public class ExceptionHandlerController {
+    private final String BAD_REQUEST_MSG = "The request does not follow the correct syntax.";
+    private final String NOT_FOUND_MSG = "Resource not found.";
+    private final String ACCESS_DENIED_MSG = "Access denied.";
+    private final String NO_CONTENT_MSG = "The resource is null or empty.";
+    private final String CONFLICT_MSG = "Conflict with resource.";
+    private final String UNAUTHORIZED_MSG = "You are unauthorized.";
+
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<RestError> noHandlerFoundException(NullPointerException exception) {
         return buildResponse(NO_CONTENT, NO_CONTENT_MSG, exception.getMessage());
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<RestError> validationException(ConstraintViolationException exception) {
-        return buildResponse(BAD_REQUEST, BAD_REQUEST_MSG, exception.getConstraintViolations()
-                .stream().map(v -> invalidParameter(v.getInvalidValue(), v.getMessage()))
-                .collect(Collectors.toSet()).toString());
-    }
+//    @ExceptionHandler(ConstraintViolationException.class)
+//    public ResponseEntity<RestError> validationException(ConstraintViolationException exception) {
+//        return buildResponse(BAD_REQUEST, BAD_REQUEST_MSG, exception.getConstraintViolations()
+//                .stream().map(v -> invalidParameter(v.getInvalidValue(), v.getMessage()))
+//                .collect(Collectors.toSet()).toString());
+//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestError> httpClientErrorException(MethodArgumentNotValidException exception) {
