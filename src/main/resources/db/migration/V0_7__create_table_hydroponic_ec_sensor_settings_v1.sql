@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS public."HYDROPONIC_EC_SENSOR_SETTINGS_V1"
+(
+    "id"                serial,
+    "setting_detail_id" bigint,
+
+    "device_uuid"       text NOT NULL,
+    "time"              timestamp with time zone,
+    "k_low_point"       double precision,
+    "k_high_point"      double precision,
+    "raw_ec"            double precision,
+
+    "created_timestamp" timestamp with time zone default now(),
+    "updated_timestamp" timestamp with time zone,
+
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("device_uuid")
+        REFERENCES public."DEVICE_METADATA" ("uuid") MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID,
+    FOREIGN KEY ("setting_detail_id")
+        REFERENCES public."HYDROPONIC_SETTING_DETAILS_V1" ("id") MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID
+);
+
+ALTER TABLE IF EXISTS public."HYDROPONIC_EC_SENSOR_SETTINGS_V1"
+    OWNER to postgres;
+
+CREATE INDEX IF NOT EXISTS IDX_DEVICE_UUID_HASH_oiwru
+    ON public."HYDROPONIC_EC_SENSOR_SETTINGS_V1" USING hash (device_uuid);
+CREATE INDEX IF NOT EXISTS IDX_SETTING_DETAIL_ID_HASH_wker
+    ON public."HYDROPONIC_EC_SENSOR_SETTINGS_V1" USING hash (setting_detail_id);
