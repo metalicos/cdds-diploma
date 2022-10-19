@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import ua.com.cyberdone.devicemicroservice.exception.*;
-import ua.com.cyberdone.devicemicroservice.model.RestError;
+import ua.com.cyberdone.devicemicroservice.device.common.exception.*;
+import ua.com.cyberdone.devicemicroservice.device.common.model.RestError;
 
 import java.util.stream.Collectors;
 

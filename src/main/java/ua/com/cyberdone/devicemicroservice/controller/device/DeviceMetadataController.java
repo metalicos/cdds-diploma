@@ -5,11 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.cyberdone.devicemicroservice.data.entity.DeviceMetadata;
-import ua.com.cyberdone.devicemicroservice.exception.AlreadyExistException;
-import ua.com.cyberdone.devicemicroservice.exception.NotFoundException;
-import ua.com.cyberdone.devicemicroservice.service.DeviceMetadataService;
-import ua.com.cyberdone.devicemicroservice.service.DeviceTypeService;
+import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.device.common.exception.AlreadyExistException;
+import ua.com.cyberdone.devicemicroservice.device.common.exception.NotFoundException;
+import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceMetadataService;
+import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceTypeService;
 
 import java.io.IOException;
 import java.sql.SQLException;

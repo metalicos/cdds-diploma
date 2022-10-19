@@ -1,33 +1,34 @@
 server:
-  port: 2501
+  port: ${PORT:5544}
 spring:
+  application:
+    name: cyber-done-device-microservice
+    version: @version@
   datasource:
     name: postgres
-    password: SQLD@F@nder
+    password: ${CDDS_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://127.0.0.1:5432/cdds
   flyway:
     user: postgres
-    password: SQLD@F@nder
+    password: ${CDDS_DB_PASSWORD}
   jooq:
     sql-dialect: org.hibernate.dialect.MySQLInnoDBDialect
 
 security:
-  aes-key: ${CDDS_MESSAGE_ENCRYPTIN_SECRET}
   jwt-secret: ${JWT_SECRET}
-  callback:
-    show-decrypted-message:
-      hydroponic-v1-settings: false
-      autotime: false
+
 mqtt:
   username: ${CDDS_MQTT_USERNAME}
   password: ${CDDS_MQTT_PASSWORD}
   clean-session: false
   connection-timeout: 10
   auto-reconnect: true
+  max-reconnect-delay-ms: 300000
+  qos: 2
   max-in-flight-messages: 100
-  client-name: CDDS
-  client-url: tcp://cyberdone.com.ua:1883 #${CDDS_MQTT_SERVER_URL}
+  client-name: ${spring.application.name}-${spring.application.version}-client
+  client-url: ${CDDS_MQTT_LOCAL_SERVER_URL}
 
 device:
   control:

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.cyberdone.devicemicroservice.data.entity.hydroponic.v1.HydroponicData;
-import ua.com.cyberdone.devicemicroservice.service.hydroponic.v1.HydroponicDataService;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.entity.HydroponicData;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.service.HydroponicDataService;
 
 import java.util.List;
 
