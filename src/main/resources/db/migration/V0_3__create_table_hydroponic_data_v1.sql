@@ -2,12 +2,12 @@ CREATE TABLE IF NOT EXISTS public."HYDROPONIC_DATA_V1"
 (
     "id"                   bigserial,
     "device_uuid"          text    NOT NULL,
-    "ec_solution"          numeric NOT NULL,
-    "ph_solution"          numeric NOT NULL,
-    "t_solution"           numeric NOT NULL,
-    "t_air"                numeric,
-    "humidity_air"         numeric,
-    "atmospheric_pressure" numeric,
+    "ec_solution"          double precision NOT NULL,
+    "ph_solution"          double precision NOT NULL,
+    "t_solution"           double precision NOT NULL,
+    "t_air"                double precision,
+    "humidity_air"         double precision,
+    "atmospheric_pressure" double precision,
     "created_timestamp"    timestamp with time zone,
     PRIMARY KEY ("device_uuid"),
     FOREIGN KEY ("device_uuid")

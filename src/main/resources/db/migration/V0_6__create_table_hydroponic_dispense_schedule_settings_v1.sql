@@ -4,14 +4,14 @@ CREATE TABLE IF NOT EXISTS public."HYDROPONIC_DISPENSE_SCHEDULE_SETTINGS_V1"
     "setting_detail_id" bigint,
 
     "device_uuid"       text NOT NULL,
-    "index"             numeric,
+    "index"             int,
     "time"              timestamp with time zone,
-    "day"               numeric,
+    "day"               int,
     "target_ec"         double precision,
     "target_ph"         double precision,
     "ec_error"          double precision,
     "ph_error"          double precision,
-    "recheck_after_sec" numeric,
+    "recheck_after_sec" bigint,
     "is_active"         bit[],
     "dose_ml"           double precision[],
 

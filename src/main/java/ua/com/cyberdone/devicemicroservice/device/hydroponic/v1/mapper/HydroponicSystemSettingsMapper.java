@@ -19,7 +19,6 @@ public class HydroponicSystemSettingsMapper implements RowMapper<HydroponicSyste
                 .settingDetailId(rs.getLong("setting_detail_id"))
                 .deviceUuid(rs.getString("device_uuid"))
                 .time(rs.getTimestamp("time").toLocalDateTime())
-
                 .timeZone(rs.getString("time_zone"))
                 .ntpServer(rs.getString("ntp_server"))
                 .wifiSSID(rs.getString("wifi_ssid"))

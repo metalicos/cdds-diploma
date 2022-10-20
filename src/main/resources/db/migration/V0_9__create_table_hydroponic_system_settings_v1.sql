@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS public."HYDROPONIC_SYSTEM_SETTINGS_V1"
     "ntp_server"        text,
     "wifi_ssid"         text,
     "wifi_pass"         text,
-    "restarts"          numeric,
-    "growing_day"       numeric,
+    "restarts"          bigint,
+    "growing_day"       int,
     "is_growing"        boolean,
-    "grow_start_date"   numeric,
+    "grow_start_date"   bigint,
     "dispensers_enable" boolean,
     "sensors_enable"    boolean,
 

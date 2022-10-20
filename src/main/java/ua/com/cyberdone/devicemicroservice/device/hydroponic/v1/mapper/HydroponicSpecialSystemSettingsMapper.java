@@ -19,7 +19,6 @@ public class HydroponicSpecialSystemSettingsMapper implements RowMapper<Hydropon
                 .settingDetailId(rs.getLong("setting_detail_id"))
                 .deviceUuid(rs.getString("device_uuid"))
                 .time(rs.getTimestamp("time").toLocalDateTime())
-
                 .softwareVersion(rs.getString("software_version"))
                 .scheduleAmount(rs.getInt("schedule_amount"))
                 .dispensersAmount(rs.getInt("dispensers_amount"))

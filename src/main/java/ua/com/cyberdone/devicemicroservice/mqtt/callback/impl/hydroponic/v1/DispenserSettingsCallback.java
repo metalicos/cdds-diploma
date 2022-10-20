@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 @Service("hydroponic/v1/dispenser-settings")
 public class DispenserSettingsCallback implements Callback {
     private final ObjectMapper objectMapper;
-    private final MqttClient client;
     private final HydroponicDispenserSettingsService hydroponicDispenserSettingsService;
     private final HydroponicSettingDetailsService hydroponicSettingDetailsService;
 

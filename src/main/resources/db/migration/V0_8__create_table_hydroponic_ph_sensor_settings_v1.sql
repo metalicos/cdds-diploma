@@ -7,10 +7,10 @@ CREATE TABLE IF NOT EXISTS public."HYDROPONIC_PH_SENSOR_SETTINGS_V1"
     "time"              timestamp with time zone,
     "point"             text,
     "value"             double precision[],
-    "adc"               numeric[],
+    "adc"               int[],
     "slope"             double precision,
-    "adc_offset"        numeric,
-    "oversampling"      numeric,
+    "adc_offset"        int,
+    "oversampling"      int,
 
     "created_timestamp" timestamp with time zone default now(),
     "updated_timestamp" timestamp with time zone,
