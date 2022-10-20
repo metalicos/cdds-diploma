@@ -29,8 +29,8 @@ public class HydroponicSpecialSystemSettingsMapper implements RowMapper<Hydropon
                 .subnetMask(rs.getString("subnet_mask"))
                 .gatewayIp(rs.getString("gateway_ip"))
                 .macAddr(rs.getString("mac_addr"))
-                .createdTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime())
-                .updatedTimestamp(rs.getTimestamp("updated_timestamp").toLocalDateTime())
+                .createdTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null)
+                .updatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null)
                 .build();
 
         log.info("[END] {} [mapRow] [TAKEN:{}ms]", this.getClass().getCanonicalName(), System.currentTimeMillis() - start);

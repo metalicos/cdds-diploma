@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemSettings implements Serializable {
-    private String uuid;
+    private String deviceUuid;
     private LocalDateTime time;
     private String timeZone;
     private String ntpServer;

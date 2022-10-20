@@ -14,6 +14,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DispenseScheduleSettings implements Serializable {
+    private String deviceUuid;
     private int index;
     private LocalDateTime time;
     private int day;

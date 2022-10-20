@@ -22,8 +22,8 @@ public class HydroponicEcSensorSettingsMapper implements RowMapper<HydroponicEcS
                 .kLowPoint(rs.getDouble("k_low_point"))
                 .kHighPoint(rs.getDouble("k_high_point"))
                 .rawEc(rs.getDouble("raw_ec"))
-                .createdTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime())
-                .updatedTimestamp(rs.getTimestamp("updated_timestamp").toLocalDateTime())
+                .createdTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null)
+                .updatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null)
                 .build();
 
         log.info("[END] {} [mapRow] [TAKEN:{}ms]", this.getClass().getCanonicalName(), System.currentTimeMillis() - start);

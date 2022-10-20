@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS public."HYDROPONIC_DISPENSER_SETTINGS_V1"
     "time"                            timestamp with time zone,
     "dispenser_name"                  text,
     "pin_a"                           numeric,
+    "pin_b"                           numeric,
     "regulation_direction"            bool,
     "enable"                          bool,
     "polarity"                        bool,

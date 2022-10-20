@@ -19,8 +19,8 @@ public class HydroponicSettingDetailsMapper implements RowMapper<HydroponicSetti
                 .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .settingType(rs.getString("setting_type"))
-                .createdTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime())
-                .updatedTimestamp(rs.getTimestamp("updated_timestamp").toLocalDateTime())
+                .createdTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null)
+                .updatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null)
                 .build();
 
         log.info("[END] {} [mapRow] [TAKEN:{}ms]", this.getClass().getCanonicalName(), System.currentTimeMillis() - start);

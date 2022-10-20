@@ -29,8 +29,8 @@ public class HydroponicPhSensorSettingsMapper implements RowMapper<HydroponicPhS
                 .slope(rs.getDouble("slope"))
                 .adcOffset(rs.getInt("adc_offset"))
                 .oversampling(rs.getInt("oversampling"))
-                .createdTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime())
-                .updatedTimestamp(rs.getTimestamp("updated_timestamp").toLocalDateTime())
+                .createdTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null)
+                .updatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null)
                 .build();
 
         log.info("[END] {} [mapRow] [TAKEN:{}ms]", this.getClass().getCanonicalName(), System.currentTimeMillis() - start);

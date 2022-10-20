@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DispenserSettings implements Serializable {
-    private String uuid;
+    private String deviceUuid;
     private int index;
     private LocalDateTime time;
     private String dispenserName;

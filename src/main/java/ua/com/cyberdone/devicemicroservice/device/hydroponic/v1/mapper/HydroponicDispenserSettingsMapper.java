@@ -34,8 +34,8 @@ public class HydroponicDispenserSettingsMapper implements RowMapper<HydroponicDi
                 .recheckDispenserAfterSeconds(rs.getInt("recheck_dispenser_after_seconds"))
                 .lastDispenserRecheckTime(rs.getInt("last_dispenser_recheck_time"))
                 .mixingVolumeMl(rs.getInt("mixing_volume_ml"))
-                .createdTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime())
-                .updatedTimestamp(rs.getTimestamp("updated_timestamp").toLocalDateTime())
+                .createdTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null)
+                .updatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null)
                 .build();
 
         log.info("[END] {} [mapRow] [TAKEN:{}ms]", this.getClass().getCanonicalName(), System.currentTimeMillis() - start);

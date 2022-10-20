@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS public."HYDROPONIC_SETTING_DETAILS_V1"
     "id"                bigserial,
     "name"              text,
     "description"       text,
-    "setting_type"      text,
+    "setting_type"      text not null ,
 
     "created_timestamp" timestamp with time zone default now(),
     "updated_timestamp" timestamp with time zone,

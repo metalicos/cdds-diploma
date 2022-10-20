@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EcSensorSettings implements Serializable {
-    private String uuid;
+    private String deviceUuid;
     private LocalDateTime time;
     private double kLowPoint;
     private double kHighPoint;

@@ -23,7 +23,7 @@ public class HydroponicDataMapper implements RowMapper<HydroponicData> {
         data.setTAir(rs.getDouble("t_air"));
         data.setHumidityAir(rs.getDouble("humidity_air"));
         data.setAtmosphericPressure(rs.getDouble("atmospheric_pressure"));
-        data.setCreatedTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime());
+        data.setCreatedTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null);
 
         log.info("End HydroponicDataV1Mapper.mapRow(). Taken: {} ms", System.currentTimeMillis() - start);
         return data;

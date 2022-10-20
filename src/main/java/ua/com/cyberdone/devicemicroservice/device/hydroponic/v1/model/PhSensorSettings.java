@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhSensorSettings implements Serializable {
-    private String uuid;
+    private String deviceUuid;
     private LocalDateTime time;
     private String point;
     private ArrayList<Double> value;

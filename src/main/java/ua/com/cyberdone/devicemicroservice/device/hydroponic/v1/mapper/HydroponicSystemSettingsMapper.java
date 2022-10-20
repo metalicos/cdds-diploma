@@ -30,8 +30,8 @@ public class HydroponicSystemSettingsMapper implements RowMapper<HydroponicSyste
                 .growStartDate(rs.getInt("grow_start_date"))
                 .dispensersEnable(rs.getBoolean("dispensers_enable"))
                 .sensorsEnable(rs.getBoolean("sensors_enable"))
-                .createdTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime())
-                .updatedTimestamp(rs.getTimestamp("updated_timestamp").toLocalDateTime())
+                .createdTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null)
+                .updatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null)
                 .build();
 
 
