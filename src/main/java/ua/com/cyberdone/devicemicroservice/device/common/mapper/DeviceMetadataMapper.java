@@ -19,11 +19,13 @@ public class DeviceMetadataMapper implements RowMapper<DeviceMetadata> {
         deviceMetadata.setUuid(rs.getString("uuid"));
         deviceMetadata.setName(rs.getString("name"));
         deviceMetadata.setDescription(rs.getString("description"));
+        deviceMetadata.setTariff(rs.getString("tariff"));
         deviceMetadata.setOwnerId(rs.getLong("owner_id"));
         deviceMetadata.setDelegationKey(rs.getString("delegation_key"));
         deviceMetadata.setLogo(rs.getBlob("logo"));
         deviceMetadata.setDeviceTypeId(rs.getLong("device_type_id"));
-        deviceMetadata.setCreatedTimestamp(rs.getTimestamp("created_timestamp").toLocalDateTime());
+        deviceMetadata.setCreatedTimestamp(rs.getTimestamp("created_timestamp") != null ? rs.getTimestamp("created_timestamp").toLocalDateTime() : null);
+        deviceMetadata.setUpdatedTimestamp(rs.getTimestamp("updated_timestamp") != null ? rs.getTimestamp("updated_timestamp").toLocalDateTime() : null);
 
         log.info("End DeviceMetadataMapper.mapRow(). Taken: {} ms", System.currentTimeMillis() - start);
         return deviceMetadata;

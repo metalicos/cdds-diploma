@@ -6,14 +6,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceType;
 import ua.com.cyberdone.devicemicroservice.device.common.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.device.common.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceTypeService;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -43,25 +47,26 @@ public class DeviceMetadataController {
     public ResponseEntity<DeviceMetadata> updateMetadata(@RequestHeader(AUTHORIZATION) String token,
                                                          @RequestParam String uuid,
                                                          @RequestParam String name,
-                                                         @RequestParam String description)
-            throws IOException, NotFoundException {
-        return ResponseEntity.ok(deviceMetadataService.update(uuid, name, description));
+                                                         @RequestParam String description) {
+        return ResponseEntity.ok(deviceMetadataService.update(DeviceMetadata.builder()
+                .uuid(uuid).name(name).description(description).build()));
     }
 
     @PutMapping("/{uuid}/image")
     @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata')")
     public ResponseEntity<DeviceMetadata> updateDeviceImage(@RequestHeader(AUTHORIZATION) String token,
                                                             @PathVariable String uuid,
-                                                            @RequestPart("file") MultipartFile deviceImage)
-            throws IOException, NotFoundException, SQLException {
-        return ResponseEntity.ok(deviceMetadataService.update(uuid, deviceImage));
+                                                            @RequestPart("file") MultipartFile deviceImage) throws IOException, SQLException {
+        return ResponseEntity.ok(deviceMetadataService.update(DeviceMetadata.builder()
+                .uuid(uuid).logo(new SerialBlob(deviceImage.getBytes())).build()));
     }
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('w_all','w_device_metadata')")
     public ResponseEntity<DeviceMetadata> createMetadata(@RequestHeader(AUTHORIZATION) String token,
-                                                         @RequestBody DeviceMetadata metadataDto) throws AlreadyExistException {
-        return ResponseEntity.ok(deviceMetadataService.saveMetadata(metadataDto));
+                                                         @RequestBody DeviceMetadata metadata) throws AlreadyExistException {
+        metadata.setCreatedTimestamp(LocalDateTime.now());
+        return ResponseEntity.ok(deviceMetadataService.save(metadata));
     }
 
     @DeleteMapping
@@ -75,7 +80,7 @@ public class DeviceMetadataController {
     @GetMapping("/device-types")
     @PreAuthorize("hasAnyAuthority('r_all','r_device_types')")
     public ResponseEntity<List<String>> getDeviceTypesList(@RequestHeader(AUTHORIZATION) String token) throws NotFoundException {
-        return ResponseEntity.ok(deviceTypeService.findAll());
+        return ResponseEntity.ok(deviceTypeService.find().stream().map(DeviceType::getType).collect(Collectors.toList()));
     }
 
     @PutMapping("/unlink")

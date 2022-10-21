@@ -12,11 +12,9 @@ import org.springframework.data.relational.core.mapping.Table;
 @AllArgsConstructor
 @Table("DEVICE_TYPE")
 public class DeviceType {
-
     @Id
     @Column("id")
     private Long id;
-
     @Column("type")
     private String type;
 }

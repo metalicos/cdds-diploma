@@ -4,11 +4,13 @@ CREATE TABLE IF NOT EXISTS public."DEVICE_METADATA"
     "uuid"              text NOT NULL,
     "name"              text,
     "description"       text,
+    "tariff" text default 'STANDARD',
     "owner_id"          bigint,
     "delegation_key"    text,
     "logo"              bytea,
     "device_type_id"    bigint,
     "created_timestamp" timestamp with time zone,
+    "updated_timestamp" timestamp with time zone,
     PRIMARY KEY ("uuid")
 );
 

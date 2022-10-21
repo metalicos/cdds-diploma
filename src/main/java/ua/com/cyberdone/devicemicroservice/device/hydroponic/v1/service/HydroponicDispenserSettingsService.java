@@ -15,9 +15,7 @@ public record HydroponicDispenserSettingsService(
     public Optional<HydroponicDispenserSettings> findActive(String deviceUuid, Integer index) {
         long start = System.currentTimeMillis();
         log.info("[START] {} [findActive] [deviceUuid={}]", this.getClass().getCanonicalName(), deviceUuid);
-
         var hydroponicDispenserSettings = hydroponicDispenserSettingsRepository.findActive(deviceUuid, index);
-
         log.info("[END] [TAKEN:{}ms] {} [findActive] [deviceUuid={}]", System.currentTimeMillis() - start, this.getClass().getCanonicalName(), deviceUuid);
         return hydroponicDispenserSettings;
     }

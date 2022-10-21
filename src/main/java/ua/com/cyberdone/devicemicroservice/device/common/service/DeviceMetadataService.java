@@ -2,16 +2,10 @@ package ua.com.cyberdone.devicemicroservice.device.common.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.device.common.exception.NotFoundException;
 import ua.com.cyberdone.devicemicroservice.device.common.repository.DeviceMetadataRepository;
-import ua.com.cyberdone.devicemicroservice.device.common.util.ImageStandards;
-import ua.com.cyberdone.devicemicroservice.device.common.util.ImageUtils;
 
-import javax.sql.rowset.serial.SerialBlob;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,10 +24,22 @@ public record DeviceMetadataService(DeviceMetadataRepository deviceMetadataRepos
         return deviceMetadata;
     }
 
+    public List<DeviceMetadata> find(String tariff, Long deviceTypeId) throws NotFoundException {
+        long start = System.currentTimeMillis();
+        log.info("[START] {} [find] [tariff={}, deviceTypeId={}]", this.getClass().getCanonicalName(), tariff, deviceTypeId);
+        var deviceMetadataList = deviceMetadataRepository.find(tariff, deviceTypeId);
+        log.info("[END] [TAKEN:{}ms] {} [find] [tariff={}, deviceTypeId={}", System.currentTimeMillis() - start, this.getClass().getCanonicalName(), tariff, deviceTypeId);
+        return deviceMetadataList;
+    }
+
+    public List<DeviceMetadata> findAllByDeviceType(Long deviceTypeId) {
+       return deviceMetadataRepository.findAllByDeviceType(deviceTypeId);
+    }
+
     public List<DeviceMetadata> findAll(Long ownerId) {
         long start = System.currentTimeMillis();
         log.info("Start DeviceMetadataService.findAllByOwnerId. ownerId={}", ownerId);
-        var deviceMetadata = deviceMetadataRepository.findAllByOwnerId(ownerId);
+        var deviceMetadata = deviceMetadataRepository.find(ownerId);
         log.info("End DeviceMetadataService.findAllByOwnerId. ownerId={}", ownerId);
         log.info("Taken: {} ms. ownerId={}", System.currentTimeMillis() - start, deviceMetadata);
         return deviceMetadata;
@@ -42,47 +48,36 @@ public record DeviceMetadataService(DeviceMetadataRepository deviceMetadataRepos
     public List<DeviceMetadata> findAll(Long ownerId, Long from, Long size) {
         long start = System.currentTimeMillis();
         log.info("Start DeviceMetadataService.findAllByOwnerId. ownerId={}", ownerId);
-        var deviceMetadata = deviceMetadataRepository.findAllByOwnerId(ownerId, from, size);
+        var deviceMetadata = deviceMetadataRepository.find(ownerId, from, size);
         log.info("End DeviceMetadataService.findAllByOwnerId. ownerId={}", ownerId);
         log.info("Taken: {} ms. ownerId={}", System.currentTimeMillis() - start, deviceMetadata);
         return deviceMetadata;
     }
 
-    public DeviceMetadata update(String uuid, String name, String description) {
+    public DeviceMetadata update(DeviceMetadata data) {
         long start = System.currentTimeMillis();
-        log.info("Start DeviceMetadataService.update. uuid={} name={} description={}", uuid, name, description);
-        deviceMetadataRepository.updateDeviceMetadata(uuid, name, description);
-        var metadata = deviceMetadataRepository.findByUuid(uuid).orElseThrow();
-        log.info("End DeviceMetadataService.update. {}", metadata);
-        log.info("Taken: {} ms. MetadataID={}", System.currentTimeMillis() - start, metadata.getUuid());
-        return metadata;
+        log.info("[START] {} [update] [metadata={}]", this.getClass().getCanonicalName(), data);
+
+        deviceMetadataRepository.findByUuid(data.getUuid()).ifPresent(metadata -> deviceMetadataRepository.save(DeviceMetadata.builder()
+                .name(data.getName() == null ? metadata.getName() : data.getName())
+                .description(data.getDescription() == null ? metadata.getDescription() : data.getDescription())
+                .tariff(data.getTariff() == null ? metadata.getTariff() : data.getTariff())
+                .delegationKey(data.getDelegationKey() == null ? metadata.getDelegationKey() : data.getDelegationKey())
+                .logo(data.getLogo() == null ? metadata.getLogo() : data.getLogo())
+                .updatedTimestamp(LocalDateTime.now())
+                .build()));
+
+        var saved = deviceMetadataRepository.save(data);
+        log.info("[END] [TAKEN:{}ms] {} [update] [metadata={}]", System.currentTimeMillis() - start, this.getClass().getCanonicalName(), saved);
+        return saved;
     }
 
-    public DeviceMetadata update(String uuid, MultipartFile deviceImage) throws NotFoundException, IOException, SQLException {
+    public DeviceMetadata save(DeviceMetadata data) {
         long start = System.currentTimeMillis();
-        log.info("Start DeviceMetadataService.update LOGO. uuid={}", uuid);
-
-        var meta = deviceMetadataRepository.findByUuid(uuid).orElseThrow(
-                () -> new NotFoundException("Device Metadata Not Found for uuid=" + uuid));
-
-        deviceMetadataRepository.updateDeviceMetadata(uuid, new SerialBlob(deviceImage.getBytes()));
-
-        var lowerQualityLogo = ImageUtils.getScaledBase64OrElseOriginal(deviceImage.getBytes(), ImageStandards.DEVICE_CARD);
-        meta.setLogo(new SerialBlob(lowerQualityLogo.getBytes()));
-
-        log.info("End DeviceMetadataService.update. {}", meta);
-        log.info("Taken: {} ms. MetadataID={}", System.currentTimeMillis() - start, meta.getUuid());
-        return meta;
-    }
-
-    public DeviceMetadata saveMetadata(DeviceMetadata metadata) {
-        long start = System.currentTimeMillis();
-        log.info("Start DeviceMetadataService.saveMetadata. {}", metadata);
-        deviceMetadataRepository.save(metadata.getUuid(), metadata.getName(), metadata.getDescription(), metadata.getOwnerId(),
-                metadata.getDelegationKey(), metadata.getLogo(), metadata.getDeviceTypeId(), LocalDateTime.now());
-        log.info("End DeviceMetadataService.saveMetadata. {}", metadata);
-        log.info("Taken: {} ms. MetadataID={}", System.currentTimeMillis() - start, metadata.getUuid());
-        return metadata;
+        log.info("[START] {} [update] [metadata={}]", this.getClass().getCanonicalName(), data);
+        var saved = deviceMetadataRepository.save(data);
+        log.info("[END] [TAKEN:{}ms] {} [update] [metadata={}]", System.currentTimeMillis() - start, this.getClass().getCanonicalName(), saved);
+        return saved;
     }
 
     public void linkWithOwnerDeviceMetadata(String uuid, Long ownerId) {
