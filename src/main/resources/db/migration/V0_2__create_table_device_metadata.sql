@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS public."DEVICE_METADATA"
     "uuid"              text NOT NULL,
     "name"              text,
     "description"       text,
-    "tariff" text default 'STANDARD',
+    "tariff"            text default 'STANDARD',
     "owner_id"          bigint,
     "delegation_key"    text,
     "logo"              bytea,
