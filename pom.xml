@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <json-web-token.version>0.9.1</json-web-token.version>
+        <json-web-token.version>0.10.5</json-web-token.version>
         <jaxb.version>2.3.0</jaxb.version>
         <thumbnailator.version>0.4.17</thumbnailator.version>
         <eclipse.paho.version>1.2.5</eclipse.paho.version>
@@ -75,8 +75,20 @@
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
+            <artifactId>jjwt-api</artifactId>
             <version>${json-web-token.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${json-web-token.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${json-web-token.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>

@@ -56,7 +56,7 @@ public interface DeviceMetadataRepository extends CrudRepository<DeviceMetadata,
     @Modifying
     @Query("""
             UPDATE public."DEVICE_METADATA"
-            SET owner_id = 0
+            SET owner_id = NULL
             WHERE uuid = :uuid
             """)
     void unlinkWithOwner(@Param("uuid") String uuid);
@@ -69,7 +69,7 @@ public interface DeviceMetadataRepository extends CrudRepository<DeviceMetadata,
     void deleteByUuid(@Param("uuid") String uuid);
 
     @Query("""
-            SELECT (owner_id IS NOT NULL)
+            SELECT (owner_id > 0 OR (owner_id IS NOT NULL AND owner_id <> 0))
             FROM public."DEVICE_METADATA"
             WHERE uuid = :uuid""")
     boolean hasOwner(@Param("uuid") String uuid);

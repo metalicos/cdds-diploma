@@ -1,7 +1,7 @@
 package ua.com.cyberdone.devicemicroservice.schedules;
 
-import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.device.common.model.UiDeviceMetadata;
 
 public interface DeviceSendTrigger {
-    void trigger(DeviceMetadata metadata);
+    void trigger(UiDeviceMetadata metadata);
 }

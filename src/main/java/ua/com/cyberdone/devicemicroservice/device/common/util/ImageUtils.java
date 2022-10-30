@@ -39,7 +39,7 @@ public class ImageUtils {
         }
     }
 
-    public static Thumbnails.Builder<? extends InputStream> getBuilder(byte[] image) {
+    private static Thumbnails.Builder<? extends InputStream> getBuilder(byte[] image) {
         return Thumbnails.of(new ByteArrayInputStream(image));
     }
 }

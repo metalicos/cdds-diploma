@@ -1,9 +1,7 @@
 package ua.com.cyberdone.devicemicroservice.device.common.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
@@ -16,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("DEVICE_METADATA")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeviceMetadata {
     @Id
     @Column("id")
@@ -29,13 +28,14 @@ public class DeviceMetadata {
     @Column("tariff")
     private String tariff;
     @Column("owner_id")
-    private long ownerId;
+    private Long ownerId;
     @Column("delegation_key")
     private String delegationKey;
     @Column("logo")
-    private Blob logo;
+    @ToString.Exclude
+    private byte[] logo;
     @Column("device_type_id")
-    private long deviceTypeId;
+    private Long deviceTypeId;
     @Column("created_timestamp")
     private LocalDateTime createdTimestamp;
     @Column("updated_timestamp")

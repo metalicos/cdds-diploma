@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.device.common.model.UiDeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceTypeService;
 
@@ -21,7 +22,7 @@ public class DeviceSettingsReadSchedules {
     public static final String TARIFF_NAME_STANDARD = "STANDARD";
     public static final String TARIFF_NAME_PREMIUM = "PREMIUM";
 
-    private ConcurrentHashMap<String, List<DeviceMetadata>> cache = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, List<UiDeviceMetadata>> cache = new ConcurrentHashMap<>();
 
     private final DeviceMetadataService deviceMetadataService;
     private final DeviceTypeService deviceTypeService;

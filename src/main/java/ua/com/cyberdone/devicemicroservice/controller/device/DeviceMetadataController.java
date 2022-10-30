@@ -9,12 +9,11 @@ import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.device.common.entity.DeviceType;
 import ua.com.cyberdone.devicemicroservice.device.common.exception.AlreadyExistException;
 import ua.com.cyberdone.devicemicroservice.device.common.exception.NotFoundException;
+import ua.com.cyberdone.devicemicroservice.device.common.model.UiDeviceMetadata;
 import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceMetadataService;
 import ua.com.cyberdone.devicemicroservice.device.common.service.DeviceTypeService;
 
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,15 +29,15 @@ public class DeviceMetadataController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('r_all','r_device_metadata')")
-    public ResponseEntity<DeviceMetadata> getMetadataByUuid(@RequestHeader(AUTHORIZATION) String token,
-                                                            @RequestParam String uuid) throws NotFoundException {
-        return ResponseEntity.ok(deviceMetadataService.find(uuid));
+    public ResponseEntity<UiDeviceMetadata> getMetadataByUuid(@RequestHeader(AUTHORIZATION) String token,
+                                                              @RequestParam String uuid) throws NotFoundException {
+        return ResponseEntity.ok(deviceMetadataService.findMetadataByUuid(uuid));
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('r_all','r_all_user_device_metadata')")
-    public ResponseEntity<List<DeviceMetadata>> getMetadataByUser(@RequestHeader(AUTHORIZATION) String token,
-                                                                  @RequestParam Long userId) {
+    public ResponseEntity<List<UiDeviceMetadata>> getMetadataByUser(@RequestHeader(AUTHORIZATION) String token,
+                                                                    @RequestParam Long userId) {
         return ResponseEntity.ok(deviceMetadataService.findAll(userId));
     }
 
@@ -56,9 +55,9 @@ public class DeviceMetadataController {
     @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata')")
     public ResponseEntity<DeviceMetadata> updateDeviceImage(@RequestHeader(AUTHORIZATION) String token,
                                                             @PathVariable String uuid,
-                                                            @RequestPart("file") MultipartFile deviceImage) throws IOException, SQLException {
+                                                            @RequestPart("file") MultipartFile deviceImage) throws IOException {
         return ResponseEntity.ok(deviceMetadataService.update(DeviceMetadata.builder()
-                .uuid(uuid).logo(new SerialBlob(deviceImage.getBytes())).build()));
+                .uuid(uuid).logo(deviceImage.getBytes()).build()));
     }
 
     @PostMapping
@@ -79,14 +78,14 @@ public class DeviceMetadataController {
 
     @GetMapping("/device-types")
     @PreAuthorize("hasAnyAuthority('r_all','r_device_types')")
-    public ResponseEntity<List<String>> getDeviceTypesList(@RequestHeader(AUTHORIZATION) String token) throws NotFoundException {
+    public ResponseEntity<List<String>> getDeviceTypesList(@RequestHeader(AUTHORIZATION) String token) {
         return ResponseEntity.ok(deviceTypeService.find().stream().map(DeviceType::getType).collect(Collectors.toList()));
     }
 
     @PutMapping("/unlink")
     @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata_unlink')")
     public ResponseEntity<String> unlinkMetadataFromUser(@RequestHeader(AUTHORIZATION) String token,
-                                                         @RequestParam String uuid) throws AlreadyExistException, NotFoundException {
+                                                         @RequestParam String uuid) {
         deviceMetadataService.unlinkWithOwnerDeviceMetadata(uuid);
         return ResponseEntity.ok("OK");
     }
@@ -95,7 +94,7 @@ public class DeviceMetadataController {
     @PreAuthorize("hasAnyAuthority('u_all','u_device_metadata_link')")
     public ResponseEntity<String> linkMetadataToUser(@RequestHeader(AUTHORIZATION) String token,
                                                      @RequestParam String uuid,
-                                                     @RequestParam Long userId) throws AlreadyExistException, NotFoundException {
+                                                     @RequestParam Long userId) {
         deviceMetadataService.linkWithOwnerDeviceMetadata(uuid, userId);
         return ResponseEntity.ok("OK");
     }
