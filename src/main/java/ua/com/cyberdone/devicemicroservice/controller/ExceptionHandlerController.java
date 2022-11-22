@@ -20,6 +20,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import ua.com.cyberdone.devicemicroservice.device.common.exception.*;
 import ua.com.cyberdone.devicemicroservice.device.common.model.RestError;
+import ua.com.cyberdone.devicemicroservice.device.exception.*;
 
 import java.util.stream.Collectors;
 

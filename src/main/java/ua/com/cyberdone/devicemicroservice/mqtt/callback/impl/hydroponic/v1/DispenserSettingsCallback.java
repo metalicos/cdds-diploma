@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.com.cyberdone.devicemicroservice.device.common.util.GlobalConstants;
+import ua.com.cyberdone.devicemicroservice.device.util.GlobalConstants;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.entity.HydroponicDispenserSettings;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.entity.HydroponicSettingDetails;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.DispenserSettings;

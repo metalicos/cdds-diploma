@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ua.com.cyberdone.devicemicroservice.security.model.RoleDto;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.Objects.nonNull;
@@ -42,8 +43,8 @@ public class JwtService {
         return mapper.readValue(extractAllClaims(token).get("roles", String.class), RoleDto[].class);
     }
 
-    public long getUserId(String token) {
-        return extractAllClaims(token).get("userId", Long.class);
+    public Optional<Long> getUserId(String token) {
+        return Optional.ofNullable(extractAllClaims(token).get("userId", Long.class));
     }
 
     public String parseToken(String token) {

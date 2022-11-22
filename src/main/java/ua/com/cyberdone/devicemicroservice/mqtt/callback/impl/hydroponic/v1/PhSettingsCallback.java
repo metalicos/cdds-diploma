@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
-import ua.com.cyberdone.devicemicroservice.device.common.util.GlobalConstants;
+import ua.com.cyberdone.devicemicroservice.device.util.GlobalConstants;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.entity.HydroponicPhSensorSettings;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.entity.HydroponicSettingDetails;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.PhSensorSettings;

@@ -6,21 +6,21 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Service;
 import ua.com.cyberdone.devicemicroservice.config.MqttConfiguration;
-import ua.com.cyberdone.devicemicroservice.device.common.model.UiDeviceMetadata;
+import ua.com.cyberdone.devicemicroservice.device.model.DeviceDTO;
 
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service("TRIGGER_HYDROPONIC_V1")
+@Service("HYDROPONIC_V1SCH12D6")
 public class HydroponicV1SendTrigger implements DeviceSendTrigger {
 
     private final MqttClient mqttClient;
     private final MqttConfiguration mqttConfiguration;
 
     @Override
-    public void trigger(UiDeviceMetadata metadata) {
-        var topic = "cyberdone/" + metadata.getUuid() + "/action/send-data";
+    public void trigger(DeviceDTO deviceDTO) {
+        var topic = "cyberdone/" + deviceDTO.getUuid() + "/action/send-data";
 
         try {
             mqttClient.publish(topic, """
