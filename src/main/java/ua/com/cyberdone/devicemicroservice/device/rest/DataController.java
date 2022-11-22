@@ -12,7 +12,7 @@ import ua.com.cyberdone.devicemicroservice.device.service.DataService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/device/hydroponic/v1/data", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DataResource {
+public class DataController {
     private final DataService dataService;
 
     @GetMapping

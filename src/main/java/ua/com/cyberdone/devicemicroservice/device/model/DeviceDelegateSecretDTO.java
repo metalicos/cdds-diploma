@@ -12,5 +12,5 @@ public class DeviceDelegateSecretDTO {
     private Long id;
     private String secret;
     private Long accountId;
-    private Long deviceId;
+    private String deviceUuid;
 }

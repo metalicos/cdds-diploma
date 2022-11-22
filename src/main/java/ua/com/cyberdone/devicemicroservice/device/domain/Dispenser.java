@@ -28,16 +28,16 @@ public class Dispenser {
     private LocalDateTime updatedTimestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid_id")
+    @JoinColumn(name = "device_uuid")
     @ToString.Exclude
     private Device device;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "dispenser_dispenser_template",
             joinColumns = @JoinColumn(name = "dispenser_id"),
             inverseJoinColumns = @JoinColumn(name = "dispenser_template_id")
     )
     @ToString.Exclude
-    private List<DispenserTemplate> dispenserTemplateList = new ArrayList<>();
+    private DispenserTemplate dispenserTemplate;
 }

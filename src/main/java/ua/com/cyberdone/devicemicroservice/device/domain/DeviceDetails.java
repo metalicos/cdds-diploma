@@ -46,8 +46,8 @@ public class DeviceDetails {
     @Column
     private LocalDateTime warrantyTo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_uuid")
     @ToString.Exclude
     private Device device;
 }

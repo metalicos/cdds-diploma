@@ -19,5 +19,5 @@ public class DeviceDetailsDTO {
     private String soldCountry;
     private LocalDateTime warrantyFrom;
     private LocalDateTime warrantyTo;
-    private Long deviceId;
+    private String deviceUuid;
 }

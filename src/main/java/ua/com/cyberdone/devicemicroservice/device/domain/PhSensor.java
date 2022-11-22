@@ -26,8 +26,8 @@ public class PhSensor {
     @Column
     private LocalDateTime updatedTimestamp;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_uuid")
     @ToString.Exclude
     private Device device;
 

@@ -60,9 +60,9 @@ public class Device {
     @ToString.Exclude
     private List<DeviceDelegateSecret> deviceDelegateSecretList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "device")
+    @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private List<DeviceDetails> deviceDetailsList = new ArrayList<>();
+    private DeviceDetails deviceDetails;
 
     @OneToMany(mappedBy = "device")
     @ToString.Exclude
@@ -72,23 +72,23 @@ public class Device {
     @ToString.Exclude
     private List<Dispenser> deviceDispenserList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "device")
+    @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private List<DispenseSchedule> dispenseScheduleList = new ArrayList<>();
+    private DispenseSchedule dispenseSchedule;
 
-    @OneToMany(mappedBy = "device")
+    @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private List<EcSensor> ecSensorList = new ArrayList<>();
+    private EcSensor ecSensor;
 
-    @OneToMany(mappedBy = "device")
+    @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private List<PhSensor> phSensorList = new ArrayList<>();
+    private PhSensor phSensor;
 
-    @OneToMany(mappedBy = "device")
+    @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private List<System> systemList = new ArrayList<>();
+    private System system;
 
-    @OneToMany(mappedBy = "device")
+    @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private List<SpecialSystem> specialSystemList = new ArrayList<>();
+    private SpecialSystem specialSystem;
 }

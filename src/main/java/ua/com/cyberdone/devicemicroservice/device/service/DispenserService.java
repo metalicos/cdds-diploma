@@ -1,20 +1,22 @@
 package ua.com.cyberdone.devicemicroservice.device.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ua.com.cyberdone.devicemicroservice.device.domain.Device;
 import ua.com.cyberdone.devicemicroservice.device.domain.Dispenser;
-import ua.com.cyberdone.devicemicroservice.device.domain.DispenserTemplate;
 import ua.com.cyberdone.devicemicroservice.device.model.DispenserDTO;
+import ua.com.cyberdone.devicemicroservice.device.model.DispenserTemplateDTO;
 import ua.com.cyberdone.devicemicroservice.device.repos.DeviceRepository;
 import ua.com.cyberdone.devicemicroservice.device.repos.DispenserRepository;
 import ua.com.cyberdone.devicemicroservice.device.repos.DispenserTemplateRepository;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class DispenserService implements ModelEntityMapper<Dispenser, DispenserD
     private final DispenserRepository dispenserRepository;
     private final DeviceRepository deviceRepository;
     private final DispenserTemplateRepository dispenserTemplateRepository;
+    private final DispenserTemplateService dispenserTemplateService;
 
     public List<DispenserDTO> findAll() {
         return dispenserRepository.findAll(Sort.by("id"))
@@ -62,9 +65,7 @@ public class DispenserService implements ModelEntityMapper<Dispenser, DispenserD
         dispenserDTO.setId(dispenser.getId());
         dispenserDTO.setUpdatedTimestamp(dispenser.getUpdatedTimestamp());
         dispenserDTO.setDeviceUuid(dispenser.getDevice() == null ? null : dispenser.getDevice().getUuid());
-        dispenserDTO.setDispenserTemplateIds(dispenser.getDispenserTemplateList() == null ? null : dispenser.getDispenserTemplateList().stream()
-                .map(DispenserTemplate::getId)
-                .collect(Collectors.toList()));
+        dispenserDTO.setDispenserTemplateDTO(dispenserTemplateService.mapToDTO(dispenser.getDispenserTemplate(), new DispenserTemplateDTO()));
         return dispenserDTO;
     }
 
@@ -74,13 +75,24 @@ public class DispenserService implements ModelEntityMapper<Dispenser, DispenserD
         final Device device = dispenserDTO.getDeviceUuid() == null ? null : deviceRepository.findByUuid(dispenserDTO.getDeviceUuid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
         dispenser.setDevice(device);
-        final List<DispenserTemplate> dispenserTemplateList = dispenserTemplateRepository.findAllById(
-                dispenserDTO.getDispenserTemplateIds() == null ? Collections.emptyList() : dispenserDTO.getDispenserTemplateIds());
-        if (dispenserTemplateList.size() != (dispenserDTO.getDispenserTemplateIds() == null ? 0 : dispenserDTO.getDispenserTemplateIds().size())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "one of dispenserTemplateList not found");
-        }
-        dispenser.setDispenserTemplateList(dispenserTemplateList);
+        var dispenserTemplate = dispenserTemplateRepository.findById(dispenserDTO.getDispenserTemplateDTO().getId())
+                .orElse(null);
+
+        dispenser.setDispenserTemplate(dispenserTemplate);
         return dispenser;
     }
 
+    public Page<DispenserDTO> findAllByDeviceUuid(String uuid, Pageable pageable) {
+        return new PageImpl<>(dispenserRepository.findDispensersByDevice(uuid, pageable).stream()
+                .map(dispenser -> {
+                    DispenserDTO dispenserDTO = new DispenserDTO();
+                    dispenserDTO.setId(dispenser.getId());
+                    dispenserDTO.setUpdatedTimestamp(dispenser.getUpdatedTimestamp());
+                    dispenserDTO.setDeviceUuid(dispenser.getDevice() == null ? null : dispenser.getDevice().getUuid());
+                    dispenserDTO.setDispenserTemplateDTO(dispenserTemplateRepository.findById(dispenser.getDispenserTemplate().getId())
+                            .map(dispenserTemplate -> dispenserTemplateService.mapToDTO(dispenserTemplate, new DispenserTemplateDTO()))
+                            .orElse(null));
+                    return dispenserDTO;
+                }).collect(Collectors.toList()));
+    }
 }

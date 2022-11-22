@@ -29,23 +29,31 @@ public class DeviceDetailsService implements ModelEntityMapper<DeviceDetails, De
                 .collect(Collectors.toList());
     }
 
+    public DeviceDetailsDTO findByDeviceUuid(String uuid) {
+        Device device = deviceRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
+        return deviceDetailsRepository.findByDevice(device)
+                .map(deviceDetails -> mapToDTO(deviceDetails, new DeviceDetailsDTO()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device details by device=" + uuid + " not found"));
+    }
+
     public DeviceDetailsDTO get(final Long id) {
         return deviceDetailsRepository.findById(id)
                 .map(deviceDetails -> mapToDTO(deviceDetails, new DeviceDetailsDTO()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Long create(final DeviceDetailsDTO deviceDetailsDTO) {
+    public DeviceDetailsDTO create(final DeviceDetailsDTO deviceDetailsDTO) {
         final DeviceDetails deviceDetails = new DeviceDetails();
         mapToEntity(deviceDetailsDTO, deviceDetails);
-        return deviceDetailsRepository.save(deviceDetails).getId();
+        return mapToDTO(deviceDetailsRepository.save(deviceDetails), new DeviceDetailsDTO());
     }
 
-    public void update(final Long id, final DeviceDetailsDTO deviceDetailsDTO) {
+    public DeviceDetailsDTO update(final Long id, final DeviceDetailsDTO deviceDetailsDTO) {
         final DeviceDetails deviceDetails = deviceDetailsRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(deviceDetailsDTO, deviceDetails);
-        deviceDetailsRepository.save(deviceDetails);
+        return mapToDTO(deviceDetailsRepository.save(deviceDetails), new DeviceDetailsDTO());
     }
 
     public void delete(final Long id) {
@@ -64,7 +72,7 @@ public class DeviceDetailsService implements ModelEntityMapper<DeviceDetails, De
         deviceDetailsDTO.setSoldCountry(deviceDetails.getSoldCountry());
         deviceDetailsDTO.setWarrantyFrom(deviceDetails.getWarrantyFrom());
         deviceDetailsDTO.setWarrantyTo(deviceDetails.getWarrantyTo());
-        deviceDetailsDTO.setDeviceId(deviceDetails.getDevice() == null ? null : deviceDetails.getDevice().getId());
+        deviceDetailsDTO.setDeviceUuid(deviceDetails.getDevice() == null ? null : deviceDetails.getDevice().getUuid());
         return deviceDetailsDTO;
     }
 
@@ -79,10 +87,9 @@ public class DeviceDetailsService implements ModelEntityMapper<DeviceDetails, De
         deviceDetails.setSoldCountry(deviceDetailsDTO.getSoldCountry());
         deviceDetails.setWarrantyFrom(deviceDetailsDTO.getWarrantyFrom());
         deviceDetails.setWarrantyTo(deviceDetailsDTO.getWarrantyTo());
-        final Device device = deviceDetailsDTO.getDeviceId() == null ? null : deviceRepository.findById(deviceDetailsDTO.getDeviceId())
+        final Device device = deviceDetailsDTO.getDeviceUuid() == null ? null : deviceRepository.findByUuid(deviceDetailsDTO.getDeviceUuid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
         deviceDetails.setDevice(device);
         return deviceDetails;
     }
-
 }

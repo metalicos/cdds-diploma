@@ -1,4 +1,4 @@
-package ua.com.cyberdone.devicemicroservice.device.rest;
+package ua.com.cyberdone.devicemicroservice.device.rest.device;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -74,7 +74,8 @@ public class DeviceController {
     }
 
     @GetMapping("/page/{page}/size/{size}")
-    public ResponseEntity<Page<DeviceDTO>> getAllDevices(@PathVariable Integer page,
+    public ResponseEntity<Page<DeviceDTO>> getAllDevices(@RequestHeader(AUTHORIZATION) String token,
+                                                         @PathVariable Integer page,
                                                          @PathVariable Integer size) {
         return ResponseEntity.ok(deviceService.findAll(PageRequest.of(page, size)));
     }

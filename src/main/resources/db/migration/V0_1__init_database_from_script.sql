@@ -19,15 +19,15 @@ CREATE TABLE IF NOT EXISTS "common"."device"
 
 CREATE TABLE IF NOT EXISTS "common"."device_delegate_secret"
 (
-    "id"         bigserial,
-    "secret"     text   NOT NULL,
-    "account_id" bigint NOT NULL,
-    "device_id"  bigint PRIMARY KEY
+    "id"          bigserial PRIMARY KEY,
+    "secret"      text   NOT NULL,
+    "account_id"  bigint NOT NULL,
+    "device_uuid" text
 );
 
 CREATE TABLE IF NOT EXISTS "common"."device_details"
 (
-    "id"                     bigserial,
+    "id"                     bigserial PRIMARY KEY,
     "version"                text,
     "modification"           text,
     "manufactured_timestamp" timestamp with time zone,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "common"."device_details"
     "sold_country"           text,
     "warranty_from"          timestamp with time zone,
     "warranty_to"            timestamp with time zone,
-    "device_id"              bigint PRIMARY KEY
+    "device_uuid"            text
 );
 
 CREATE TABLE IF NOT EXISTS "hydroponic_v1"."data"
@@ -262,14 +262,14 @@ ALTER TABLE "common"."device"
     ADD CONSTRAINT "uq_device_uuid" UNIQUE (uuid);
 
 ALTER TABLE "common"."device_delegate_secret"
-    DROP CONSTRAINT IF EXISTS "fk_device_delegate_secret_device_id" CASCADE;
+    DROP CONSTRAINT IF EXISTS "fk_device_delegate_secret_device_uuid" CASCADE;
 ALTER TABLE "common"."device_delegate_secret"
-    ADD CONSTRAINT "fk_device_delegate_secret_device_id" FOREIGN KEY ("device_id") REFERENCES "common"."device" ("id");
+    ADD CONSTRAINT "fk_device_delegate_secret_device_uuid" FOREIGN KEY ("device_uuid") REFERENCES "common"."device" ("uuid");
 
 ALTER TABLE "common"."device_details"
-    DROP CONSTRAINT IF EXISTS "fk_device_details_device_id" CASCADE;
+    DROP CONSTRAINT IF EXISTS "fk_device_details_device_uuid" CASCADE;
 ALTER TABLE "common"."device_details"
-    ADD CONSTRAINT "fk_device_details_device_id" FOREIGN KEY ("device_id") REFERENCES "common"."device" ("id");
+    ADD CONSTRAINT "fk_device_details_device_uuid" FOREIGN KEY ("device_uuid") REFERENCES "common"."device" ("uuid");
 
 ALTER TABLE "hydroponic_v1"."data"
     DROP CONSTRAINT IF EXISTS "fk_data_device_uuid" CASCADE;

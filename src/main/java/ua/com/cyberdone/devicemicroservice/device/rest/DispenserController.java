@@ -1,39 +1,32 @@
 package ua.com.cyberdone.devicemicroservice.device.rest;
 
-import io.bootify.my_app.model.DispenserDTO;
-import io.bootify.my_app.service.DispenserService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.com.cyberdone.devicemicroservice.device.model.DispenserDTO;
+import ua.com.cyberdone.devicemicroservice.device.service.DispenserService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/api/dispensers", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DispenserResource {
-
+@RequiredArgsConstructor
+@RequestMapping(value = "/device/hydroponic/v1/dispensers", produces = MediaType.APPLICATION_JSON_VALUE)
+public class DispenserController {
     private final DispenserService dispenserService;
 
-    public DispenserResource(final DispenserService dispenserService) {
-        this.dispenserService = dispenserService;
-    }
-
-    @GetMapping
-    public ResponseEntity<List<DispenserDTO>> getAllDispensers() {
-        return ResponseEntity.ok(dispenserService.findAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<DispenserDTO> getDispenser(@PathVariable final Long id) {
-        return ResponseEntity.ok(dispenserService.get(id));
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Page<DispenserDTO>> getAllDispensers(@PathVariable String uuid,
+                                                               @RequestParam(defaultValue = "0", required = false) Integer page,
+                                                               @RequestParam(defaultValue = "20", required = false) Integer size) {
+        return ResponseEntity.ok(dispenserService.findAllByDeviceUuid(uuid, PageRequest.of(page, size)));
     }
 
     @PostMapping
-    @ApiResponse(responseCode = "201")
     public ResponseEntity<Long> createDispenser(
             @RequestBody @Valid final DispenserDTO dispenserDTO) {
         return new ResponseEntity<>(dispenserService.create(dispenserDTO), HttpStatus.CREATED);
@@ -47,10 +40,8 @@ public class DispenserResource {
     }
 
     @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteDispenser(@PathVariable final Long id) {
         dispenserService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

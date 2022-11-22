@@ -1,6 +1,7 @@
-package ua.com.cyberdone.devicemicroservice.device.rest;
+package ua.com.cyberdone.devicemicroservice.device.rest.device;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,8 @@ import ua.com.cyberdone.devicemicroservice.device.model.DeviceDelegateSecretDTO;
 import ua.com.cyberdone.devicemicroservice.device.service.DeviceDelegateSecretService;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 
 @RestController
@@ -18,33 +20,39 @@ import java.util.List;
 public class DeviceDelegateSecretController {
     private final DeviceDelegateSecretService deviceDelegateSecretService;
 
-
-    @GetMapping
-    public ResponseEntity<List<DeviceDelegateSecretDTO>> getAllDeviceDelegateSecrets() {
-        return ResponseEntity.ok(deviceDelegateSecretService.findAll());
+    @GetMapping("/byDevice/{uuid}")
+    public ResponseEntity<Page<DeviceDelegateSecretDTO>> getDelegateSecretsByDevice(
+            @RequestHeader(AUTHORIZATION) String token,
+            @PathVariable String uuid) {
+        return ResponseEntity.ok(deviceDelegateSecretService.findAllByDeviceUuid(uuid));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DeviceDelegateSecretDTO> getDeviceDelegateSecret(
+            @RequestHeader(AUTHORIZATION) String token,
             @PathVariable final Long id) {
         return ResponseEntity.ok(deviceDelegateSecretService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Long> createDeviceDelegateSecret(
+    public ResponseEntity<DeviceDelegateSecretDTO> createDeviceDelegateSecret(
+            @RequestHeader(AUTHORIZATION) String token,
             @RequestBody @Valid final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
         return new ResponseEntity<>(deviceDelegateSecretService.create(deviceDelegateSecretDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateDeviceDelegateSecret(@PathVariable final Long id,
-                                                           @RequestBody @Valid final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
-        deviceDelegateSecretService.update(id, deviceDelegateSecretDTO);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<DeviceDelegateSecretDTO> updateDeviceDelegateSecret(
+            @RequestHeader(AUTHORIZATION) String token,
+            @PathVariable final Long id,
+            @RequestBody @Valid final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
+        return ResponseEntity.ok(deviceDelegateSecretService.update(id, deviceDelegateSecretDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDeviceDelegateSecret(@PathVariable final Long id) {
+    public ResponseEntity<Void> deleteDeviceDelegateSecret(
+            @RequestHeader(AUTHORIZATION) String token,
+            @PathVariable final Long id) {
         deviceDelegateSecretService.delete(id);
         return ResponseEntity.noContent().build();
     }

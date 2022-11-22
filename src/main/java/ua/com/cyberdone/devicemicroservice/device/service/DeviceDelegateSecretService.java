@@ -1,6 +1,8 @@
 package ua.com.cyberdone.devicemicroservice.device.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,17 +36,17 @@ public class DeviceDelegateSecretService implements ModelEntityMapper<DeviceDele
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Long create(final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
+    public DeviceDelegateSecretDTO create(final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
         final DeviceDelegateSecret deviceDelegateSecret = new DeviceDelegateSecret();
         mapToEntity(deviceDelegateSecretDTO, deviceDelegateSecret);
-        return deviceDelegateSecretRepository.save(deviceDelegateSecret).getId();
+        return mapToDTO(deviceDelegateSecretRepository.save(deviceDelegateSecret), new DeviceDelegateSecretDTO());
     }
 
-    public void update(final Long id, final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
+    public DeviceDelegateSecretDTO update(final Long id, final DeviceDelegateSecretDTO deviceDelegateSecretDTO) {
         final DeviceDelegateSecret deviceDelegateSecret = deviceDelegateSecretRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         mapToEntity(deviceDelegateSecretDTO, deviceDelegateSecret);
-        deviceDelegateSecretRepository.save(deviceDelegateSecret);
+        return mapToDTO(deviceDelegateSecretRepository.save(deviceDelegateSecret), new DeviceDelegateSecretDTO());
     }
 
     public void delete(final Long id) {
@@ -57,7 +59,7 @@ public class DeviceDelegateSecretService implements ModelEntityMapper<DeviceDele
         deviceDelegateSecretDTO.setId(deviceDelegateSecret.getId());
         deviceDelegateSecretDTO.setSecret(deviceDelegateSecret.getSecret());
         deviceDelegateSecretDTO.setAccountId(deviceDelegateSecret.getAccountId());
-        deviceDelegateSecretDTO.setDeviceId(deviceDelegateSecret.getDevice() == null ? null : deviceDelegateSecret.getDevice().getId());
+        deviceDelegateSecretDTO.setDeviceUuid(deviceDelegateSecret.getDevice() == null ? null : deviceDelegateSecret.getDevice().getUuid());
         return deviceDelegateSecretDTO;
     }
 
@@ -66,7 +68,7 @@ public class DeviceDelegateSecretService implements ModelEntityMapper<DeviceDele
                                             final DeviceDelegateSecret deviceDelegateSecret) {
         deviceDelegateSecret.setSecret(deviceDelegateSecretDTO.getSecret());
         deviceDelegateSecret.setAccountId(deviceDelegateSecretDTO.getAccountId());
-        final Device device = deviceDelegateSecretDTO.getDeviceId() == null ? null : deviceRepository.findById(deviceDelegateSecretDTO.getDeviceId())
+        final Device device = deviceDelegateSecretDTO.getDeviceUuid() == null ? null : deviceRepository.findByUuid(deviceDelegateSecretDTO.getDeviceUuid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
         deviceDelegateSecret.setDevice(device);
         return deviceDelegateSecret;
@@ -74,5 +76,13 @@ public class DeviceDelegateSecretService implements ModelEntityMapper<DeviceDele
 
     public void deleteAllDelegatedSecretsByDeviceId(Long deviceId) {
         deviceDelegateSecretRepository.deleteAllByDeviceId(deviceId);
+    }
+
+    public Page<DeviceDelegateSecretDTO> findAllByDeviceUuid(String uuid) {
+        var device = deviceRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
+        return new PageImpl<>(deviceDelegateSecretRepository.findAllByDevice(device)
+                .stream().map(deviceDelegateSecret -> mapToDTO(deviceDelegateSecret, new DeviceDelegateSecretDTO()))
+                .collect(Collectors.toList()));
     }
 }

@@ -28,7 +28,7 @@ public class DeviceDelegateSecret {
     private Long accountId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "device_uuid")
     @ToString.Exclude
     private Device device;
 }

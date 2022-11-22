@@ -47,7 +47,7 @@ public class Data {
     private LocalDateTime updatedTimestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid_id")
+    @JoinColumn(name = "device_uuid")
     @ToString.Exclude
     private Device device;
 }
