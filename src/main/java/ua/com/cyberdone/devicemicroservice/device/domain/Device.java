@@ -1,6 +1,7 @@
 package ua.com.cyberdone.devicemicroservice.device.domain;
 
 import lombok.*;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.Data;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.System;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.*;
 import ua.com.cyberdone.devicemicroservice.device.model.DeviceType;
@@ -57,7 +58,7 @@ public class Device {
 
     @OneToMany(mappedBy = "device")
     @ToString.Exclude
-    private List<ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.Data> deviceDataList = new ArrayList<>();
+    private List<Data> deviceDataList = new ArrayList<>();
 
     @OneToMany(mappedBy = "device")
     @ToString.Exclude

@@ -16,7 +16,6 @@ import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.PhSensorTe
 import ua.com.cyberdone.devicemicroservice.device.service.ModelEntityMapper;
 
 import javax.transaction.Transactional;
-import java.awt.print.Pageable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,7 +106,7 @@ public class PhSensorTemplateService implements ModelEntityMapper<PhSensorTempla
     }
 
     public Page<PhSensorTemplateDTO> getByOwnerId(Long ownerId, Integer page, Integer size) {
-        return new PageImpl<>(phSensorTemplateRepository.findAllByOwnerId(ownerId, (Pageable) PageRequest.of(page, size)).stream()
+        return new PageImpl<>(phSensorTemplateRepository.findAllByOwnerId(ownerId, PageRequest.of(page, size)).stream()
                 .map(phSensorTemplate -> mapToDTO(phSensorTemplate, new PhSensorTemplateDTO()))
                 .collect(Collectors.toList()));
     }

@@ -13,7 +13,6 @@ import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.DispenserT
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.DispenserTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.service.ModelEntityMapper;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,7 +107,7 @@ public class DispenserTemplateService implements ModelEntityMapper<DispenserTemp
     }
 
     public Page<DispenserTemplateDTO> getByOwnerId(Long ownerId, Integer page, Integer size) {
-        return new PageImpl<>(dispenserTemplateRepository.findAllByOwnerId(ownerId, (Pageable) PageRequest.of(page, size)).stream()
+        return new PageImpl<>(dispenserTemplateRepository.findAllByOwnerId(ownerId, PageRequest.of(page, size)).stream()
                 .map(dispenserTemplate -> mapToDTO(dispenserTemplate, new DispenserTemplateDTO()))
                 .collect(Collectors.toList()));
     }

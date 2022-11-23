@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface DataRepository extends JpaRepository<Data, Long> {
 
-    @Query("select data from Data data where data.device.uuid = ?1")
-    List<Data> findAllByDeviceUuid(String uuid, Pageable pageable);
+    @Query("select data from Data data where data.device.uuid = :uuid")
+    List<Data> findAllByDeviceUuid(@Param("uuid") String uuid, Pageable pageable);
 
     @Query(value = """
             SELECT DISTINCT

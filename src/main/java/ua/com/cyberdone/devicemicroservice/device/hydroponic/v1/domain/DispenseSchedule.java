@@ -26,15 +26,22 @@ public class DispenseSchedule {
     private LocalDateTime updatedTimestamp;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid", columnDefinition = "text")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text",
+            foreignKey = @ForeignKey(name = "fk_dispense_schedule_device_uuid", value = ConstraintMode.CONSTRAINT),
+            referencedColumnName = "uuid")
     @ToString.Exclude
     private Device device;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
+            schema = "hydroponic_v1",
             name = "dispense_schedule_dispense_schedule_template",
-            joinColumns = @JoinColumn(name = "dispense_schedule_id"),
-            inverseJoinColumns = @JoinColumn(name = "dispense_schedule_template_id")
+            joinColumns = @JoinColumn(name = "dispense_schedule_id",
+                    foreignKey = @ForeignKey(name = "fk_disp_schedule_disp_schedule_templ_dispense_schedule_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "dispense_schedule_template_id",
+                    foreignKey = @ForeignKey(name = "fk_disp_schedule_disp_schedule_templ_disp_schedule_template_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id")
     )
     @ToString.Exclude
     private DispenseScheduleTemplate dispenseScheduleTemplate;

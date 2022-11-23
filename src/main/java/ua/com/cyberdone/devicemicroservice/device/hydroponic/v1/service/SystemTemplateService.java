@@ -16,7 +16,6 @@ import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.SystemTemp
 import ua.com.cyberdone.devicemicroservice.device.service.ModelEntityMapper;
 
 import javax.transaction.Transactional;
-import java.awt.print.Pageable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -115,7 +114,7 @@ public class SystemTemplateService implements ModelEntityMapper<SystemTemplate, 
     }
 
     public Page<SystemTemplateDTO> getByOwnerId(Long ownerId, Integer page, Integer size) {
-        return new PageImpl<>(systemTemplateRepository.findAllByOwnerId(ownerId, (Pageable) PageRequest.of(page, size)).stream()
+        return new PageImpl<>(systemTemplateRepository.findAllByOwnerId(ownerId, PageRequest.of(page, size)).stream()
                 .map(systemTemplate -> mapToDTO(systemTemplate, new SystemTemplateDTO()))
                 .collect(Collectors.toList()));
     }

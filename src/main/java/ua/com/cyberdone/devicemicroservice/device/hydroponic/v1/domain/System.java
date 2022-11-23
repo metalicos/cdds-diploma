@@ -25,7 +25,9 @@ public class System {
     private LocalDateTime updatedTimestamp;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid", columnDefinition = "text")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text",
+            foreignKey = @ForeignKey(name = "fk_system_device_uuid", value = ConstraintMode.CONSTRAINT),
+            referencedColumnName = "uuid")
     @ToString.Exclude
     private Device device;
 

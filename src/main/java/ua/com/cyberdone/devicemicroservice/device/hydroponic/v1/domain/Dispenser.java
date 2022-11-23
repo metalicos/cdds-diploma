@@ -26,15 +26,22 @@ public class Dispenser {
     private LocalDateTime updatedTimestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid", columnDefinition = "text")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text",
+            foreignKey = @ForeignKey(name = "fk_dispenser_device_uuid", value = ConstraintMode.CONSTRAINT),
+            referencedColumnName = "uuid")
     @ToString.Exclude
     private Device device;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
+            schema = "hydroponic_v1",
             name = "dispenser_dispenser_template",
-            joinColumns = @JoinColumn(name = "dispenser_id"),
-            inverseJoinColumns = @JoinColumn(name = "dispenser_template_id")
+            joinColumns = @JoinColumn(name = "dispenser_id",
+                    foreignKey = @ForeignKey(name = "fk_dispenser_dispenser_template_dispenser_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "dispenser_template_id",
+                    foreignKey = @ForeignKey(name = "fk_dispenser_dispenser_template_dispenser_template_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id")
     )
     @ToString.Exclude
     private DispenserTemplate dispenserTemplate;

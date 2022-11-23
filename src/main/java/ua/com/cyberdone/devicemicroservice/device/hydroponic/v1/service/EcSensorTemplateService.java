@@ -13,7 +13,6 @@ import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.EcSensorTe
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.EcSensorTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.service.ModelEntityMapper;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,7 +85,7 @@ public class EcSensorTemplateService implements ModelEntityMapper<EcSensorTempla
     }
 
     public Page<EcSensorTemplateDTO> getByOwnerId(Long ownerId, Integer page, Integer size) {
-        return new PageImpl<>(ecSensorTemplateRepository.findAllByOwnerId(ownerId, (Pageable) PageRequest.of(page, size)).stream()
+        return new PageImpl<>(ecSensorTemplateRepository.findAllByOwnerId(ownerId, PageRequest.of(page, size)).stream()
                 .map(ecSensorTemplate -> mapToDTO(ecSensorTemplate, new EcSensorTemplateDTO()))
                 .collect(Collectors.toList()));
     }

@@ -32,10 +32,10 @@ public class PhSensorTemplate {
     private LocalDateTime time;
     @Column(name = "point")
     private Double point;
-    @Column(name = "value",columnDefinition = "double precision[]")
+    @Column(name = "value", columnDefinition = "double precision[]")
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Double> value = new ArrayList<>();
-    @Column(name = "adc",columnDefinition = "int[]")
+    @Column(name = "adc", columnDefinition = "int[]")
     @ElementCollection(fetch = FetchType.LAZY)
     private List<Integer> adc = new ArrayList<>();
     @Column(name = "slope")
@@ -51,9 +51,14 @@ public class PhSensorTemplate {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
+            schema = "hydroponic_v1",
             name = "ph_sensor_ph_sensor_template",
-            joinColumns = @JoinColumn(name = "ph_sensor_template_id"),
-            inverseJoinColumns = @JoinColumn(name = "ph_sensor_id")
+            joinColumns = @JoinColumn(name = "ph_sensor_id",
+                    foreignKey = @ForeignKey(name = "fk_ph_sensor_ph_sensor_template_ph_sensor_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "ph_sensor_template_id",
+                    foreignKey = @ForeignKey(name = "fk_ph_sensor_ph_sensor_template_ph_sensor_template_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id")
     )
     @ToString.Exclude
     private List<PhSensor> phSensorList = new ArrayList<>();

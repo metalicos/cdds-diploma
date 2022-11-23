@@ -28,15 +28,22 @@ public class EcSensor {
     private LocalDateTime updatedTimestamp;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid", columnDefinition = "text")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text",
+            foreignKey = @ForeignKey(name = "fk_ec_sensor_device_uuid", value = ConstraintMode.CONSTRAINT),
+            referencedColumnName = "uuid")
     @ToString.Exclude
     private Device device;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
+            schema = "hydroponic_v1",
             name = "ec_sensor_ec_sensor_template",
-            joinColumns = @JoinColumn(name = "ec_sensor_id"),
-            inverseJoinColumns = @JoinColumn(name = "ec_sensor_template_id")
+            joinColumns = @JoinColumn(name = "ec_sensor_id",
+                    foreignKey = @ForeignKey(name = "fk_ec_sensor_ec_sensor_template_ec_sensor_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "ec_sensor_template_id",
+                    foreignKey = @ForeignKey(name = "fk_ec_sensor_ec_sensor_template_ec_sensor_template_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id")
     )
     @ToString.Exclude
     private EcSensorTemplate ecSensorTemplate;

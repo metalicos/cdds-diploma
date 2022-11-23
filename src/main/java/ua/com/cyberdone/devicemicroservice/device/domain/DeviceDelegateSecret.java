@@ -24,7 +24,9 @@ public class DeviceDelegateSecret {
     private Long accountId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid", columnDefinition = "text")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text",
+            foreignKey = @ForeignKey(name = "fk_device_delegate_secret_device_uuid", value = ConstraintMode.CONSTRAINT),
+            referencedColumnName = "uuid")
     @ToString.Exclude
     private Device device;
 }

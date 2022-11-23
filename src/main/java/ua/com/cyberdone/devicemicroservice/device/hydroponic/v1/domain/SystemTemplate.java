@@ -57,9 +57,14 @@ public class SystemTemplate {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
+            schema = "hydroponic_v1",
             name = "system_system_template",
-            joinColumns = @JoinColumn(name = "system_template_id"),
-            inverseJoinColumns = @JoinColumn(name = "system_id")
+            joinColumns = @JoinColumn(name = "system_id",
+                    foreignKey = @ForeignKey(name = "fk_system_system_template_system_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "system_template_id",
+                    foreignKey = @ForeignKey(name = "fk_system_system_template_system_template_id", value = ConstraintMode.CONSTRAINT),
+                    referencedColumnName = "id")
     )
     @ToString.Exclude
     private List<System> systemList = new ArrayList<>();
