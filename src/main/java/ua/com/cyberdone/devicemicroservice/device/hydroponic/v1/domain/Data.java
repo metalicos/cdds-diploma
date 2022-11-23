@@ -35,8 +35,10 @@ public class Data {
     private Double atmosphericPressure;
     @Column(name = "created_timestamp")
     private LocalDateTime createdTimestamp;
+    @Column(name = "updated_timestamp")
+    private LocalDateTime updatedTimestamp;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text")
     @ToString.Exclude
     private Device device;
 }

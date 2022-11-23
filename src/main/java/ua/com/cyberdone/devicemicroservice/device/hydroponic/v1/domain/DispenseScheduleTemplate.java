@@ -33,7 +33,7 @@ public class DispenseScheduleTemplate {
     @Column(name = "updated_timestamp")
     private LocalDateTime updatedTimestamp;
 
-    @ManyToMany(mappedBy = "dispenseScheduleTemplateList")
+    @OneToMany(mappedBy = "dispenseScheduleTemplate")
     @ToString.Exclude
     private List<DispenseSchedule> dispenseScheduleList = new ArrayList<>();
 

@@ -26,7 +26,7 @@ public class Dispenser {
     private LocalDateTime updatedTimestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text")
     @ToString.Exclude
     private Device device;
 

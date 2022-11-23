@@ -32,11 +32,11 @@ public class PhSensorTemplate {
     private LocalDateTime time;
     @Column(name = "point")
     private Double point;
-    @Column(name = "value")
-    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "value",columnDefinition = "double precision[]")
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Double> value = new ArrayList<>();
-    @Column(name = "adc")
-    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "adc",columnDefinition = "int[]")
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Integer> adc = new ArrayList<>();
     @Column(name = "slope")
     private Double slope;

@@ -22,11 +22,13 @@ public class PhSensor {
     @SequenceGenerator(name = "ph_sensor_id_seq", sequenceName = "ph_sensor_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ph_sensor_id_seq")
     private Long id;
+    @Column(name = "created_timestamp")
+    private LocalDateTime createdTimestamp;
     @Column(name = "updated_timestamp")
     private LocalDateTime updatedTimestamp;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_uuid")
+    @JoinColumn(name = "device_uuid", columnDefinition = "text")
     @ToString.Exclude
     private Device device;
 
