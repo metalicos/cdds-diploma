@@ -49,8 +49,7 @@ CREATE TABLE IF NOT EXISTS "hydroponic_v1"."data"
     "t_air"                double precision,
     "humidity_air"         double precision,
     "atmospheric_pressure" double precision,
-    "created_timestamp"    timestamp with time zone,
-    "updated_timestamp"    timestamp with time zone
+    "created_timestamp"    timestamp with time zone
 );
 
 CREATE TABLE IF NOT EXISTS "hydroponic_v1"."dispenser_template"

@@ -1,6 +1,8 @@
 package ua.com.cyberdone.devicemicroservice.device.domain;
 
 import lombok.*;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.System;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.*;
 import ua.com.cyberdone.devicemicroservice.device.model.DeviceType;
 
 import javax.persistence.*;
@@ -16,44 +18,33 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
+@Table(name = "device", schema = "common")
 public class Device {
-
     @Id
     @Column(nullable = false, updatable = false)
     @SequenceGenerator(name = "device_id_seq", sequenceName = "device_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "device_id_seq")
     private Long id;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "name", columnDefinition = "text")
     private String name;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "type", columnDefinition = "text")
     @Enumerated(EnumType.STRING)
     private DeviceType type;
-
-    @Column(unique = true, columnDefinition = "text")
+    @Column(name = "uuid", unique = true, columnDefinition = "text")
     private String uuid;
-
-    @Column
+    @Column(name = "owner_id")
     private Long ownerId;
-
-    @Column
+    @Column(name = "delegated_accounts_number")
     private Integer delegatedAccountsNumber;
-
-    @Column
+    @Column(name = "delegatable")
     private Boolean delegatable;
-
-    @Column
+    @Column(name = "repaired_amount_number")
     private Integer repairedAmountNumber;
-
-    @Column
+    @Column(name = "created_timestamp")
     private LocalDateTime createdTimestamp;
-
-    @Column
+    @Column(name = "last_repaired_timestamp")
     private LocalDateTime lastRepairedTimestamp;
 
     @OneToMany(mappedBy = "device")
@@ -66,7 +57,7 @@ public class Device {
 
     @OneToMany(mappedBy = "device")
     @ToString.Exclude
-    private List<Data> deviceDataList = new ArrayList<>();
+    private List<ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.Data> deviceDataList = new ArrayList<>();
 
     @OneToMany(mappedBy = "device")
     @ToString.Exclude
@@ -86,7 +77,7 @@ public class Device {
 
     @OneToOne(mappedBy = "device")
     @ToString.Exclude
-    private System system;
+    private System systemSettings;
 
     @OneToOne(mappedBy = "device")
     @ToString.Exclude

@@ -12,19 +12,15 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class DeviceDelegateSecret {
-
     @Id
     @Column(nullable = false, updatable = false)
     @SequenceGenerator(name = "device_delegate_secret_id_seq", sequenceName = "device_delegate_secret_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "device_delegate_secret_id_seq")
     private Long id;
-
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(name = "secret", nullable = false, columnDefinition = "text")
     private String secret;
-
-    @Column(nullable = false)
+    @Column(name = "account_id", nullable = false)
     private Long accountId;
 
     @ManyToOne(fetch = FetchType.LAZY)

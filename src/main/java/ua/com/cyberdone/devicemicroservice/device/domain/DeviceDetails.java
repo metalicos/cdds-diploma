@@ -12,38 +12,28 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @AllArgsConstructor
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class DeviceDetails {
-
     @Id
     @Column(nullable = false, updatable = false)
     @SequenceGenerator(name = "device_details_id_seq", sequenceName = "device_details_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "device_details_id_seq")
     private Long id;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "version", columnDefinition = "text")
     private String version;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "modification", columnDefinition = "text")
     private String modification;
-
-    @Column
+    @Column(name = "manufactured_timestamp")
     private LocalDateTime manufacturedTimestamp;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "manufactured_country", columnDefinition = "text")
     private String manufacturedCountry;
-
-    @Column
+    @Column(name = "sold_timestamp")
     private LocalDateTime soldTimestamp;
-
-    @Column(columnDefinition = "text")
+    @Column(name = "sold_country", columnDefinition = "text")
     private String soldCountry;
-
-    @Column
+    @Column(name = "warranty_from")
     private LocalDateTime warrantyFrom;
-
-    @Column
+    @Column(name = "warranty_to")
     private LocalDateTime warrantyTo;
 
     @OneToOne(fetch = FetchType.LAZY)

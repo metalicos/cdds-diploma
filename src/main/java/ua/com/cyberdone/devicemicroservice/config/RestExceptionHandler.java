@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
-import ua.com.cyberdone.devicemicroservice.device.model.ErrorResponse;
-import ua.com.cyberdone.devicemicroservice.device.model.FieldError;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.ErrorResponse;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.FieldError;
 
 import java.util.List;
 import java.util.stream.Collectors;
