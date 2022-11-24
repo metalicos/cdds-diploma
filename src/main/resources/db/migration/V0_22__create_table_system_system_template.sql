@@ -1,6 +1,5 @@
 CREATE TABLE "hydroponic_v1"."system_system_template"
 (
-    "id"                 bigserial PRIMARY KEY,
     "system_template_id" bigint,
     "system_id"          bigint
 );

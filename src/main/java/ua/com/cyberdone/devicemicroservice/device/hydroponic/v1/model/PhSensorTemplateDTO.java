@@ -26,5 +26,5 @@ public class PhSensorTemplateDTO {
     private Integer oversampling;
     private LocalDateTime createdTimestamp;
     private LocalDateTime updatedTimestamp;
-    private List<Long> phSensorTemplateIds;
+    private List<Long> phSensorIds;
 }

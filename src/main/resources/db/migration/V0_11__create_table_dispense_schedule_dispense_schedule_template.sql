@@ -1,6 +1,5 @@
 CREATE TABLE "hydroponic_v1"."dispense_schedule_dispense_schedule_template"
 (
-    "id"                            bigserial PRIMARY KEY,
     "dispense_schedule_id"          bigint,
     "dispense_schedule_template_id" bigint
 );

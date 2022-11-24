@@ -55,17 +55,7 @@ public class SystemTemplate {
     @Column(name = "updated_timestamp")
     private LocalDateTime updatedTimestamp;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            schema = "hydroponic_v1",
-            name = "system_system_template",
-            joinColumns = @JoinColumn(name = "system_id",
-                    foreignKey = @ForeignKey(name = "fk_system_system_template_system_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "system_template_id",
-                    foreignKey = @ForeignKey(name = "fk_system_system_template_system_template_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id")
-    )
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "systemTemplate")
     @ToString.Exclude
-    private List<System> systemList = new ArrayList<>();
+    private List<SystemSystemTemplate> systemSystemTemplates = new ArrayList<>();
 }

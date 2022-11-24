@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 public class DispenseScheduleDTO {
     private Long id;
     private LocalDateTime updatedTimestamp;
-    private Long deviceUuid;
+    private String deviceUuid;
     private DispenseScheduleTemplateDTO dispenseScheduleTemplateDTO;
 }

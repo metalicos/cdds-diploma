@@ -62,7 +62,7 @@ public class DispenserTemplate {
     private Integer mixingVolumeMl;
     @Column(name = "updated_timestamp")
     private LocalDateTime updatedTimestamp;
-    @OneToMany(mappedBy = "dispenserTemplate")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "dispenserTemplate")
     @ToString.Exclude
-    private List<Dispenser> dispenserList = new ArrayList<>();
+    private List<DispenserDispenserTemplate> dispenserList = new ArrayList<>();
 }

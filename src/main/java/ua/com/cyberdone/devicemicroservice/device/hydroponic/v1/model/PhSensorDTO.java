@@ -15,4 +15,5 @@ public class PhSensorDTO {
     private Long id;
     private LocalDateTime updatedTimestamp;
     private String deviceUuid;
+    private PhSensorTemplateDTO phSensorTemplateDTO;
 }

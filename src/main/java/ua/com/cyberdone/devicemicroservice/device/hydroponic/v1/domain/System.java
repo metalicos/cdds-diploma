@@ -31,7 +31,7 @@ public class System {
     @ToString.Exclude
     private Device device;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "system")
     @ToString.Exclude
-    private SystemTemplate systemTemplate;
+    private SystemSystemTemplate systemSystemTemplate;
 }

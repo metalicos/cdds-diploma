@@ -1,6 +1,5 @@
 CREATE TABLE "hydroponic_v1"."dispenser_dispenser_template"
 (
-    "id"                    bigserial PRIMARY KEY,
     "dispenser_id"          bigint,
     "dispenser_template_id" bigint
 );

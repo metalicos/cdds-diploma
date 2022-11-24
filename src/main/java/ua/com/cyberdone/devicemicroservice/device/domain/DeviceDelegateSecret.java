@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "device_delegate_secret", schema = "common")
 public class DeviceDelegateSecret {
     @Id
     @Column(nullable = false, updatable = false)

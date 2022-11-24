@@ -1,6 +1,5 @@
 CREATE TABLE "hydroponic_v1"."ph_sensor_ph_sensor_template"
 (
-    "id"                    bigserial PRIMARY KEY,
     "ph_sensor_template_id" bigint,
     "ph_sensor_id"          bigint
 );

@@ -5,7 +5,6 @@ import ua.com.cyberdone.devicemicroservice.device.domain.Device;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Builder
@@ -34,7 +33,7 @@ public class PhSensor {
     @ToString.Exclude
     private Device device;
 
-    @ManyToMany(mappedBy = "phSensorList")
+    @OneToOne(mappedBy = "phSensor")
     @ToString.Exclude
-    private List<PhSensorTemplate> phSensorTemplateList;
+    private PhSensorPhSensorTemplate phSensorPhSensorTemplate;
 }

@@ -49,17 +49,7 @@ public class PhSensorTemplate {
     @Column(name = "updated_timestamp")
     private LocalDateTime updatedTimestamp;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            schema = "hydroponic_v1",
-            name = "ph_sensor_ph_sensor_template",
-            joinColumns = @JoinColumn(name = "ph_sensor_id",
-                    foreignKey = @ForeignKey(name = "fk_ph_sensor_ph_sensor_template_ph_sensor_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "ph_sensor_template_id",
-                    foreignKey = @ForeignKey(name = "fk_ph_sensor_ph_sensor_template_ph_sensor_template_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id")
-    )
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "phSensorTemplate")
     @ToString.Exclude
-    private List<PhSensor> phSensorList = new ArrayList<>();
+    private List<PhSensorPhSensorTemplate> phSensorPhSensorTemplates = new ArrayList<>();
 }

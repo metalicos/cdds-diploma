@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +23,5 @@ public class EcSensorTemplateDTO {
     private Double rawEc;
     private LocalDateTime createdTimestamp;
     private LocalDateTime updatedTimestamp;
+    private List<Long> ecSensorIds;
 }

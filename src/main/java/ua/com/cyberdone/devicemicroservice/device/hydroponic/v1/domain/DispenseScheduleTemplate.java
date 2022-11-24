@@ -37,7 +37,7 @@ public class DispenseScheduleTemplate {
     @ToString.Exclude
     private List<DispenseSchedule> dispenseScheduleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dispenseScheduleTemplate")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "dispenseScheduleTemplate")
     @ToString.Exclude
-    private List<DispenseScheduleElement> dispenseScheduleElementList = new ArrayList<>();
+    private List<DispenseScheduleDispenseScheduleTemplate> dispenseScheduleDispenseScheduleTemplates = new ArrayList<>();
 }

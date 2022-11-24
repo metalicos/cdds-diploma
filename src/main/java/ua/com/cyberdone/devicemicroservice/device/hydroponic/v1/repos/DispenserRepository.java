@@ -13,4 +13,6 @@ public interface DispenserRepository extends JpaRepository<Dispenser, Long> {
 
     @Query("select d from Dispenser d where d.device.uuid = :uuid")
     List<Dispenser> findDispensersByDevice(@Param("uuid") String uuid, Pageable pageable);
+
+
 }

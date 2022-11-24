@@ -42,7 +42,7 @@ public class EcSensorTemplate {
     @Column(name = "updated_timestamp")
     private LocalDateTime updatedTimestamp;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "ecSensorTemplate")
     @ToString.Exclude
-    private List<EcSensor> ecSensorList = new ArrayList<>();
+    private List<EcSensorEcSensorTemplate> ecSensorEcSensorTemplates = new ArrayList<>();
 }

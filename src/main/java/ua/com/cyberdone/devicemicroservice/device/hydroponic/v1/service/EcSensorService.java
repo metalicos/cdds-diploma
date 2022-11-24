@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ua.com.cyberdone.devicemicroservice.device.domain.Device;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.EcSensor;
-import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.EcSensorTemplate;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.EcSensorDTO;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.EcSensorTemplateDTO;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.EcSensorEcSensorTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.EcSensorRepository;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.EcSensorTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.repos.DeviceRepository;
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class EcSensorService implements ModelEntityMapper<EcSensor, EcSensorDTO> {
     private final EcSensorRepository ecSensorRepository;
     private final EcSensorTemplateRepository ecSensorTemplateRepository;
+    private final EcSensorEcSensorTemplateRepository ecSensorEcSensorTemplateRepository;
     private final EcSensorTemplateService ecSensorTemplateService;
     private final DeviceRepository deviceRepository;
 
@@ -63,21 +64,31 @@ public class EcSensorService implements ModelEntityMapper<EcSensor, EcSensorDTO>
     public EcSensorDTO mapToDTO(final EcSensor ecSensor, final EcSensorDTO ecSensorDTO) {
         ecSensorDTO.setId(ecSensor.getId());
         ecSensorDTO.setUpdatedTimestamp(ecSensor.getUpdatedTimestamp());
-        ecSensorDTO.setEcSensorTemplateDTO(ecSensor.getEcSensorTemplate() == null ?
-                null : ecSensorTemplateService.mapToDTO(ecSensor.getEcSensorTemplate(), new EcSensorTemplateDTO()));
         ecSensorDTO.setDeviceUuid(ecSensor.getDevice() == null ? null : ecSensor.getDevice().getUuid());
+
+        if (ecSensor.getEcSensorEcSensorTemplate() != null) {
+            var template = ecSensor.getEcSensorEcSensorTemplate().getEcSensorTemplate();
+            ecSensorDTO.setEcSensorTemplateDTO(ecSensorTemplateService.mapToDTO(template, new EcSensorTemplateDTO()));
+        }
         return ecSensorDTO;
     }
 
     @Override
     public EcSensor mapToEntity(final EcSensorDTO ecSensorDTO, final EcSensor ecSensor) {
         ecSensor.setUpdatedTimestamp(ecSensorDTO.getUpdatedTimestamp());
-        final EcSensorTemplate ecSensorTemplate = ecSensorTemplateRepository.findById(ecSensorDTO.getEcSensorTemplateDTO().getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ecSensorTemplate not found"));
-        ecSensor.setEcSensorTemplate(ecSensorTemplate);
         final Device device = ecSensorDTO.getDeviceUuid() == null ? null : deviceRepository.findByUuid(ecSensorDTO.getDeviceUuid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
         ecSensor.setDevice(device);
+
+        if (ecSensorDTO.getEcSensorTemplateDTO() != null && ecSensorDTO.getEcSensorTemplateDTO().getId() != null) {
+            var ecSensorTemplateId = ecSensorDTO.getEcSensorTemplateDTO().getId();
+
+            var mapping = ecSensorEcSensorTemplateRepository.findByEcSensorIdAndEcSensorTemplateId(ecSensor.getId(), ecSensorTemplateId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "mapping with ecSensorId=" + ecSensor.getId() +
+                            " and ecSensorTemplateId=" + ecSensorTemplateId + " not found"));
+
+            ecSensor.setEcSensorEcSensorTemplate(mapping);
+        }
         return ecSensor;
     }
 

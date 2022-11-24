@@ -32,17 +32,7 @@ public class DispenseSchedule {
     @ToString.Exclude
     private Device device;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            schema = "hydroponic_v1",
-            name = "dispense_schedule_dispense_schedule_template",
-            joinColumns = @JoinColumn(name = "dispense_schedule_id",
-                    foreignKey = @ForeignKey(name = "fk_disp_schedule_disp_schedule_templ_dispense_schedule_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "dispense_schedule_template_id",
-                    foreignKey = @ForeignKey(name = "fk_disp_schedule_disp_schedule_templ_disp_schedule_template_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id")
-    )
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "dispenseSchedule")
     @ToString.Exclude
-    private DispenseScheduleTemplate dispenseScheduleTemplate;
+    private DispenseScheduleDispenseScheduleTemplate dispenseScheduleDispenseScheduleTemplate;
 }

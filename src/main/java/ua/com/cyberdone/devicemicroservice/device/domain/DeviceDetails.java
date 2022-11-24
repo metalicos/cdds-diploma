@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "device_details", schema = "common")
 public class DeviceDetails {
     @Id
     @Column(nullable = false, updatable = false)

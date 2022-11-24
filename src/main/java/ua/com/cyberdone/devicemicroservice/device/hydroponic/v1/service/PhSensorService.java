@@ -8,6 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
 import ua.com.cyberdone.devicemicroservice.device.domain.Device;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.PhSensor;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.PhSensorDTO;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.PhSensorTemplateDTO;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.PhSensorPhSensorTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.PhSensorRepository;
 import ua.com.cyberdone.devicemicroservice.device.repos.DeviceRepository;
 import ua.com.cyberdone.devicemicroservice.device.service.ModelEntityMapper;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PhSensorService implements ModelEntityMapper<PhSensor, PhSensorDTO> {
     private final PhSensorRepository phSensorRepository;
+    private final PhSensorTemplateService phSensorTemplateService;
+    private final PhSensorPhSensorTemplateRepository phSensorPhSensorTemplateRepository;
     private final DeviceRepository deviceRepository;
 
     public List<PhSensorDTO> findAll() {
@@ -57,6 +61,11 @@ public class PhSensorService implements ModelEntityMapper<PhSensor, PhSensorDTO>
         phSensorDTO.setId(phSensor.getId());
         phSensorDTO.setUpdatedTimestamp(phSensor.getUpdatedTimestamp());
         phSensorDTO.setDeviceUuid(phSensor.getDevice() == null ? null : phSensor.getDevice().getUuid());
+
+        if (phSensor.getPhSensorPhSensorTemplate() != null) {
+            var template = phSensor.getPhSensorPhSensorTemplate().getPhSensorTemplate();
+            phSensorDTO.setPhSensorTemplateDTO(phSensorTemplateService.mapToDTO(template, new PhSensorTemplateDTO()));
+        }
         return phSensorDTO;
     }
 
@@ -66,6 +75,16 @@ public class PhSensorService implements ModelEntityMapper<PhSensor, PhSensorDTO>
         final Device device = phSensorDTO.getDeviceUuid() == null ? null : deviceRepository.findByUuid(phSensorDTO.getDeviceUuid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
         phSensor.setDevice(device);
+
+        if (phSensorDTO.getPhSensorTemplateDTO() != null && phSensorDTO.getPhSensorTemplateDTO().getId() != null) {
+            var phSensorTemplateId = phSensorDTO.getPhSensorTemplateDTO().getId();
+
+            var mapping = phSensorPhSensorTemplateRepository.findByPhSensorIdAndPhSensorTemplateId(phSensor.getId(), phSensorTemplateId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "mapping with phSensorId=" + phSensor.getId() +
+                            " and phSensorTemplateId=" + phSensorTemplateId + " not found"));
+
+            phSensor.setPhSensorPhSensorTemplate(mapping);
+        }
         return phSensor;
     }
 

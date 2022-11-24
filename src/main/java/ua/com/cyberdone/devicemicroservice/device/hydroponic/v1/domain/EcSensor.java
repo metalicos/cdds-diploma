@@ -34,17 +34,7 @@ public class EcSensor {
     @ToString.Exclude
     private Device device;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            schema = "hydroponic_v1",
-            name = "ec_sensor_ec_sensor_template",
-            joinColumns = @JoinColumn(name = "ec_sensor_id",
-                    foreignKey = @ForeignKey(name = "fk_ec_sensor_ec_sensor_template_ec_sensor_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "ec_sensor_template_id",
-                    foreignKey = @ForeignKey(name = "fk_ec_sensor_ec_sensor_template_ec_sensor_template_id", value = ConstraintMode.CONSTRAINT),
-                    referencedColumnName = "id")
-    )
+    @OneToOne(mappedBy = "ecSensor")
     @ToString.Exclude
-    private EcSensorTemplate ecSensorTemplate;
+    private EcSensorEcSensorTemplate ecSensorEcSensorTemplate;
 }

@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ua.com.cyberdone.devicemicroservice.device.domain.Device;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.DispenseSchedule;
-import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.domain.DispenseScheduleTemplate;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.DispenseScheduleDTO;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.model.DispenseScheduleTemplateDTO;
+import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.DispenseScheduleDispenseScheduleTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.DispenseScheduleRepository;
 import ua.com.cyberdone.devicemicroservice.device.hydroponic.v1.repos.DispenseScheduleTemplateRepository;
 import ua.com.cyberdone.devicemicroservice.device.repos.DeviceRepository;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class DispenseScheduleService implements ModelEntityMapper<DispenseSchedule, DispenseScheduleDTO> {
     private final DispenseScheduleRepository dispenseScheduleRepository;
     private final DeviceRepository deviceRepository;
-    private final DispenseScheduleTemplateRepository dispenseScheduleTemplateRepository;
+    private final DispenseScheduleDispenseScheduleTemplateRepository dispenseScheduleDispenseScheduleTemplateRepository;
     private final DispenseScheduleTemplateService dispenseScheduleTemplateService;
 
 
@@ -65,22 +65,34 @@ public class DispenseScheduleService implements ModelEntityMapper<DispenseSchedu
                                         final DispenseScheduleDTO dispenseScheduleDTO) {
         dispenseScheduleDTO.setId(dispenseSchedule.getId());
         dispenseScheduleDTO.setUpdatedTimestamp(dispenseSchedule.getUpdatedTimestamp());
-        dispenseScheduleDTO.setDeviceUuid(dispenseSchedule.getDevice() == null ? null : dispenseSchedule.getDevice().getId());
-        dispenseScheduleDTO.setDispenseScheduleTemplateDTO(dispenseSchedule.getDispenseScheduleTemplate() == null ?
-                null : dispenseScheduleTemplateService.mapToDTO(dispenseSchedule.getDispenseScheduleTemplate(), new DispenseScheduleTemplateDTO()));
+        dispenseScheduleDTO.setDeviceUuid(dispenseSchedule.getDevice() == null ? null : dispenseSchedule.getDevice().getUuid());
+
+        if (dispenseSchedule.getDispenseScheduleDispenseScheduleTemplate() != null) {
+            var template = dispenseSchedule.getDispenseScheduleDispenseScheduleTemplate().getDispenseScheduleTemplate();
+            dispenseScheduleDTO.setDispenseScheduleTemplateDTO(dispenseScheduleTemplateService.mapToDTO(template, new DispenseScheduleTemplateDTO()));
+        }
+
         return dispenseScheduleDTO;
     }
 
     @Override
-    public DispenseSchedule mapToEntity(final DispenseScheduleDTO dispenseScheduleDTO,
-                                        final DispenseSchedule dispenseSchedule) {
+    public DispenseSchedule mapToEntity(final DispenseScheduleDTO dispenseScheduleDTO, final DispenseSchedule dispenseSchedule) {
         dispenseSchedule.setUpdatedTimestamp(dispenseScheduleDTO.getUpdatedTimestamp());
-        final Device device = dispenseScheduleDTO.getDeviceUuid() == null ? null : deviceRepository.findById(dispenseScheduleDTO.getDeviceUuid())
+        final Device device = dispenseScheduleDTO.getDeviceUuid() == null ? null : deviceRepository.findByUuid(dispenseScheduleDTO.getDeviceUuid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "device not found"));
         dispenseSchedule.setDevice(device);
-        final DispenseScheduleTemplate dispenseScheduleTemplate = dispenseScheduleTemplateRepository.findById(dispenseScheduleDTO.getDispenseScheduleTemplateDTO().getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        dispenseSchedule.setDispenseScheduleTemplate(dispenseScheduleTemplate);
+
+        if (dispenseScheduleDTO.getDispenseScheduleTemplateDTO() != null && dispenseScheduleDTO.getDispenseScheduleTemplateDTO().getId() != null) {
+            var dispScheduleTemplateId = dispenseScheduleDTO.getDispenseScheduleTemplateDTO().getId();
+
+            var mapping = dispenseScheduleDispenseScheduleTemplateRepository.findByDispenseScheduleIdAndDispenseScheduleTemplateId(
+                    dispenseSchedule.getId(), dispScheduleTemplateId).orElseThrow(
+                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "mapping with dispScheduleId=" + dispenseSchedule.getId() +
+                            " and dispSchedTemplId=" + dispScheduleTemplateId + " not found"));
+
+            dispenseSchedule.setDispenseScheduleDispenseScheduleTemplate(mapping);
+        }
+
         return dispenseSchedule;
     }
 
